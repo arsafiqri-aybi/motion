@@ -1,0 +1,10 @@
+claim_id,domain,claim,source_id,passage_scope,class,review_status
+C001,D03,Timing dan animation models dipisahkan dalam Web Animations.,S05,table of contents sections 4 and 5,STANDARD_MODEL,PASSAGE_SCOPED
+C002,D22,Scroll progress dapat menjadi sumber animation timeline.,S06,scroll-driven timelines,DRAFT_MODEL,PASSAGE_SCOPED
+C003,D21,Pointer event stream dapat dibatalkan melalui pointercancel.,S41,section 4.2.7,STANDARD_MODEL,PASSAGE_SCOPED
+C004,D34,WCAG 2.2 SC 2.3.3 berada pada Level AAA; interaction motion dapat dinonaktifkan kecuali essential.,S75,SC 2.3.3,STANDARD_CRITERION,PASSAGE_SCOPED
+C005,D29,Web Audio menyediakan AnalyserNode untuk data analisis audio.,S46,section 1.8 listing,API_MODEL,PASSAGE_SCOPED
+C006,D13,"Planning mencakup C-space, graph search, PRM/RRT dan optimization.",S24,chapter index,DOMAIN_SCOPE,PASSAGE_SCOPED
+C007,D12,Robot control mempunyai pembahasan tersendiri dari planning.,S22,chapter index,DOMAIN_SCOPE,PASSAGE_SCOPED
+C008,D15,MDM merupakan learned motion model dengan conditioning text/action.,S28,abstract,RESEARCH_SCOPE,PASSAGE_SCOPED
+C009,D04,Sampling tidak memadai dapat menghasilkan temporal aliasing detail geometry.,S08,sampling theory example,THEORY_SCOPE,PASSAGE_SCOPED
