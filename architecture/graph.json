@@ -1,0 +1,1053 @@
+{
+  "nodes": [
+    {
+      "id": "D01",
+      "title": "Mathematical Foundations for Motion",
+      "path": "knowledge/domains/01-mathematical-foundations-for-motion.md"
+    },
+    {
+      "id": "D02",
+      "title": "Geometry Spatial Representation and Computational Geometry",
+      "path": "knowledge/domains/02-geometry-spatial-representation-and-computational-geometry.md"
+    },
+    {
+      "id": "D03",
+      "title": "Time Timing Sampling and Temporal Systems",
+      "path": "knowledge/domains/03-time-timing-sampling-and-temporal-systems.md"
+    },
+    {
+      "id": "D04",
+      "title": "Signal Processing and Reconstruction",
+      "path": "knowledge/domains/04-signal-processing-and-reconstruction.md"
+    },
+    {
+      "id": "D05",
+      "title": "Computational Foundations Algorithms and Data Structures",
+      "path": "knowledge/domains/05-computational-foundations-algorithms-and-data-structures.md"
+    },
+    {
+      "id": "D06",
+      "title": "Interpolation Easing and Transition Models",
+      "path": "knowledge/domains/06-interpolation-easing-and-transition-models.md"
+    },
+    {
+      "id": "D07",
+      "title": "Kinematics",
+      "path": "knowledge/domains/07-kinematics.md"
+    },
+    {
+      "id": "D08",
+      "title": "Dynamics and Physical Modeling",
+      "path": "knowledge/domains/08-dynamics-and-physical-modeling.md"
+    },
+    {
+      "id": "D09",
+      "title": "Physics Simulation Systems",
+      "path": "knowledge/domains/09-physics-simulation-systems.md"
+    },
+    {
+      "id": "D10",
+      "title": "Numerical Methods and Solvers",
+      "path": "knowledge/domains/10-numerical-methods-and-solvers.md"
+    },
+    {
+      "id": "D11",
+      "title": "Optimization and Inverse Problems",
+      "path": "knowledge/domains/11-optimization-and-inverse-problems.md"
+    },
+    {
+      "id": "D12",
+      "title": "Control Theory and Feedback Systems",
+      "path": "knowledge/domains/12-control-theory-and-feedback-systems.md"
+    },
+    {
+      "id": "D13",
+      "title": "Motion Planning and Navigation",
+      "path": "knowledge/domains/13-motion-planning-and-navigation.md"
+    },
+    {
+      "id": "D14",
+      "title": "Procedural Generative and Emergent Motion",
+      "path": "knowledge/domains/14-procedural-generative-and-emergent-motion.md"
+    },
+    {
+      "id": "D15",
+      "title": "Data Driven and Learned Motion Synthesis",
+      "path": "knowledge/domains/15-data-driven-and-learned-motion-synthesis.md"
+    },
+    {
+      "id": "D16",
+      "title": "Motion Capture Tracking and Reconstruction",
+      "path": "knowledge/domains/16-motion-capture-tracking-and-reconstruction.md"
+    },
+    {
+      "id": "D17",
+      "title": "Rigging Articulation and Deformation Systems",
+      "path": "knowledge/domains/17-rigging-articulation-and-deformation-systems.md"
+    },
+    {
+      "id": "D18",
+      "title": "Character Motion Biomechanics and Performance",
+      "path": "knowledge/domains/18-character-motion-biomechanics-and-performance.md"
+    },
+    {
+      "id": "D19",
+      "title": "Animation Representation Composition and Evaluation",
+      "path": "knowledge/domains/19-animation-representation-composition-and-evaluation.md"
+    },
+    {
+      "id": "D20",
+      "title": "State Event and Reactive Motion Architecture",
+      "path": "knowledge/domains/20-state-event-and-reactive-motion-architecture.md"
+    },
+    {
+      "id": "D21",
+      "title": "Input Gesture and Sensor Systems",
+      "path": "knowledge/domains/21-input-gesture-and-sensor-systems.md"
+    },
+    {
+      "id": "D22",
+      "title": "Interaction Design and Direct Manipulation",
+      "path": "knowledge/domains/22-interaction-design-and-direct-manipulation.md"
+    },
+    {
+      "id": "D23",
+      "title": "Synchronization and Distributed Motion Systems",
+      "path": "knowledge/domains/23-synchronization-and-distributed-motion-systems.md"
+    },
+    {
+      "id": "D24",
+      "title": "2D Graphics and Rendering",
+      "path": "knowledge/domains/24-2d-graphics-and-rendering.md"
+    },
+    {
+      "id": "D25",
+      "title": "3D Graphics and Scene Rendering",
+      "path": "knowledge/domains/25-3d-graphics-and-scene-rendering.md"
+    },
+    {
+      "id": "D26",
+      "title": "GPU Programming and Parallel Graphics Computation",
+      "path": "knowledge/domains/26-gpu-programming-and-parallel-graphics-computation.md"
+    },
+    {
+      "id": "D27",
+      "title": "Temporal Rendering and Image Formation",
+      "path": "knowledge/domains/27-temporal-rendering-and-image-formation.md"
+    },
+    {
+      "id": "D28",
+      "title": "Compositing Image Processing and Visual Effects",
+      "path": "knowledge/domains/28-compositing-image-processing-and-visual-effects.md"
+    },
+    {
+      "id": "D29",
+      "title": "Audio Haptics and Multisensory Output",
+      "path": "knowledge/domains/29-audio-haptics-and-multisensory-output.md"
+    },
+    {
+      "id": "D30",
+      "title": "Spatial Computing and Immersive Motion",
+      "path": "knowledge/domains/30-spatial-computing-and-immersive-motion.md"
+    },
+    {
+      "id": "D31",
+      "title": "Robotics Mechatronics and Physical Actuation",
+      "path": "knowledge/domains/31-robotics-mechatronics-and-physical-actuation.md"
+    },
+    {
+      "id": "D32",
+      "title": "Motion Perception and Human Factors",
+      "path": "knowledge/domains/32-motion-perception-and-human-factors.md"
+    },
+    {
+      "id": "D33",
+      "title": "Animation Principles Choreography and Narrative",
+      "path": "knowledge/domains/33-animation-principles-choreography-and-narrative.md"
+    },
+    {
+      "id": "D34",
+      "title": "Accessibility Comfort and Adaptive Motion",
+      "path": "knowledge/domains/34-accessibility-comfort-and-adaptive-motion.md"
+    },
+    {
+      "id": "D35",
+      "title": "Runtime Scheduling and Performance Engineering",
+      "path": "knowledge/domains/35-runtime-scheduling-and-performance-engineering.md"
+    },
+    {
+      "id": "D36",
+      "title": "Motion Software Architecture and Systems Engineering",
+      "path": "knowledge/domains/36-motion-software-architecture-and-systems-engineering.md"
+    },
+    {
+      "id": "D37",
+      "title": "Assets Data Models and Interoperability",
+      "path": "knowledge/domains/37-assets-data-models-and-interoperability.md"
+    },
+    {
+      "id": "D38",
+      "title": "Authoring Tools and Production Pipelines",
+      "path": "knowledge/domains/38-authoring-tools-and-production-pipelines.md"
+    },
+    {
+      "id": "D39",
+      "title": "Motion Testing Measurement and Quality Engineering",
+      "path": "knowledge/domains/39-motion-testing-measurement-and-quality-engineering.md"
+    },
+    {
+      "id": "D40",
+      "title": "Media Delivery Encoding and Deployment",
+      "path": "knowledge/domains/40-media-delivery-encoding-and-deployment.md"
+    }
+  ],
+  "edges": [
+    {
+      "source": "D05",
+      "target": "D01",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D01",
+      "target": "D02",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D05",
+      "target": "D02",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D01",
+      "target": "D03",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D05",
+      "target": "D03",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D01",
+      "target": "D04",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D03",
+      "target": "D04",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D01",
+      "target": "D05",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D01",
+      "target": "D06",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D02",
+      "target": "D06",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D03",
+      "target": "D06",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D01",
+      "target": "D07",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D02",
+      "target": "D07",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D03",
+      "target": "D07",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D01",
+      "target": "D08",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D07",
+      "target": "D08",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D02",
+      "target": "D09",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D08",
+      "target": "D09",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D10",
+      "target": "D09",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D01",
+      "target": "D10",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D05",
+      "target": "D10",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D08",
+      "target": "D10",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D01",
+      "target": "D11",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D05",
+      "target": "D11",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D07",
+      "target": "D11",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D10",
+      "target": "D11",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D01",
+      "target": "D12",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D08",
+      "target": "D12",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D10",
+      "target": "D12",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D02",
+      "target": "D13",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D05",
+      "target": "D13",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D07",
+      "target": "D13",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D11",
+      "target": "D13",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D01",
+      "target": "D14",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D03",
+      "target": "D14",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D04",
+      "target": "D14",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D05",
+      "target": "D14",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D01",
+      "target": "D15",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D05",
+      "target": "D15",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D11",
+      "target": "D15",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D16",
+      "target": "D15",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D19",
+      "target": "D15",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D02",
+      "target": "D16",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D03",
+      "target": "D16",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D04",
+      "target": "D16",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D02",
+      "target": "D17",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D07",
+      "target": "D17",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D19",
+      "target": "D17",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D07",
+      "target": "D18",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D08",
+      "target": "D18",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D17",
+      "target": "D18",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D19",
+      "target": "D18",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D02",
+      "target": "D19",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D03",
+      "target": "D19",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D06",
+      "target": "D19",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D05",
+      "target": "D20",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D19",
+      "target": "D20",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D02",
+      "target": "D21",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D03",
+      "target": "D21",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D04",
+      "target": "D21",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D06",
+      "target": "D22",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D20",
+      "target": "D22",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D21",
+      "target": "D22",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D03",
+      "target": "D23",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D04",
+      "target": "D23",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D20",
+      "target": "D23",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D02",
+      "target": "D24",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D05",
+      "target": "D24",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D19",
+      "target": "D24",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D02",
+      "target": "D25",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D24",
+      "target": "D25",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D05",
+      "target": "D26",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D24",
+      "target": "D26",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D25",
+      "target": "D26",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D03",
+      "target": "D27",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D04",
+      "target": "D27",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D25",
+      "target": "D27",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D04",
+      "target": "D28",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D24",
+      "target": "D28",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D25",
+      "target": "D28",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D03",
+      "target": "D29",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D04",
+      "target": "D29",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D23",
+      "target": "D29",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D02",
+      "target": "D30",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D03",
+      "target": "D30",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D21",
+      "target": "D30",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D25",
+      "target": "D30",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D27",
+      "target": "D30",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D07",
+      "target": "D31",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D08",
+      "target": "D31",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D12",
+      "target": "D31",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D13",
+      "target": "D31",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D23",
+      "target": "D31",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D03",
+      "target": "D32",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D04",
+      "target": "D32",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D27",
+      "target": "D32",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D06",
+      "target": "D33",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D19",
+      "target": "D33",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D32",
+      "target": "D33",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D20",
+      "target": "D34",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D21",
+      "target": "D34",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D22",
+      "target": "D34",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D32",
+      "target": "D34",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D03",
+      "target": "D35",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D05",
+      "target": "D35",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D26",
+      "target": "D35",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D05",
+      "target": "D36",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D19",
+      "target": "D36",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D20",
+      "target": "D36",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D02",
+      "target": "D37",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D03",
+      "target": "D37",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D17",
+      "target": "D37",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D19",
+      "target": "D37",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D19",
+      "target": "D38",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D36",
+      "target": "D38",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D37",
+      "target": "D38",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D03",
+      "target": "D39",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D10",
+      "target": "D39",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D34",
+      "target": "D39",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D35",
+      "target": "D39",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D03",
+      "target": "D40",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D28",
+      "target": "D40",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D29",
+      "target": "D40",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D37",
+      "target": "D40",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D39",
+      "target": "D40",
+      "relation": "uses",
+      "note": "Learning/use relationship; may be cyclic, not hard scheduling dependency."
+    },
+    {
+      "source": "D02",
+      "target": "D07",
+      "relation": "provides_representation",
+      "note": "Authored architecture relation."
+    },
+    {
+      "source": "D03",
+      "target": "D19",
+      "relation": "provides_timeline",
+      "note": "Authored architecture relation."
+    },
+    {
+      "source": "D08",
+      "target": "D10",
+      "relation": "provides_equations",
+      "note": "Authored architecture relation."
+    },
+    {
+      "source": "D10",
+      "target": "D09",
+      "relation": "implements",
+      "note": "Authored architecture relation."
+    },
+    {
+      "source": "D16",
+      "target": "D15",
+      "relation": "provides_data",
+      "note": "Authored architecture relation."
+    },
+    {
+      "source": "D17",
+      "target": "D18",
+      "relation": "provides_controls",
+      "note": "Authored architecture relation."
+    },
+    {
+      "source": "D20",
+      "target": "D22",
+      "relation": "orchestrates",
+      "note": "Authored architecture relation."
+    },
+    {
+      "source": "D21",
+      "target": "D22",
+      "relation": "provides_input",
+      "note": "Authored architecture relation."
+    },
+    {
+      "source": "D19",
+      "target": "D24",
+      "relation": "provides_state",
+      "note": "Authored architecture relation."
+    },
+    {
+      "source": "D19",
+      "target": "D25",
+      "relation": "provides_state",
+      "note": "Authored architecture relation."
+    },
+    {
+      "source": "D23",
+      "target": "D29",
+      "relation": "aligns_time",
+      "note": "Authored architecture relation."
+    },
+    {
+      "source": "D32",
+      "target": "D33",
+      "relation": "informs",
+      "note": "Authored architecture relation."
+    },
+    {
+      "source": "D34",
+      "target": "D22",
+      "relation": "constrains",
+      "note": "Authored architecture relation."
+    },
+    {
+      "source": "D35",
+      "target": "D26",
+      "relation": "profiles",
+      "note": "Authored architecture relation."
+    },
+    {
+      "source": "D37",
+      "target": "D38",
+      "relation": "supplies_assets",
+      "note": "Authored architecture relation."
+    },
+    {
+      "source": "D39",
+      "target": "D40",
+      "relation": "validates",
+      "note": "Authored architecture relation."
+    }
+  ],
+  "semantic_note": "Directed many-to-many knowledge graph; cycles allowed. No neural learning claimed."
+}
