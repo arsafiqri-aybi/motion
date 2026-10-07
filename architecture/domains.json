@@ -1,0 +1,2926 @@
+[
+  {
+    "id": "D01",
+    "slug": "01-mathematical-foundations-for-motion",
+    "title": "Mathematical Foundations for Motion",
+    "group": "A — Foundations",
+    "purpose": "Bahasa kuantitatif untuk merepresentasikan perubahan. Gerak yang dapat diprogram membutuhkan besaran, hubungan antarbesaran, dan asumsi yang memungkinkan perhitungan serta pembuktian.",
+    "boundary": "Fokus pada fondasi matematika yang dipakai motion. Algoritma integrasi komputer dibahas D10; struktur geometri D02; keputusan statistik perlu menyatakan model observasi dan ketidakpastian.",
+    "prereqs": [
+      "D05"
+    ],
+    "sources": [
+      "S01",
+      "S02",
+      "S03"
+    ],
+    "topics": [
+      [
+        "Besaran, satuan, dan dimensional analysis",
+        "Posisi, kecepatan, dan percepatan mempunyai dimensi berbeda. Nilai piksel, meter, detik, dan milidetik tidak dapat dipertukarkan hanya karena semuanya angka. Konversi satuan diletakkan pada batas sistem.",
+        "[x]=L, [v]=L/T, [a]=L/T². Untuk x=x0+v0 t+½at², setiap suku harus berdimensi L.",
+        "Delta-time dalam ms dikalikan kecepatan per detik menghasilkan gerak 1000 kali terlalu besar.",
+        "Ubah seluruh input detik menjadi milidetik melalui konversi resmi; trajectory fisik harus tetap sama."
+      ],
+      [
+        "Vector dan linear algebra",
+        "Vector menyatakan arah dan besar relatif pada basis. Dot product mengukur proyeksi; cross product 3D memberi vector tegak lurus sesuai orientasi. Matriks menyatakan transformasi linear dan sistem persamaan.",
+        "dot(a,b)=Σaᵢbᵢ; norm(a)=√dot(a,a). Normalisasi hanya dilakukan jika norm cukup jauh dari nol.",
+        "NaN dari vector nol; menganggap transformasi dengan skala selalu mempertahankan panjang.",
+        "Uji dot(a,a)≥0 dan norm(unit)=1; tetapkan tolerance sesuai magnitude dan precision."
+      ],
+      [
+        "Functions dan trigonometry",
+        "Motion sering berupa fungsi posisi terhadap waktu. Periodic motion memerlukan pemisahan amplitude, frequency, phase, dan offset. Sudut radian adalah kontrak umum persamaan trigonometri.",
+        "x(t)=b+A sin(2πft+φ); period=1/f untuk f>0. Dua sinyal beda fase dapat membentuk lintasan elips.",
+        "Derajat masuk fungsi radian; frequency dihitung per frame sehingga berubah mengikuti refresh rate.",
+        "Evaluasi pada t dan t+1/f menghasilkan nilai sama dalam tolerance."
+      ],
+      [
+        "Calculus dan differential equations",
+        "Derivative menghubungkan posisi dengan kecepatan dan percepatan. Integral mengakumulasi perubahan. ODE menentukan laju perubahan state; PDE juga melibatkan turunan ruang.",
+        "v=dx/dt, a=dv/dt; x(t)=x0+∫v dt. Model spring adalah m x″+c x′+k(x−target)=0.",
+        "Derivative dari data berisik dianggap sebagai kecepatan akurat; ODE dipakai tanpa initial conditions.",
+        "Bandingkan derivative analitik dengan central difference pada beberapa h; periksa error dan roundoff."
+      ],
+      [
+        "Probability dan stochastic processes",
+        "Variasi acak perlu model distribusi dan korelasi. Independent samples berbeda dari random walk maupun noise yang halus. Seed menjamin reproduksi dalam generator yang sama, bukan kesamaan semua platform.",
+        "Random walk x[n+1]=x[n]+ε[n]. Untuk ε independen zero-mean dengan variance σ², variance displacement setelah n langkah adalah nσ².",
+        "Random per frame membuat sifat statistik bergantung fps; seed direset setiap frame.",
+        "Uji ensemble mean/variance dan autocorrelation, selain satu trajectory yang kebetulan terlihat bagus."
+      ],
+      [
+        "Discrete mathematics dan graphs",
+        "Animation graph, dependency graph, dan planning graph memodelkan hubungan yang berbeda. Directed edge mempunyai makna, sehingga urutan evaluasi tidak boleh ditentukan dari posisi visual node.",
+        "Topological sorting berlaku pada DAG; strongly connected components mengenali kelompok siklus. FSM menyatakan state dan transition relation.",
+        "Dependency cycle menyebabkan evaluasi tak berhingga; semua graph diasumsikan DAG.",
+        "Buat fixture diamond dependency dan cyclic dependency; sistem harus mengevaluasi yang pertama dan mendeteksi yang kedua."
+      ],
+      [
+        "Approximation dan uncertainty",
+        "Model ideal, hasil numerik, dan observasi empiris mempunyai batas berbeda. Tolerance diturunkan dari magnitude, noise, dan kebutuhan penggunaan, bukan satu epsilon universal.",
+        "Gunakan error absolute |a−b| dan relative |a−b|/max(|a|,|b|,scale). Catat propagation uncertainty pada fungsi input.",
+        "Hasil banyak digit dianggap lebih akurat; pembagian relative error dekat nol menjadi tidak informatif.",
+        "Lakukan perturbation test input dan lihat apakah output sensitif sesuai estimasi conditioning."
+      ]
+    ],
+    "worked": "Contoh: objek bergerak dari x0=2 m dengan v0=3 m/s dan a=−1 m/s². Pada t=2 s, x=2+6−2=6 m dan v=1 m/s. Pada t=3 s, kecepatannya nol. Setelah itu persamaan tetap sah, tetapi objek mulai bergerak berlawanan arah. Jika brief mensyaratkan berhenti permanen, diperlukan perubahan state/model setelah t=3; clamp posisi diam-diam akan mengubah physical model. Contoh ini membedakan persamaan, satuan, kondisi awal, serta kebijakan perilaku.",
+    "workflow": "Tulis state dan unit; definisikan fungsi/ODE; nyatakan domain input; tentukan representasi numerik; turunkan invariants; implementasikan; bandingkan terhadap solusi analitik; dokumentasikan approximation dan singular cases.",
+    "mastery": "Dapat menurunkan v dan a dari trajectory, mengaudit satuan persamaan, mengenali singularity, serta membedakan stochastic variation dari numerical error. Latihan: bentuk gerak elips dengan dua sinus dan hitung velocity vector-nya.",
+    "advanced": "Complex analysis untuk oscillation; Lie groups/algebras; differential geometry; stochastic differential equations; Bayesian inference; information theory; tensor calculus; interval arithmetic dan formal error bounds."
+  },
+  {
+    "id": "D02",
+    "slug": "02-geometry-spatial-representation-and-computational-geometry",
+    "title": "Geometry Spatial Representation and Computational Geometry",
+    "group": "A — Foundations",
+    "purpose": "Menetapkan bentuk, orientasi, posisi, dan query spasial yang dipakai animasi, rendering, simulasi, serta planning.",
+    "boundary": "Geometri memberikan representasi ruang. Gerak articulated dibahas D07/D17, physical response D09, dan visibility/rendering D25. Konvensi handedness dan matrix layout selalu dinyatakan.",
+    "prereqs": [
+      "D01",
+      "D05"
+    ],
+    "sources": [
+      "S02",
+      "S03",
+      "S04"
+    ],
+    "topics": [
+      [
+        "Frames dan coordinate conventions",
+        "Vector posisi bermakna hanya dengan frame dan unit. Local frame objek, world frame, camera frame, clip space, dan screen space mempunyai fungsi berbeda. Screen y-down tidak sama dengan world y-up.",
+        "Tuliskan transform T_world_local. Untuk column vectors, p_world=T_world_local p_local; composition diterapkan dari kanan ke kiri.",
+        "Mencampur row/column convention atau handedness; koordinat sensor dipakai sebagai screen coordinate.",
+        "Transform known basis vectors dan origin; round-trip dengan inverse harus memulihkan point."
+      ],
+      [
+        "Affine dan projective transforms",
+        "Translation, rotation, scale, shear membentuk affine transformations. Perspective membutuhkan homogeneous division. Point dan direction berbeda pada homogeneous coordinate terakhir.",
+        "Point [x,y,z,1], direction [x,y,z,0]. Normal dengan nonuniform scale memakai inverse transpose linear transform.",
+        "Normal diperlakukan seperti position; pembagian oleh w dekat nol; urutan transform dianggap komutatif.",
+        "Uji plane normal tetap tegak lurus tangent setelah transform dan compare dua urutan transform."
+      ],
+      [
+        "Rotations dan quaternions",
+        "Euler angles mudah dibaca tetapi memiliki singular configurations. Unit quaternion mewakili rotation, dengan q dan −q menyatakan orientation sama. Rotation interpolation memerlukan convention dan hemisphere handling.",
+        "Untuk shortest-path slerp, jika dot(q0,q1)<0 balik salah satu quaternion. Normalisasi setelah akumulasi numerik.",
+        "Long-path rotation, gimbal lock, drift norm; komponen quaternion di-lerp tanpa normalisasi.",
+        "Uji orthonormal rotation matrix, determinant≈1, q/−q equivalence, dan 180-degree edge cases."
+      ],
+      [
+        "Curves dan arc-length parameterization",
+        "Parameter u pada Bézier tidak umumnya sebanding dengan jarak. Constant-speed path motion perlu mapping jarak ke parameter melalui integral panjang kurva atau lookup table.",
+        "Cubic B(u)=(1−u)³P0+3(1−u)²uP1+3(1−u)u²P2+u³P3. s(u)=∫norm(B′(u))du.",
+        "Equal Δu menghasilkan speed naik-turun; cusp membuat tangent tidak terdefinisi.",
+        "Bandingkan jarak successive samples sebelum/sesudah arc-length mapping; ukur approximation error."
+      ],
+      [
+        "Topology meshes dan surfaces",
+        "Connectivity menentukan deformasi dan traversal; geometry positions menentukan bentuk saat ini. Duplicate vertices untuk UV seams dapat menimbulkan adjacency berbeda dari visual surface.",
+        "Mesh memuat vertices dan indices; manifoldness, winding, boundary edges, serta self-intersection merupakan properti terpisah.",
+        "Inverted faces, cracked seams, nonmanifold assumptions; topology berubah tanpa memperbarui skinning.",
+        "Periksa edge incidence, degenerate triangles, winding consistency, dan deformasi seam."
+      ],
+      [
+        "Spatial queries dan acceleration structures",
+        "Intersection dan distance queries mendukung picking, collisions, dan visibility. Broad phase menyaring kandidat; narrow phase memberi hasil geometris lebih presisi.",
+        "AABB overlap per axis; BVH membagi primitive bounds; ray intersection menghasilkan t pada parameterisasi ray yang dinyatakan.",
+        "Bounds usang setelah motion; tunneling jika hanya memeriksa posisi akhir; epsilon salah skala.",
+        "Bandingkan accelerated query dengan brute-force oracle pada scene kecil dan moving bounds."
+      ],
+      [
+        "Geometric predicates dan constraints",
+        "Near-collinear atau near-coplanar inputs membuat sign computation rapuh. Constraint seperti jarak, sudut, dan attachment merupakan hubungan ruang sebelum menjadi masalah solver.",
+        "Orientation predicate memakai determinant; robust predicates atau higher precision diperlukan saat sign menentukan topology.",
+        "Tolerance menyatukan dua fitur berbeda; solver convergence dianggap membuktikan geometry valid.",
+        "Uji adversarial hampir collinear, skala sangat kecil/besar, dan constraint residual."
+      ]
+    ],
+    "worked": "Contoh: kamera mengikuti lintasan Bézier. Buat samples (u,s), normalisasi s menjadi progress, cari dua samples yang mengapit desired distance, lalu interpolasikan u. Position=B(u). Arah kamera dari tangent B′(u), tetapi up vector perlu aturan anti-flip ketika tangent mendekati up. Panjang kurva berubah jika control point diedit, sehingga tabel perlu dibangun ulang. Tujuan constant-speed harus diuji dalam world distance, bukan berdasarkan curve parameter.",
+    "workflow": "Deklarasikan frame/unit; pilih representasi; buat transform chain; tentukan geometry query; cache hanya data dengan invalidation jelas; uji edge geometry; hubungkan geometry dengan time dan state evaluator.",
+    "mastery": "Dapat menjelaskan perbedaan point/direction/normal, mengomposisi dan membalik transform, membangun arc-length LUT, serta menguji query terhadap brute-force. Latihan: animate parent scale nonuniform dan pertahankan normal benar.",
+    "advanced": "NURBS; subdivision surfaces; signed distance fields; constructive solid geometry; geometric algebra; geodesics; mesh repair; remeshing; robust exact predicates; configuration-space geometry."
+  },
+  {
+    "id": "D03",
+    "slug": "03-time-timing-sampling-and-temporal-systems",
+    "title": "Time Timing Sampling and Temporal Systems",
+    "group": "A — Foundations",
+    "purpose": "Menentukan arti waktu, progress, dan cadence agar motion konsisten saat dijalankan, di-seek, diperlambat, dirender offline, atau dikendalikan input.",
+    "boundary": "Domain ini menetapkan clock dan mapping temporal. Scheduling compute D35; synchronization antarstream D23; exposure sampling D27. Wall-clock calendar tidak otomatis cocok menjadi simulation clock.",
+    "prereqs": [
+      "D01",
+      "D05"
+    ],
+    "sources": [
+      "S05",
+      "S06",
+      "S07"
+    ],
+    "topics": [
+      [
+        "Clock domains dan time origins",
+        "Clock display, audio, media, network, dan simulation bisa memiliki origin dan rate berbeda. Monotonic clock cocok mengukur interval; wall clock dapat meloncat setelah penyesuaian waktu.",
+        "Timestamp harus membawa clock_id dan unit. Mapping awal dapat berupa tB=a tA+b dengan rate a dan offset b.",
+        "Mengurangi timestamps dari clock berbeda; hidden-tab pause dianggap waktu aktif pengguna.",
+        "Uji clock jump, pause/resume, dan perubahan playback rate dengan expected semantic state."
+      ],
+      [
+        "Timeline mapping",
+        "Timeline progress berasal dari clock maupun scroll/gesture. Animation local time berbeda dari timeline time dan iteration progress. Fill behavior menentukan nilai di luar active interval.",
+        "Untuk duration d>0, local=(timeline−start)·rate; progress=clamp(local/d,0,1) hanya untuk animasi sekali tanpa delay/loop.",
+        "Formula sederhana dipakai untuk repeats, negative rates, inactive timelines, atau d=0.",
+        "Fixture boundary sebelum start, tepat start/end, reversal, zero duration, dan inactive source."
+      ],
+      [
+        "Delta-time dan integration cadence",
+        "Δt mengukur elapsed time, tetapi simulasi bisa memakai timestep tetap. Display fps dan simulation Hz tidak harus sama. Batas catch-up diperlukan setelah stall panjang.",
+        "Accumulator+=elapsed; selama accumulator≥h jalankan step(h); render dapat interpolate previous/current menggunakan accumulator/h.",
+        "Spiral of death, dropped time tanpa catatan, variable-step instability.",
+        "Uji display 30/60/120Hz dan stall; ukur hasil state serta jumlah steps."
+      ],
+      [
+        "Frame sampling dan timestamp arithmetic",
+        "Frame n pada constant rational fps p/q mempunyai t=n q/p. Evaluasi langsung dari index mencegah akumulasi roundoff repeated addition. Jumlah frame dan durasi stream memiliki convention.",
+        "Untuk N frames, last sample=(N−1)/fps dan nominal coverage=N/fps; keduanya jangan disamakan.",
+        "Frame terakhir keliru dianggap seluruh durasi; 29.97 dibulatkan padahal target 30000/1001.",
+        "Periksa rational arithmetic, expected count, first/last PTS, dan coverage semantics."
+      ],
+      [
+        "Seeking reverse dan determinism",
+        "Pure animation evaluator F(t) mudah di-seek. Stateful simulation membutuhkan replay, checkpoint, atau solusi analitik. Reverse playback bukan berarti menegasikan Δt pada dissipative solver.",
+        "Pisahkan evaluate(time) dari advance(dt); simpan checkpoints berisi state, seed, model parameters dan time.",
+        "Seek mengubah state lama dua kali; reverse physics tidak stabil; cache dianggap deterministic lintas arsitektur.",
+        "Seek ke t dari beberapa histori; bandingkan dengan baseline replay dan nyatakan tolerance."
+      ],
+      [
+        "Time remapping dan continuity",
+        "Mengubah playback rate atau time-warp mengubah velocity dan acceleration visual. Derivative chain rule diperlukan untuk memahami dampak easing waktu.",
+        "x(t)=p(u(t)); x′=p′(u)u′; x″=p″(u)(u′)²+p′(u)u″.",
+        "Progress continuous tetapi velocity meloncat; rate berubah dengan reset origin sehingga posisi jump.",
+        "Ukur position dan finite-difference velocity tepat sebelum/sesudah remap boundary."
+      ],
+      [
+        "Latency jitter dan temporal contracts",
+        "Average delay berbeda dari variation delay. Motion system membutuhkan kebijakan data terlambat: discard, interpolate, predict, atau rewind. Temporal contract menghubungkan input age dan output deadline.",
+        "Catat acquisition, processing, submission, presentation timestamps jika tersedia; end-to-end latency tidak sama dengan compute time.",
+        "FPS tinggi dianggap responsiveness rendah latency; clock offset salah dianggap network lag.",
+        "Inject known delays/jitter dan periksa queue growth, stale-data handling, serta event order."
+      ]
+    ],
+    "worked": "Contoh: animasi 2 detik dirender 60fps memakai 120 samples pada t=n/60 untuk n=0…119. Nilai endpoint t=2 tidak termasuk sample terakhir, tetapi nominal coverage adalah 2 detik. Jika frame final harus menampilkan progress tepat 1, jadwalkan hold atau atur sampling convention secara eksplisit; jangan diam-diam mengubah duration. Untuk preview 120Hz, evaluasi F(t) yang sama, sehingga trajectory tidak bergantung fps.",
+    "workflow": "Tetapkan clock IDs/unit; definisikan duration/progress semantics; pisahkan evaluation dan advancing; pilih sampling; tulis pause/seek/reverse behavior; verifikasi timestamps dan boundary conditions.",
+    "mastery": "Dapat mengonversi clock dengan kontrak, menjelaskan fixed-step accumulator, merender rational cadence tanpa drift, dan menguji seek. Latihan: jalankan timeline yang sama dengan timestamps tidak teratur.",
+    "advanced": "Multirate systems; event-driven simulation; continuous-time state estimation; clock discipline; timecode/drop-frame notation; temporal databases; deterministic rollback; timestamp uncertainty."
+  },
+  {
+    "id": "D04",
+    "slug": "04-signal-processing-and-reconstruction",
+    "title": "Signal Processing and Reconstruction",
+    "group": "A — Foundations",
+    "purpose": "Mengubah samples menjadi informasi gerak yang dapat digunakan, dengan perhatian terhadap noise, aliasing, filtering, dan delay.",
+    "boundary": "Signal processing memperkirakan atau membentuk sinyal. Ia tidak membuktikan sensor benar atau gerak manusia aman; capture calibration D16, control D12, perception D32 memberikan batas tambahan.",
+    "prereqs": [
+      "D01",
+      "D03"
+    ],
+    "sources": [
+      "S01",
+      "S08",
+      "S09"
+    ],
+    "topics": [
+      [
+        "Sampling dan aliasing",
+        "Sinyal band-limited ideal dapat direkonstruksi jika sampling rate melebihi dua kali frekuensi tertinggi. Sinyal nyata perlu anti-alias filtering; gerak tajam tidak benar-benar band-limited.",
+        "Sinus f dan f+k fs dapat memberi sample indistinguishable. Gunakan low-pass sebelum downsampling.",
+        "Menghaluskan setelah aliasing dianggap memulihkan detail asli; irregular samples diperlakukan seragam.",
+        "Sample sinus di bawah/atas Nyquist dan compare apparent frequency; uji prefilter sebelum decimation."
+      ],
+      [
+        "Convolution dan filters",
+        "Filter linear time-invariant menggabungkan samples melalui impulse response. FIR mudah mengontrol finite support; IIR menggunakan state feedback dan perlu stability assessment.",
+        "y[n]=Σh[k]x[n−k]; first-order low-pass y[n]=αx[n]+(1−α)y[n−1].",
+        "Filter initialization spike; coefficients untuk sampling rate lain; overflow atau unstable poles.",
+        "Impulse/step response, steady-state gain, noise suppression, dan output finite pada input bounded."
+      ],
+      [
+        "Frequency analysis",
+        "Spectrum mengungkap periodicity dan bandwidth, tetapi finite windows menyebabkan leakage. FFT bin width bukan selalu frequency-resolution kemampuan membedakan dua sinyal.",
+        "Δf=fs/N. Terapkan window, catat normalization, sampling rate, dan apakah magnitude power atau amplitude.",
+        "FFT index dipakai sebagai Hz; DC dianggap beat; zero padding dianggap informasi baru.",
+        "Known-frequency sine dengan amplitudo diketahui; periksa dominant bins, leakage, dan reconstruction."
+      ],
+      [
+        "Differentiation dan smoothing trajectories",
+        "Numerical derivative memperbesar high-frequency noise. Smoothing sebelum derivative mengurangi noise dengan trade-off lag dan detail. Central differences membutuhkan samples masa depan.",
+        "v[n]≈(x[n+1]−x[n−1])/(2h); acceleration memperbesar noise lagi. Local polynomial fitting dapat menghasilkan derivative halus.",
+        "Derivative tidak membagi dt; causal preview memakai future samples tanpa mengakui latency.",
+        "Trajectory analitik plus noise terkontrol; ukur derivative error dan group delay."
+      ],
+      [
+        "Resampling dan interpolation",
+        "Resampling mengubah sample grid, sehingga timestamps dan boundary behavior penting. Linear interpolation murah tetapi bukan ideal reconstruction untuk seluruh bandwidth.",
+        "Upsampling melalui reconstruction lalu sampling grid baru; downsampling perlu antialias low-pass.",
+        "Samples hilang diisi sebagai nol; repeated resampling menyebabkan blur; clock drift tidak diperbaiki.",
+        "Bandingkan resampled waveform dengan analytic oracle dan ukur end-to-end timing drift."
+      ],
+      [
+        "Correlation dan feature detection",
+        "Cross-correlation mencari similarity terhadap lag; tidak otomatis membuktikan causality. Peak/onset/beat berbeda jenis event. Threshold dan refractory period menentukan false positives.",
+        "Rxy[k]=Σx[n]y[n+k] untuk convention yang dinyatakan; normalize jika membandingkan amplitudo berbeda.",
+        "Salah sign lag; amplitude bias; peak energi diklaim beat musikal universal.",
+        "Shift sinyal diketahui dan recover lag; uji silence, noise, double peaks, dan tempo changes."
+      ],
+      [
+        "State estimation dan uncertainty",
+        "Filter dapat menggabungkan prediction model dan noisy measurement. Measurement covariance harus berdimensi benar; asumsi Gaussian/linear membatasi interpretasi.",
+        "Kalman predict/update memakai model state transition, process noise Q, measurement noise R; gain menentukan trade-off.",
+        "Covariance tuning tanpa unit; estimate diperlakukan ground truth; missing data dianggap zero.",
+        "Synthetic system dengan noise known; periksa residuals, covariance consistency, dan missing-measurement behavior."
+      ]
+    ],
+    "worked": "Contoh: cursor tracker noisy pada 120Hz. Gunakan causal low-pass dengan α=1−exp(−Δt/τ) dan τ=0.04s. Pada Δt≈0.00833s, α≈0.188. Ini menjaga time constant saat sampling berubah. Filtering mengurangi noise tetapi menambah delay; jangan mengklaim output lebih akurat tanpa ground truth. Untuk drag yang harus terasa dekat input, ukur spatial lag pada kecepatan representative dan pertimbangkan adaptive filtering.",
+    "workflow": "Deklarasikan source clock dan rate; inspeksi missingness/noise; pilih causal/noncausal mode; tentukan bandwidth; implementasikan boundaries; ukur noise, delay, dan error; simpan raw input untuk diagnosis.",
+    "mastery": "Dapat menjelaskan aliasing, filter delay, FFT normalization, dan uncertainty. Latihan: bandingkan moving average dengan time-aware exponential filter pada irregular timestamps.",
+    "advanced": "Wavelets; multiresolution analysis; spectral estimation; Wiener filtering; adaptive filters; sensor fusion; nonlinear filtering; optical-flow regularization; change-point detection; system identification."
+  },
+  {
+    "id": "D05",
+    "slug": "05-computational-foundations-algorithms-and-data-structures",
+    "title": "Computational Foundations Algorithms and Data Structures",
+    "group": "A — Foundations",
+    "purpose": "Membuat representasi dan algoritma yang mengubah teori motion menjadi perhitungan efisien, dapat dilacak, dan cukup reproducible.",
+    "boundary": "Pembahasan algoritma umum diarahkan pada workload motion. Tuning frame runtime D35, API architecture D36, dan GPU execution D26 memiliki rincian khusus.",
+    "prereqs": [
+      "D01"
+    ],
+    "sources": [
+      "S02",
+      "S10",
+      "S11"
+    ],
+    "topics": [
+      [
+        "Numeric representation",
+        "Float32 dan Float64 mempunyai precision/range berbeda. Error berulang, cancellation, dan magnitude besar memengaruhi local motion kecil. Precision dipilih menurut unit dan skala scene.",
+        "Machine epsilon adalah properti format, bukan tolerance seluruh problem. Rebase origin atau gunakan local coordinates untuk world besar.",
+        "Subtract dua posisi besar yang hampir sama; float equality dipakai untuk convergence.",
+        "Uji coordinates dekat nol dan jauh dari origin; compare terhadap higher-precision reference."
+      ],
+      [
+        "Complexity dan workload",
+        "Big-O menjelaskan scaling, tetapi constant cost, cache behavior, dan upload overhead menentukan runtime nyata. Broad-phase yang bagus dapat mengurangi candidate pairs jauh sebelum solver.",
+        "All-pairs particles O(n²); spatial bins sering mengurangi workload lokal, tetapi worst-case tetap padat.",
+        "Benchmark hanya n kecil; histogram distribusi scene tidak mewakili worst case.",
+        "Scaling sweep n, sparse/dense scenes, cold/warm cache, dan peak allocation."
+      ],
+      [
+        "Data layout",
+        "Array of structures mudah dipakai; structure of arrays dapat menguntungkan vectorized operations. Data ownership dan mutation harus jelas agar render tidak membaca partially updated state.",
+        "Pisahkan x[],y[],vx[],vy[] untuk contiguous per-attribute updates; double-buffer previous/current state jika dibutuhkan.",
+        "Allocasi object setiap frame; state/render buffer saling menimpa.",
+        "Check layout correctness dengan known fixtures; ukur allocation count dan cache-friendly workload."
+      ],
+      [
+        "Graphs dan traversal",
+        "Scene tree, skeleton hierarchy, dependency graph, dan planning graph punya edge semantics berbeda. Graph evaluator perlu cycle policy, stable order, dan invalidation.",
+        "Kahn/DFS topological sort untuk DAG; BFS shortest path pada unweighted graph; Dijkstra untuk nonnegative costs.",
+        "Dijkstra dengan negative weights; shared child dianggap tree unique parent.",
+        "Diamond graph, disconnected graph, cycle, repeated node, dan traversal deterministic."
+      ],
+      [
+        "Spatial structures",
+        "Uniform grids, quad/octrees, k-d trees, BVHs memilih trade-off build/update/query. Moving objects dapat memerlukan refit atau rebuild. Struktur terbaik bergantung distribusi data.",
+        "Grid neighbor query radius r harus mengecek cukup cells; BVH bounds refit setelah geometry berubah.",
+        "Cell terlalu kecil/besar; stale index; missed neighbors pada batas cell.",
+        "Bandingkan semua hits dengan brute force dan uji moving across cell boundaries."
+      ],
+      [
+        "Caching dan incremental computation",
+        "Cache berguna jika key mencakup seluruh dependency yang memengaruhi output. Derived data seperti arc-length LUT invalid bila control points, transform relevan, atau tolerance berubah.",
+        "Cache key dapat memuat content hash, version, model parameters; dirty flags harus propagated secara lengkap.",
+        "Cache stale terlihat sebagai easing bug; cache mengubah numerical trajectory tanpa catatan.",
+        "Edit satu dependency per fixture dan pastikan hanya caches relevan berubah."
+      ],
+      [
+        "Parallelism dan reproducibility",
+        "Independent jobs dapat berjalan paralel; reductions dan race conditions perlu aturan ordering. Floating-point addition tidak associative sehingga thread order bisa mengubah hasil.",
+        "Pisahkan phases read/update/commit; fixed reduction order memberi replay lebih stabil, tetapi cross-device bit equality tetap perlu dibuktikan.",
+        "Concurrent mutation, nondeterministic random stream, atomics dianggap deterministic.",
+        "Replay seeds/input berulang; bandingkan single/multithread dan catat numerical tolerance."
+      ]
+    ],
+    "worked": "Contoh: 10.000 particles dengan neighbor radius tetap. Brute-force mempunyai sekitar 50 juta unordered pairs. Uniform grid memakai cell width sebanding radius dan mengunjungi cells tetangga, lalu exact distance filter. Pastikan negative coordinates memakai floor, bukan truncation. Performa membaik pada distribusi sparse; semua particles dalam satu cell tetap worst-case kuadratik. Karena itu benchmark harus mencakup cluster padat, bukan hanya titik random merata.",
+    "workflow": "Definisikan workload dan constraints; pilih representation; tulis baseline benar; pilih acceleration; compare hasil dengan oracle; ukur scaling/memory; nyatakan replay guarantees dan limitations.",
+    "mastery": "Dapat memilih struktur data berdasarkan query dan update rate, menunjukkan correctness terhadap baseline, dan mendiagnosis cache invalidation. Latihan: spatial grid yang mendukung particles melewati cell boundaries.",
+    "advanced": "SIMD; lock-free structures; task graphs; streaming algorithms; out-of-core computation; interval/exact arithmetic; automatic differentiation data structures; incremental compilation; deterministic parallel reductions."
+  },
+  {
+    "id": "D06",
+    "slug": "06-interpolation-easing-and-transition-models",
+    "title": "Interpolation Easing and Transition Models",
+    "group": "B — Motion Models",
+    "purpose": "Menghubungkan nilai atau pose antarwaktu dengan kontrol terhadap bentuk lintasan, continuity, dan interruption.",
+    "boundary": "Interpolation tidak sama dengan simulasi fisik. Easing mengubah mapping progress; spring integration D08/D10 memiliki state dan velocity.",
+    "prereqs": [
+      "D01",
+      "D02",
+      "D03"
+    ],
+    "sources": [
+      "S05",
+      "S12",
+      "S13"
+    ],
+    "topics": [
+      [
+        "Scalar dan vector interpolation",
+        "Lerp menghasilkan garis lurus di value space. Jika progress melampaui [0,1], operasi menjadi extrapolation; clamp adalah kebijakan tambahan.",
+        "lerp(a,b,u)=a+(b−a)u; inverse lerp=(x−a)/(b−a), undefined saat a=b.",
+        "Clamp semua values merusak overshoot yang disengaja.",
+        "Endpoints, midpoint, extrapolation dan degenerate interval."
+      ],
+      [
+        "Easing dan cubic Bézier",
+        "Easing memetakan progress input ke progress output. CSS cubic Bézier memerlukan inversion x(s)=u sebelum membaca y(s); y(u) langsung bukan evaluasi yang sama.",
+        "Gunakan Newton iteration dengan bracket/bisection fallback; batasi x control points sesuai API.",
+        "Solver gagal dekat derivative nol; asumsi seluruh easing monotonic.",
+        "Compare evaluator dengan reference sampled curve; uji flat tangent dan endpoint."
+      ],
+      [
+        "Piecewise dan spline interpolation",
+        "Keyframe segments mempunyai continuity berbeda. C0 menjaga nilai; C1 menjaga derivative; C2 menjaga second derivative pada parameter yang sama.",
+        "Hermite segment memakai endpoints dan tangents; tangent unit harus cocok parameterization.",
+        "Tangent dihitung per frame tetapi digunakan per detik; spline overshoot menembus constraint.",
+        "Ukur boundary position/velocity/acceleration dan value bounds."
+      ],
+      [
+        "Orientation dan manifold interpolation",
+        "Rotations, directions dan poses tidak selalu cocok Euclidean component interpolation. Unit constraints dan rotation topology perlu dijaga.",
+        "Slerp unit quaternions dengan hemisphere correction; dekat dot=1 gunakan normalized lerp.",
+        "Quaternion norm drift; interpolation mengambil lintasan panjang.",
+        "q dan −q menghasilkan orientation identik; angular steps mendekati expected."
+      ],
+      [
+        "Morphing dan correspondence",
+        "Shape interpolation membutuhkan correspondence yang bermakna. Dua SVG paths atau meshes berbeda topology tidak dapat langsung diblending berdasarkan index arbitrer.",
+        "Resample curves dengan orientation/start-point alignment; mesh morph perlu vertex correspondence.",
+        "Twisted morph, vertex mismatch, holes muncul.",
+        "Periksa topology, area/winding, self-intersection dan endpoint reconstruction."
+      ],
+      [
+        "Blending dan property spaces",
+        "Weighted blend bergantung value space. Color interpolation, transforms dan additive pose punya semantics berbeda. Weights normalized sesuai model, bukan otomatis untuk semua blend.",
+        "Pose translation dapat weighted sum; rotation perlu rotation-aware blend; additive delta relatif reference pose.",
+        "Linear sRGB blend dianggap linear light; matrix blend membuat shear tak sengaja.",
+        "Test identity layer, zero weight, weight sum, dan reference-pose consistency."
+      ],
+      [
+        "Interrupted transitions",
+        "Transition baru dimulai dari evaluated current state. Velocity continuity memerlukan initial derivative; duration reset saja hanya memastikan position continuity.",
+        "Simpan x dan v saat interruption; Hermite bridge atau spring dengan initial state dapat mempertahankan derivative.",
+        "Rapid toggles membuat snap, accumulated animations, stale completion callbacks.",
+        "Interrupt di beberapa progress dan reverse berulang; periksa continuity serta ownership."
+      ]
+    ],
+    "worked": "Contoh: panel sedang bergerak dari 0 ke 100px ketika target berubah ke 40px. Membuat animasi baru dari 0 menimbulkan jump. Ambil x_current pada timestamp interruption. Jika gerak lama berkecepatan 200px/s, pilih bridge yang menerima v_current; bridge cubic dengan zero velocity akhir bisa overshoot bila durasi terlalu panjang. Overshoot harus diputuskan berdasarkan ruang UI, bukan dianggap selalu salah.",
+    "workflow": "Tentukan value space; tetapkan parameterization dan boundaries; pilih interpolation; simpan state saat interruption; batasi sesuai constraints; test segment boundaries dan repeated reversal.",
+    "mastery": "Dapat membedakan easing dari path, mengimplementasikan Bézier inversion, serta membuat transition interruption tanpa snap. Lab: bandingkan lerp progress versus critically damped response.",
+    "advanced": "Monotone cubic interpolation; spherical splines; dual-quaternion blending; optimal transport morphing; multidimensional blend spaces; perceptual color interpolation."
+  },
+  {
+    "id": "D07",
+    "slug": "07-kinematics",
+    "title": "Kinematics",
+    "group": "B — Motion Models",
+    "purpose": "Mendeskripsikan gerak dan hubungan antarjoint tanpa terlebih dahulu menentukan forces penyebabnya.",
+    "boundary": "Dynamics D08 menambahkan forces; rigging D17 menambahkan authoring controls; planning D13 menentukan trajectory yang layak.",
+    "prereqs": [
+      "D01",
+      "D02",
+      "D03"
+    ],
+    "sources": [
+      "S03",
+      "S14"
+    ],
+    "topics": [
+      [
+        "Linear angular kinematics",
+        "Translation dan rotation mempunyai velocity berbeda. Angular velocity adalah vector dengan frame tertentu; derivative Euler angles tidak umumnya sama dengan angular velocity.",
+        "x′=v, v′=a; untuk constant angular velocity orientation berkembang melalui rotation exponential.",
+        "Degree/radian mismatch; angular derivatives memakai frame salah.",
+        "Constant velocity/acceleration analytic fixtures dan rotating basis."
+      ],
+      [
+        "Articulated chains",
+        "Joint transforms dikomposisikan dari root ke leaf. Degrees of freedom dan joint limits menentukan reachable configurations. Parent motion memengaruhi seluruh descendants.",
+        "T_end=T1(q1)T2(q2)…Tn(qn); pisahkan bind transform dan joint update convention.",
+        "Wrong multiplication order; root scale mengubah limb length.",
+        "Zero pose, one-joint rotations, and known end-effector positions."
+      ],
+      [
+        "Forward kinematics",
+        "FK menghitung pose dari joint coordinates. Ia deterministik untuk chain dan convention yang tetap; general closed loops memerlukan constraint solution tambahan.",
+        "Two-link planar x=L1 cos q1+L2 cos(q1+q2), y=L1 sin q1+L2 sin(q1+q2).",
+        "Degree inputs, offset joints, arbitrary hierarchy interpreted as simple chain.",
+        "Compare analytic planar formula and matrix implementation."
+      ],
+      [
+        "Inverse kinematics",
+        "IK menemukan joint coordinates untuk target. Solusi dapat banyak, tidak ada, atau singular. Position target saja tidak menetapkan orientation.",
+        "Analytic IK untuk chain sederhana; CCD, FABRIK, Jacobian methods untuk general tasks.",
+        "Unreachable targets membuat NaN; elbow flips; ignored joint limits.",
+        "Reachable/unreachable cases, residual, joint bounds, temporal continuity."
+      ],
+      [
+        "Differential kinematics",
+        "Jacobian memetakan joint velocity menjadi task-space velocity lokal. Inversion dekat singularity perlu damping atau constrained solve.",
+        "v_task=J(q) qdot; damped inverse Jᵀ(JJᵀ+λ²I)⁻¹ mengurangi amplification.",
+        "λ dianggap satu konstanta universal; finite-difference Jacobian tidak membagi perturbation.",
+        "Compare analytic/numeric J dan sweep singular configurations."
+      ],
+      [
+        "Constraints dan contact kinematics",
+        "Distance, orientation, attachment dan contact constraints mengurangi degrees of freedom. Contact foot placement berbeda dari physically correct reaction force.",
+        "Constraint C(q)=0; velocity consistency Jc qdot=0 untuk stationary constraint.",
+        "Feet locked visually tetapi pelvis trajectory tak feasible.",
+        "Position/velocity residual pada support interval dan contact switches."
+      ],
+      [
+        "Trajectory smoothness",
+        "Position continuity tidak cukup untuk actuator atau plausible motion. Velocity, acceleration dan jerk bounds memengaruhi feasibility dan comfort.",
+        "Quintic polynomial dapat memenuhi position/velocity/acceleration endpoint constraints.",
+        "Smooth-looking spline melebihi joint speed; no timing feasibility.",
+        "Sample derivatives termasuk extrema, bukan hanya keyframes."
+      ]
+    ],
+    "worked": "Contoh two-link L1=L2=1. Target (1,1) memiliki elbow-up/down solutions. cos(q2)=(x²+y²−L1²−L2²)/(2L1L2)=0, jadi q2=±π/2. q1=atan2(y,x)−atan2(L2 sin q2,L1+L2 cos q2). Pilih cabang paling dekat pose sebelumnya untuk menghindari flips. Target (3,0) tidak reachable; laporkan residual atau project sesuai policy, jangan menyembunyikan kegagalan.",
+    "workflow": "Definisikan chain/frame/unit; implementasikan FK; verifikasi; pilih IK berdasarkan tugas; tambahkan limits dan continuity; tentukan trajectory timing; ukur residual dan derivative bounds.",
+    "mastery": "Dapat mengimplementasikan planar FK/IK, mengenali singularity dan redundancy, serta memilih branch kontinu. Lab: target bergerak melewati boundary reachable region.",
+    "advanced": "Closed-chain kinematics; screw theory; redundant manipulators; task-priority IK; null-space objectives; nonholonomic kinematics; inverse differential kinematics."
+  },
+  {
+    "id": "D08",
+    "slug": "08-dynamics-and-physical-modeling",
+    "title": "Dynamics and Physical Modeling",
+    "group": "B — Motion Models",
+    "purpose": "Memilih persamaan yang menjelaskan pengaruh force, inertia, energy, dan material terhadap motion.",
+    "boundary": "Ini model fisik, bukan jaminan simulated motion tampak benar. Solver D10, collision/contact D09, control D12 dan perceptual plausibility D32 harus dipisahkan.",
+    "prereqs": [
+      "D01",
+      "D07"
+    ],
+    "sources": [
+      "S03",
+      "S15",
+      "S16"
+    ],
+    "topics": [
+      [
+        "Newtonian motion",
+        "Force mengubah momentum; untuk mass tetap acceleration=force/mass. Gerak dalam inertial frame berbeda dari rotating frame yang memerlukan apparent force terms.",
+        "m x″=ΣF; integrate state position/velocity setelah mass dan initial conditions valid.",
+        "Force salah unit, mass nol dipakai sebagai body dinamis.",
+        "Free-flight analytic trajectory dan force/mass scaling."
+      ],
+      [
+        "Rotational dynamics",
+        "Moment of inertia berbentuk tensor dan bergantung geometry/frame. Torque tidak cukup dibagi scalar arbitrary pada general 3D rigid body.",
+        "τ=I α+ω×(Iω) dalam body-frame formulation yang sesuai.",
+        "World/body inertia tercampur; angular momentum tidak dijaga.",
+        "Torque-free rotation dan principal-axis fixtures; energy/momentum drift."
+      ],
+      [
+        "Energy momentum dan conservation",
+        "Conservation adalah invariant model ideal, bukan seluruh simulasi. Drag, damping, contacts inelastic dan external forces mengubah energy atau momentum.",
+        "K=½m v²; spring U=½k x²; conservative system ideal menjaga K+U.",
+        "Numerical damping dianggap physical damping; energy rise selalu dianggap bug padahal ada external work.",
+        "Energy budget mencatat work, dissipation, dan integration error."
+      ],
+      [
+        "Springs dan damping",
+        "Damped spring membentuk second-order response. Damping ratio mengelompokkan under/critical/overdamped behavior untuk linear fixed-coefficient system.",
+        "m x″+c x′+k(x−target)=0; ωn=√(k/m), ζ=c/(2√km).",
+        "k/c diperbesar tanpa memperkecil timestep; target discontinuity mengubah force tajam.",
+        "Step response, settling metrics dengan definition, and solver convergence."
+      ],
+      [
+        "Friction drag dan dissipation",
+        "Friction contact dan drag medium berbeda model. Coulomb friction berkaitan normal force; viscous damping proportional velocity.",
+        "Drag linear F=−b v; quadratic F=−½ρCd A norm(v)v; friction bound norm(Ft)≤μFn.",
+        "Friction force mempercepat body; static/kinetic friction disamakan.",
+        "Force opposes relative motion; parameter/unit sanity dan zero-speed behavior."
+      ],
+      [
+        "Generalized dynamics",
+        "Lagrangian formulation menggunakan generalized coordinates; constraints dan force projection perlu consistent conventions.",
+        "L=T−V; d/dt(∂L/∂qdot)−∂L/∂q=Q. Robotics form M(q)qddot+C+g=τ.",
+        "Energy expressions salah frame; constrained DOFs counted twice.",
+        "Compare simple pendulum analytic equation and Newtonian formulation."
+      ],
+      [
+        "Material dan continuum models",
+        "Soft-body, cloth dan fluids membutuhkan constitutive assumptions: stress-strain, viscosity, incompressibility, plasticity. Parameter calibrated menentukan meaningful physics.",
+        "Tentukan continuum equations, boundary conditions, discretization dan material regime sebelum solver.",
+        "Visual stretch parameter diklaim modulus fisik; incompressibility hanya berdasarkan volume satu frame.",
+        "Unit checks, known deformation tests, mesh refinement and parameter sensitivity."
+      ]
+    ],
+    "worked": "Contoh spring mass m=1, k=100 memberi ωn=10 rad/s. Critical damping c=20, bukan nilai damping persentase arbitrary. Untuk initial displacement x0 dan zero velocity terhadap target tetap, critical response adalah x(t)=x0(1+10t)e^(−10t). Model ini cocok sebagai oracle numerik. Saat target ikut bergerak, definisikan apakah damping terhadap world velocity atau velocity relatif target; keduanya berbeda.",
+    "workflow": "Nyatakan system boundaries; pilih coordinates/units; daftar forces dan constraints; tetapkan material/parameter assumptions; turunkan invariants; pilih solver; kalibrasi hanya dengan observations yang relevan.",
+    "mastery": "Dapat menurunkan damped spring, menghitung damping ratio, dan mengaudit energy budget. Lab: pisahkan physical damping dari numerical dissipation.",
+    "advanced": "Hamiltonian systems; multibody dynamics; constitutive mechanics; viscoelasticity; elastoplasticity; continuum mechanics; fluid dynamics; stochastic dynamics."
+  },
+  {
+    "id": "D09",
+    "slug": "09-physics-simulation-systems",
+    "title": "Physics Simulation Systems",
+    "group": "B — Motion Models",
+    "purpose": "Membangun simulator bodies, contacts dan materials dari model fisik dan discretization yang dipilih.",
+    "boundary": "D08 menetapkan persamaan dan material; D10 membahas solver. Simulator perlu menyatakan target: plausibility visual, engineering accuracy, atau interactive response.",
+    "prereqs": [
+      "D02",
+      "D08",
+      "D10"
+    ],
+    "sources": [
+      "S15",
+      "S16",
+      "S17"
+    ],
+    "topics": [
+      [
+        "Particles dan mass-spring systems",
+        "Particle state memuat mass, position, velocity, forces. Connectivity springs menentukan system stiffness. Visual point-cloud bukan otomatis physical particle model.",
+        "Accumulate forces dari snapshot state, lalu advance seluruh system; pinned nodes memakai policy mass/integration jelas.",
+        "Update order dependency; double-count pair force.",
+        "Equal/opposite forces dan center-of-mass pada isolated system."
+      ],
+      [
+        "Collision detection",
+        "Broad phase mencari candidate pairs; narrow phase menentukan contact geometry. Continuous collision detection diperlukan bila object dapat melewati obstacle antarsteps.",
+        "Swept shapes/time-of-impact atau conservative advancement; discrete checks hanya mengamati sample states.",
+        "Tunneling, stale bounds, normals flipped.",
+        "High-speed thin-wall cases, initial overlaps, and contact normal direction."
+      ],
+      [
+        "Rigid-body contact",
+        "Contact response harus mempertimbangkan relative contact velocity, inertia dan restitution. Constraint solver iteratif memberi approximation dengan residual.",
+        "Normal impulse untuk bodies sederhana menjaga nonpenetration velocity; tangential impulse dibatasi friction cone.",
+        "Restitution menambah energy berulang pada resting contact; solver jitter.",
+        "Stacking, resting stability, impulse momentum balance, restitution sweeps."
+      ],
+      [
+        "Soft bodies dan deformables",
+        "Surface/volume discretization membawa deformation DOFs. Methods seperti FEM atau position-based systems memiliki compliance dan convergence behavior berbeda.",
+        "Bentuk constraints atau energy dari rest configuration; solve deformation dengan boundary conditions.",
+        "Rest state salah, inverted elements, parameter berubah dengan mesh resolution.",
+        "Stretch/compression/bending fixtures dan mesh/time-step refinement."
+      ],
+      [
+        "Cloth hair ropes",
+        "Thin structures membutuhkan tensile, bending, collision dan attachment models. Resolution, strand count dan self-collision memengaruhi behavior serta cost.",
+        "Discrete rods/springs/constraints; distinguish stretch stiffness dari bending stiffness.",
+        "Overstretch, self-intersection, explosive collision corrections.",
+        "Hanging strand, cloth drape, bending response, repeated contact."
+      ],
+      [
+        "Fluids gases dan granular systems",
+        "Eulerian grids dan Lagrangian particles menukar strengths berbeda. Fluids membutuhkan pressure/incompressibility treatment; granular materials bergantung contact/friction.",
+        "Navier–Stokes discretization, SPH, PIC/FLIP/APIC atau discrete element sesuai tujuan.",
+        "Volume loss, pressure instability, particle clustering, invalid boundary flux.",
+        "Mass/volume checks, hydrostatic cases, divergence residual, refinement."
+      ],
+      [
+        "Coupling dan simulation staging",
+        "Coupled systems bertukar forces, velocity, atau constraints. Update order dan subcycling dapat menambah lag/instability.",
+        "Tentukan explicit/implicit coupling, exchange rate, ownership dan conservation target.",
+        "Double integration, delayed force feedback, mismatched units.",
+        "Isolated subsystem baselines lalu coupling energy/impulse budget."
+      ]
+    ],
+    "worked": "Contoh ball-wall collision: body bergerak ke wall dengan contact normal mengarah menjauhi wall. Untuk static wall, normal component setelah collision adalah −e kali component masuk, 0≤e≤1. Tangential velocity mengikuti friction policy. Bila posisi sample sudah jauh menembus wall, velocity reflection saja tidak mengembalikan waktu collision yang benar. Gunakan time-of-impact atau substeps, lalu bedakan positional correction dari physical impulse.",
+    "workflow": "Tentukan fidelity dan scales; pilih representation; implementasikan isolated model; tambahkan collisions/constraints; ukur stability; refine timestep/resolution; simpan seeds, parameters dan diagnostic trajectories.",
+    "mastery": "Dapat mengukur tunneling, constraint residual, energy drift dan mesh dependence; tidak menyamakan visually plausible dengan physical validation.",
+    "advanced": "Fracture; combustion; multiphase fluids; turbulence models; differentiable simulation; adaptive meshing; self-contact; coupled fluid–structure interaction; geophysical simulation."
+  },
+  {
+    "id": "D10",
+    "slug": "10-numerical-methods-and-solvers",
+    "title": "Numerical Methods and Solvers",
+    "group": "B — Motion Models",
+    "purpose": "Mengaproksimasi persamaan motion pada komputer dengan batas stability, accuracy, cost, dan convergence yang jelas.",
+    "boundary": "Solver sukses menjalankan iteration belum membuktikan model benar. Model D08 dan validation D39 memberi pertanyaan terpisah.",
+    "prereqs": [
+      "D01",
+      "D05",
+      "D08"
+    ],
+    "sources": [
+      "S18",
+      "S19",
+      "S07"
+    ],
+    "topics": [
+      [
+        "Explicit integration",
+        "Forward Euler murah tetapi dapat menambah energy pada oscillator. Semi-implicit Euler memperbarui velocity lalu position dan mempunyai sifat berbeda.",
+        "Euler x_next=x+h v; v_next=v+h a(x,v). Semi-implicit memakai v_next pada update x.",
+        "Semua metode diberi label Euler; fixed dt terlalu besar.",
+        "Compare analytic oscillator, energy behavior, dan convergence saat h dibagi dua."
+      ],
+      [
+        "Higher-order integration",
+        "RK methods mengevaluasi derivative beberapa kali. Order tinggi membantu smooth ODE, tetapi collision discontinuities dan stiffness dapat membatasi manfaatnya.",
+        "RK4 menggunakan empat derivative stages; local/global error order berlaku dengan assumptions smoothness.",
+        "Force side effects di stage; collision impulse diterapkan berkali-kali.",
+        "Smooth analytic ODE convergence plus event/discontinuity fixtures."
+      ],
+      [
+        "Implicit dan stiff systems",
+        "Stiffness dapat memaksa explicit step sangat kecil. Implicit methods membutuhkan nonlinear solve dan tolerance; stable tidak berarti accurate.",
+        "Backward Euler y_next=y+h f(y_next), diselesaikan via Newton atau other solver.",
+        "Newton converges ke unsuitable branch; terlalu banyak numerical damping.",
+        "Residual, iteration counts, step refinement, dan comparison independent method."
+      ],
+      [
+        "Constraint solvers",
+        "Iterative solving menghasilkan residual yang bergantung iterations, timestep, ordering dan conditioning. Position projection bukan identik impulse dynamics.",
+        "Gauss–Seidel/Jacobi, projected methods, XPBD compliance conventions sesuai formulation.",
+        "Stiffness berubah saat fps berubah; warm-start cache stale.",
+        "Sweep dt/iterations, constraint error, resting stability, and ordering sensitivity."
+      ],
+      [
+        "Linear algebra dan conditioning",
+        "Sistem Ax=b yang ill-conditioned memperbesar perturbations. Sparse structure dan preconditioner memengaruhi cost dan convergence.",
+        "Direct factorization atau iterative CG untuk SPD; method assumptions diperiksa sebelum pemakaian.",
+        "CG pada indefinite matrix; stopping berdasarkan iterations tanpa residual.",
+        "Compute norm(Ax−b), compare reference solve, perturb b sedikit."
+      ],
+      [
+        "Adaptive step dan error control",
+        "Adaptive integrator mengubah h berdasarkan error estimate. Event detection diperlukan agar collision atau switch terjadi pada waktu tepat.",
+        "Embedded RK estimate menentukan accept/reject dan next step; min/max h serta event bracketing eksplisit.",
+        "Tolerance salah unit; rejected step mengubah RNG/state permanent.",
+        "Accepted/rejected history, event-time accuracy, reproducibility."
+      ],
+      [
+        "Verification dan error budgets",
+        "Discretization, truncation, rounding, solver residual dan model mismatch adalah sumber error berbeda. Refinement membuktikan trend numerik pada problem tertentu.",
+        "Compare h,h/2,h/4; estimate observed order saat asymptotic regime tercapai.",
+        "Single PASS dekat sample endpoint; numerical agreement dianggap physical truth.",
+        "Entire trajectory error, invariant drift, pathological inputs dan finite-output guards."
+      ]
+    ],
+    "worked": "Contoh x′=−x, x(0)=1 mempunyai solusi e^(−t). Euler x_next=x(1−h). Dengan h=0.1 dan 0.05, bandingkan error pada t=1 dan seluruh trajectory. Error semestinya turun kira-kira sesuai first-order behavior ketika h cukup kecil. Untuk x′=−1000x, langkah 0.1 tidak stable; menaikkan precision tidak memperbaiki timestep yang salah. Stability region dan accuracy target harus dipisahkan.",
+    "workflow": "Tetapkan ODE/constraints; buat analytic/reference cases; pilih solver assumptions; set unit-aware tolerances; instrument residual/iterations; run refinement; bound execution; document convergence limitations.",
+    "mastery": "Dapat memilih integration method berdasarkan stiffness dan invariants, membaca residual, serta menolak hasil nonfinite. Lab: error-convergence table untuk Euler versus RK4.",
+    "advanced": "Symplectic integration; geometric integration; DAE solvers; multigrid; FEM/FVM discretization; Krylov methods; adaptive PDE solvers; interval verification."
+  },
+  {
+    "id": "D11",
+    "slug": "11-optimization-and-inverse-problems",
+    "title": "Optimization and Inverse Problems",
+    "group": "B — Motion Models",
+    "purpose": "Mencari parameters, trajectories, atau controls yang memenuhi tujuan dan constraints melalui perhitungan.",
+    "boundary": "Objective harus mencerminkan tujuan penggunaan. Cost minimum tidak membuktikan motion nyaman atau aman; model fidelity dan feasibility harus diperiksa secara independen.",
+    "prereqs": [
+      "D01",
+      "D05",
+      "D07",
+      "D10"
+    ],
+    "sources": [
+      "S20",
+      "S03",
+      "S21"
+    ],
+    "topics": [
+      [
+        "Objective dan constraints",
+        "Objective memberi ranking solutions; constraints menentukan admissible set. Soft penalty tidak selalu menjamin hard constraint terpenuhi. Units dan scaling memengaruhi importance.",
+        "Minimize J(z) subject to g(z)≤0, h(z)=0; normalize terms memakai meaningful scales.",
+        "Weight arbitrary mendominasi cost; collision penalty masih mengizinkan penetration.",
+        "Report setiap cost term dan constraint violation secara terpisah."
+      ],
+      [
+        "Gradients dan automatic differentiation",
+        "Gradients menjelaskan local sensitivity; AD menghitung derivative program menurut executed operations, bukan membetulkan discontinuous model.",
+        "Check ∂J/∂zᵢ dengan central finite differences pada perturbation ranges.",
+        "Stop-gradient tidak sengaja, nondifferentiable branches, gradient overflow.",
+        "Gradient check pada small deterministic fixture dan known analytic function."
+      ],
+      [
+        "Least squares dan parameter fitting",
+        "Fitting motion parameters dari observations membutuhkan residual model dan weighting. Noise/outliers dan identifiability membatasi recovered parameters.",
+        "J=Σwᵢ norm(predictionᵢ−observationᵢ)²; robust losses dapat mengurangi outlier influence.",
+        "Fitting trajectory dekat satu regime lalu extrapolate luas.",
+        "Held-out trajectories, residual plots, confidence/identifiability analysis."
+      ],
+      [
+        "Trajectory optimization",
+        "Variables dapat berupa samples, spline coefficients, atau controls. Time discretization dan collision checking di antara knots penting.",
+        "Penalize acceleration/jerk, constrain endpoints/dynamics/limits; direct collocation atau shooting.",
+        "Smooth knots tetapi collision antarinterval; optimized duration salah dimension.",
+        "Densely re-evaluate trajectory dan dynamics residual; independent collision checks."
+      ],
+      [
+        "Inverse dynamics dan inverse simulation",
+        "Inverse problem mencari causes dari motion. Banyak force/parameter combinations dapat memberi observations serupa.",
+        "Given q,qdot,qddot, compute required τ dengan dynamics model; infer parameters with regularization.",
+        "Numerical derivatives noise menghasilkan impossible forces.",
+        "Synthetic recovery with known truth, noise sweep dan multiple initializations."
+      ],
+      [
+        "Constrained solvers dan optimality",
+        "Local optimum bukan global optimum. Solver convergence perlu primal feasibility, stationarity, dan assumptions yang sesuai.",
+        "Inspect KKT residual ketika formulation mendukung; use bounds and trust regions.",
+        "Success flag disamakan feasibility; initial guess menentukan poor branch.",
+        "Multi-start, feasibility independent check, termination reason logging."
+      ],
+      [
+        "Sensitivity dan multi-objective trade-offs",
+        "Latency, smoothness, accuracy, energy dan expressiveness dapat konflik. Pareto solutions membantu menjelaskan trade-off tanpa satu score palsu.",
+        "Sweep weights atau constrained objective; perturb measured parameters.",
+        "Score tunggal menyembunyikan unacceptable limit violation.",
+        "Pareto plot/table serta scenarios at extremes dan nominal."
+      ]
+    ],
+    "worked": "Contoh fit spring k,c dari observed positions. Tetapkan mass, initial state, clock dan measurement noise terlebih dahulu. Jika mass tidak diketahui, rasio k/m dan c/m dapat lebih identifiable daripada k,c secara terpisah. Evaluate predicted trajectory dengan solver yang cukup accurate; optimizer tidak boleh sekadar menyesuaikan solver error. Sisihkan sebagian trajectory untuk validasi dan laporkan parameter uncertainty.",
+    "workflow": "Definisikan variables/unit; tetapkan objective/constraints; cek differentiability; pilih solver; scale problem; evaluate residual; restart bila perlu; verify fitted result pada independent fixtures.",
+    "mastery": "Dapat membedakan optimum, feasible dan physically meaningful; memeriksa gradients dan identifiability. Lab: fit noisy damped spring lalu test pada initial displacement berbeda.",
+    "advanced": "Optimal transport; Bayesian inverse problems; adjoint methods; mixed-integer planning; differentiable rendering; stochastic optimization; robust optimization; constrained learning."
+  },
+  {
+    "id": "D12",
+    "slug": "12-control-theory-and-feedback-systems",
+    "title": "Control Theory and Feedback Systems",
+    "group": "B — Motion Models",
+    "purpose": "Mengatur motion berdasarkan reference, estimated state, dan feedback agar tracking atau stabilization sesuai constraints.",
+    "boundary": "Controller mengendalikan model/plant; animation evaluator saja tidak selalu plant. Physical deployment membutuhkan D31 dan verifikasi hardware, bukan menyalin UI spring parameters.",
+    "prereqs": [
+      "D01",
+      "D08",
+      "D10"
+    ],
+    "sources": [
+      "S03",
+      "S22",
+      "S23"
+    ],
+    "topics": [
+      [
+        "Feedforward dan feedback",
+        "Feedforward menggunakan reference/model; feedback mengoreksi error observed. Keduanya dapat digabung, tetapi measurement delay mengubah closed-loop dynamics.",
+        "u=u_ff+K(reference−estimate); jelaskan sign, units dan available state.",
+        "Gain sign salah; controller correction memperbesar error.",
+        "Step/disturbance response dan measurement-delay sweep."
+      ],
+      [
+        "PID dan saturation",
+        "Integral mengurangi steady-state error tetapi dapat wind up saat actuator saturated. Derivative peka terhadap noise dan setpoint kick.",
+        "u=Kp e+Ki∫e dt+Kd e′; use anti-windup and filtered derivative.",
+        "Integral accumulates during pause, derivative divided wrong dt.",
+        "Saturate plant, release saturation, observe recovery and overshoot."
+      ],
+      [
+        "State-space models",
+        "State harus cukup untuk prediction berikutnya. Linear model lokal punya validity region; discretization bergantung sample period.",
+        "xdot=Ax+Bu, y=Cx+Du; discrete model x_next=Ad x+Bd u.",
+        "Reuse discrete gains at different timestep without review.",
+        "Model prediction versus observed/reference state across operating range."
+      ],
+      [
+        "Stability observability controllability",
+        "Stability membatasi response perturbations. State tidak observable dari measurements tertentu; actuator tidak dapat mengontrol semua modes.",
+        "Eigenvalue analysis untuk linear models; rank tests untuk controllability/observability under assumptions.",
+        "Stable poles dianggap robust terhadap arbitrary delay/nonlinearity.",
+        "Perturb initial conditions, inspect modes, and validate model assumptions."
+      ],
+      [
+        "Estimation dan system identification",
+        "Controller memakai estimated state; noise, drift dan missing measurements perlu explicit handling. Identification memerlukan excitation yang informative.",
+        "Fit model dari input/output; Kalman-like estimator combines prediction and observations.",
+        "Measurement interpreted as truth; unexcited parameters claimed identified.",
+        "Prediction residual, held-out input sequences, missing sensor response."
+      ],
+      [
+        "Optimal robust dan predictive control",
+        "LQR/MPC memilih actions menurut model/cost. MPC dapat mengatasi constraints tetapi membutuhkan timely solve dan fallback. Robust control mempertimbangkan specified uncertainty.",
+        "Receding horizon: estimate, solve constrained horizon, execute first action, repeat.",
+        "Missed deadline, infeasible optimization, incorrect uncertainty bounds.",
+        "Constraint/solve-time statistics, fault injection, safe fallback behavior."
+      ],
+      [
+        "Tracking dan disturbance rejection",
+        "Reference trajectory punya derivatives dan feasibility. High gain dapat improve tracking tetapi amplify noise atau excite unmodeled dynamics.",
+        "Track position/velocity with feedforward acceleration when valid; low-pass reference if necessary.",
+        "Following unreachable trajectory; tuning only no-disturbance case.",
+        "Steady-state/transient error, disturbance recovery, bandwidth and actuator effort."
+      ]
+    ],
+    "worked": "Contoh virtual camera tracking target with PD force: a=Kp(target−x)+Kd(v_target−v). Gains memiliki unit 1/s² dan 1/s. Untuk target tetap, pilih Kp=ω² dan Kd=2ζω dalam model acceleration command. Ketika camera collision blocks motion, integral tambahan dapat wind up; jangan tambahkan I hanya untuk terlihat lengkap. Ukur error dan overshoot dengan targets bergerak serta delayed input.",
+    "workflow": "Definisikan plant/state/reference; identifikasi rates/delays; pilih controller; enforce action limits; instrument errors/actions; test disturbances; add fallback; validate hardware separately if applicable.",
+    "mastery": "Dapat menurunkan simple PD, menangani saturation dan delay, membedakan simulation stability dari control stability.",
+    "advanced": "Nonlinear control; Lyapunov methods; passivity; adaptive control; robust control; hybrid control; distributed control; learning-based control."
+  },
+  {
+    "id": "D13",
+    "slug": "13-motion-planning-and-navigation",
+    "title": "Motion Planning and Navigation",
+    "group": "B — Motion Models",
+    "purpose": "Menentukan jalur dan timing yang dapat mencapai tujuan sambil menghormati obstacles, kinematic limits, serta interaksi agen.",
+    "boundary": "Path adalah geometri; trajectory juga mencakup timing. Planner success harus diverifikasi pada representation dan physical bounds yang dipakai runtime.",
+    "prereqs": [
+      "D02",
+      "D05",
+      "D07",
+      "D11"
+    ],
+    "sources": [
+      "S03",
+      "S14",
+      "S24"
+    ],
+    "topics": [
+      [
+        "Configuration space",
+        "Obstacles dalam workspace harus diterjemahkan menjadi forbidden configurations. Shape, orientation dan articulated geometry menentukan collision.",
+        "Point robot dengan radius r dapat memakai obstacle inflation bila assumptions planar/circular sesuai.",
+        "Center point clear tetapi body collision; orientation ignored.",
+        "Full-body collision check terhadap path samples dan segments."
+      ],
+      [
+        "Graph search",
+        "A*/Dijkstra mencari path pada graph, bukan seluruh ruang kontinu. Heuristic properties menentukan optimality guarantees pada assumptions tertentu.",
+        "A* memakai f=g+h; admissible h tidak overestimate remaining cost.",
+        "Negative edge costs, heuristic salah units, disconnected endpoints.",
+        "Compare small cases dengan exhaustive/Dijkstra oracle."
+      ],
+      [
+        "Sampling-based planning",
+        "PRM/RRT keluarga mengeksplorasi configuration space melalui samples. Resolution collision checking menentukan missed obstacles.",
+        "Sample configuration, connect/extend, validate edges; seed and stopping budget recorded.",
+        "Planner sample nodes safe tetapi edges unsafe.",
+        "Narrow passages, disconnected space, reproducible seed sweeps."
+      ],
+      [
+        "Local navigation dan steering",
+        "Local responses cepat tetapi bisa local minima atau oscillation. Global plan dan local collision handling harus punya reconciliation.",
+        "Seek/avoid/arrive rules; potential fields or velocity-space methods with specified constraints.",
+        "Agents stuck symmetric configuration; summed forces violate limits.",
+        "Deadlocks, corners, opposing streams, bounded speed/acceleration."
+      ],
+      [
+        "Trajectory generation",
+        "Geometric path diberi time law yang memenuhi velocity, acceleration dan jerk limits. Smooth path tidak menjamin feasible timing.",
+        "Piecewise trapezoidal/S-curve profile atau constrained time parameterization.",
+        "Abrupt corners demand infinite acceleration; endpoints omit required velocity.",
+        "Derivative bounds and timing consistency across path joins."
+      ],
+      [
+        "Multi-agent coordination",
+        "Agent intentions, priorities dan communication affect shared space. Collision-free individual paths dapat conflict saat times overlap.",
+        "Space-time reservation, reciprocal avoidance, centralized planning sesuai workload.",
+        "Shared targets deadlock; priority starvation; stale peer state.",
+        "Dense crossings, communication delay and fairness criteria."
+      ],
+      [
+        "Online replanning dan uncertainty",
+        "Scene dapat berubah setelah planning. Replanning perlu state continuity dan bounded reaction latency. Uncertain obstacles require margins matched assumptions.",
+        "Validate upcoming horizon; recompute or emergency fallback when invalidated.",
+        "Teleport to new path, velocity jump, infinite replanning loop.",
+        "Moving obstacles, target changes, planner timeouts, path handoff residual."
+      ]
+    ],
+    "worked": "Contoh robot disk radius 0.2m di corridor. Inflate planar obstacles 0.2m lalu plan centerline; ini benar hanya untuk disk dengan orientation-independent footprint. Setelah path ditemukan, tambahkan timing dan collision check continuous segments. Jika robot sebenarnya rectangle, inflation disk dapat terlalu konservatif atau tidak cukup; configuration-space representation harus berubah.",
+    "workflow": "Pilih configuration representation; specify collision model; build planner; verify edges; parameterize time; connect controller; handle invalidation; test narrow passages and replanning.",
+    "mastery": "Dapat membedakan path/trajectory, menjelaskan graph heuristic assumptions, dan memverifikasi swept collision.",
+    "advanced": "Kinodynamic planning; nonholonomic planning; belief-space planning; task-and-motion planning; navigation under uncertainty; swarm coordination; optimization-based planning."
+  },
+  {
+    "id": "D14",
+    "slug": "14-procedural-generative-and-emergent-motion",
+    "title": "Procedural Generative and Emergent Motion",
+    "group": "B — Motion Models",
+    "purpose": "Menghasilkan gerak melalui rules, fields, randomness, dan interactions yang dapat direproduksi serta diarahkan secara kreatif.",
+    "boundary": "Procedural bukan otomatis physically plausible atau learned. Domain 15 menangani models fitted/trained dari data; generative visual control tetap memerlukan D33.",
+    "prereqs": [
+      "D01",
+      "D03",
+      "D04",
+      "D05"
+    ],
+    "sources": [
+      "S25",
+      "S26",
+      "S27"
+    ],
+    "topics": [
+      [
+        "Oscillators dan periodic systems",
+        "Periodic signals menjadi basis pulsing, orbital motion, waves, dan rhythmic coordination. Frequency dan phase harus berbasis waktu.",
+        "x=A sin(ωt+φ); combine frequencies for beats; phase accumulator update ωΔt.",
+        "Frame-based increments; discontinuity at phase reset.",
+        "Repeatability, period, amplitude dan fps invariance."
+      ],
+      [
+        "Randomness dan coherent noise",
+        "White randomness berubah independen; coherent noise menghubungkan nearby coordinates. Seed, space/time scale, distribution dan correlation menentukan character motion.",
+        "Evaluate noise(x·scale,t·speed); use independent RNG streams per entity.",
+        "Every frame reseed; changing iteration order changes all particles.",
+        "Deterministic replay, statistics, spatial/temporal correlation."
+      ],
+      [
+        "Fields dan flow",
+        "Vector field mengarahkan velocity/force di ruang. Field dapat time-dependent dan punya singularities/boundary behavior.",
+        "dx/dt=F(x,t); curl-derived field can produce divergence-free construction under assumptions.",
+        "Field scale mislabeled speed; singular attraction explodes.",
+        "Known flow trajectories, divergence check, boundary tests."
+      ],
+      [
+        "Rule systems dan grammars",
+        "Local rules, rewrite grammars dan state transitions menentukan procedural structure. Rule priority dan termination penting.",
+        "L-systems generate structures; grammar expansion bounded by depth/resource budgets.",
+        "Exponential growth, contradictory rules, unintended infinite recursion.",
+        "Rule fixtures, termination limits, count-growth analysis."
+      ],
+      [
+        "Agents flocking dan swarms",
+        "Separation/alignment/cohesion membentuk group behavior. Neighborhood, acceleration limits dan integration mengubah emergence.",
+        "Compute forces from shared snapshot; neighbor radius and weights explicit; enforce action limits.",
+        "Sequential update bias; all-pairs cost; density collapse.",
+        "Order independence, collision rate, bounded speed and dense scenes."
+      ],
+      [
+        "Cellular systems dan reaction diffusion",
+        "Local update rules dapat menghasilkan complex patterns. Discrete grid/time assumptions menentukan stability dan anisotropy.",
+        "Cellular automata use synchronous transitions; reaction-diffusion integrates coupled PDE discretization.",
+        "In-place updates change rule semantics; unstable diffusion timestep.",
+        "Symmetry, boundary modes, known simple patterns, refinement."
+      ],
+      [
+        "Art direction dan parameter spaces",
+        "Generative richness harus dikendalikan agar mendukung purpose. Parameter ranges, presets dan sensitivity menjaga usable exploration.",
+        "Expose frequency, density, correlation, force gains; annotate valid combinations.",
+        "Random result claimed universally pleasing; knobs duplicate same effect.",
+        "Seed sweeps, parameter extremes, constraints and human review."
+      ]
+    ],
+    "worked": "Contoh flocking: snapshot seluruh positions/velocities, query neighbors via grid, hitung three steering terms, batasi acceleration, lalu integrate seluruh agents. Gunakan seed per agent agar menambah satu agent tidak mengubah RNG semua yang lain. Masukkan asymmetric obstacles untuk menguji robustness; pola cantik pada scene kosong belum membuktikan navigation reliable.",
+    "workflow": "Definisikan generative rules/state; specify randomness; constrain rates/limits; implement snapshot update; instrument behavior; expose meaningful parameters; evaluate many seeds plus adversarial scenes.",
+    "mastery": "Dapat mereproduksi generative motion, menjelaskan emergence dari rules, dan memisahkan field model dari numerical integration.",
+    "advanced": "Chaos; nonlinear oscillators; attractors; fractals; self-organization; complex adaptive systems; procedural ecosystems; evolutionary search; generative choreography."
+  },
+  {
+    "id": "D15",
+    "slug": "15-data-driven-and-learned-motion-synthesis",
+    "title": "Data Driven and Learned Motion Synthesis",
+    "group": "B — Motion Models",
+    "purpose": "Membangkitkan, memilih atau mengadaptasi gerak menggunakan examples dan models learned dari data.",
+    "boundary": "Dataset/model availability tidak sama dengan domain coverage. Learned outputs perlu constraints, evaluation, provenance dan deployment checks; capture D16 menghasilkan observations.",
+    "prereqs": [
+      "D01",
+      "D05",
+      "D11",
+      "D16",
+      "D19"
+    ],
+    "sources": [
+      "S28",
+      "S29",
+      "S30"
+    ],
+    "topics": [
+      [
+        "Datasets dan representation",
+        "Motion data memuat poses, root trajectory, contacts, skeleton/frame conventions dan rate. Representation menentukan what model can learn.",
+        "Normalize units/frames; preserve transform metadata; split by meaningful subject/sequence groups.",
+        "Train/test leakage through near-duplicate clips; skeleton mismatch.",
+        "Metadata audit, duplicate checks, joint conventions and held-out split integrity."
+      ],
+      [
+        "Example-based synthesis",
+        "Motion clips dapat dipilih/diinterpolasi berdasarkan state, target, style atau similarity. Distance metric menentukan useful match.",
+        "Feature vector of pose/velocity/future trajectory; nearest-neighbor search with calibrated scales.",
+        "Foot skating at transitions; metric dominated root position.",
+        "Transition continuity, contact preservation, trajectory error."
+      ],
+      [
+        "Motion graphs dan matching",
+        "Graph transitions menghubungkan compatible clip segments. Motion matching memilih samples continuously berdasarkan query cost. Coverage dataset menentukan reachable behavior.",
+        "Build transition candidates with pose/velocity compatibility; evaluate query against dataset features.",
+        "Dead-end graph; oscillatory rapid clip switches.",
+        "Reachability, transition rate, novel query failure and temporal continuity."
+      ],
+      [
+        "Statistical dan probabilistic models",
+        "Distributions capture variability, tetapi likelihood tidak sama dengan task correctness. Latent state may encode style and motion structure.",
+        "Mixture, autoregressive or latent-variable models with explicit conditioning.",
+        "Mean motion looks washed-out; probability calibration ignored.",
+        "Held-out predictive error, sample diversity, constraint violation rates."
+      ],
+      [
+        "Neural generative motion",
+        "Learned networks map conditions to pose sequences or dynamics. Diffusion/autoregressive models mempunyai latency dan controllability trade-offs.",
+        "Evaluate text/action/trajectory-conditioned generation; postprocess only with documented effect.",
+        "Plausible-looking but impossible contacts; output lengths/rates mismatched.",
+        "Contact, joint bounds, task metrics, diverse scenarios and timing."
+      ],
+      [
+        "Reinforcement learning policies",
+        "Policy chooses actions from state to maximize defined reward. Reward shaping, simulated plant dan exploration constrain learned behavior.",
+        "π(a|s); training environment and action limits specified; transfer checked separately.",
+        "Reward hacking, unstable unseen states, simulator exploitation.",
+        "Perturbed environments, held-out dynamics, failure recovery, real-time inference."
+      ],
+      [
+        "Evaluation provenance dan deployment",
+        "Training sources, licenses, model versions, seeds, preprocessing dan device determine reproducibility. Perceptual quality requires human evidence separate from numerical metrics.",
+        "Record dataset/model hashes and generation settings; benchmark latency and memory on target.",
+        "Model demo mistaken full benchmark; licensed data redistributed without basis.",
+        "Versioned evaluation sets, performance measurements, constraint tests and documented limitations."
+      ]
+    ],
+    "worked": "Contoh locomotion matching uses current pose, velocity, desired future direction dan speed. Normalize feature groups agar unit meter tidak mendominasi angular features. Setelah retrieval, blend dengan pose saat ini dan preserve contact intervals bila memungkinkan. Jika desired motion tidak terdapat pada database, return degraded behavior atau fallback; nearest sample tetap ada secara matematis, tetapi belum tentu sesuai task.",
+    "workflow": "Audit dataset/provenance; choose representation; define task metrics; establish nonlearned baseline; train/select model; test generalization and constraints; measure target runtime; preserve fallback.",
+    "mastery": "Dapat membangun example-based baseline, mendeteksi leakage, serta mengukur contact/task errors terpisah dari perceptual quality.",
+    "advanced": "Diffusion motion models; transformers; learned dynamics; physics-informed learning; imitation learning; skill discovery; sim-to-real; controllable motion editing; uncertainty-aware policies."
+  },
+  {
+    "id": "D16",
+    "slug": "16-motion-capture-tracking-and-reconstruction",
+    "title": "Motion Capture Tracking and Reconstruction",
+    "group": "C — Representation and Animation",
+    "purpose": "Menghasilkan observations dan reconstructed motion dari sensor, gambar atau video dengan coordinate, time, uncertainty dan provenance yang eksplisit.",
+    "boundary": "Capture adalah pengukuran/estimasi, bukan motion ground truth otomatis. Learned synthesis D15 dan rig retargeting D17 memakai hasil capture dengan batasnya.",
+    "prereqs": [
+      "D02",
+      "D03",
+      "D04"
+    ],
+    "sources": [
+      "S31",
+      "S32",
+      "S33"
+    ],
+    "topics": [
+      [
+        "Acquisition systems",
+        "Optical markers, inertial sensors, depth cameras dan markerless images memberikan measurements berbeda. Setiap sensor mempunyai rate, noise, occlusion dan calibration constraints.",
+        "Record raw observations, clock, exposure, units, sensor model dan capture conditions.",
+        "Pose confidence diperlakukan akurasi meter; missing marker bernilai zero.",
+        "Known geometry/static cases dan documented measurement error."
+      ],
+      [
+        "Calibration dan frame alignment",
+        "Camera intrinsics, extrinsics dan sensor-to-body transforms menentukan mapping observations ke ruang. Calibration drift tidak hilang dengan smoothing.",
+        "Estimate parameters dari known targets; compose transforms with frame labels.",
+        "Mirrored coordinates, incorrect scale, moving camera assumed fixed.",
+        "Reprojection error serta independent distance/orientation checks."
+      ],
+      [
+        "Feature tracking dan optical flow",
+        "Feature correspondence memperkirakan image displacement. Aperture problem, textureless regions dan occlusion membatasi identifiability.",
+        "Sparse feature tracking atau dense optical flow with temporal consistency checks.",
+        "Image motion claimed world velocity tanpa depth/calibration.",
+        "Synthetic translations, occlusions, brightness changes dan flow residuals."
+      ],
+      [
+        "Pose estimation dan reconstruction",
+        "2D joint coordinates tidak uniquely menentukan 3D pose. Multiview, depth atau priors menambah constraints dengan assumptions.",
+        "Triangulate calibrated views; enforce correspondence and inspect reprojection.",
+        "Anatomical prior hides measurement failure; left/right swaps.",
+        "Joint bounds, cross-view consistency, uncertainty and known-pose fixtures."
+      ],
+      [
+        "Camera motion estimation",
+        "Visual object motion tercampur camera motion. Estimating camera requires geometry assumptions and enough reliable features.",
+        "Separate egomotion estimate from residual object motion; reject inconsistent features.",
+        "Zoom interpreted translation; planar degeneracy; moving scene bias.",
+        "Controlled pan/rotation/zoom cases and independently known camera trajectory."
+      ],
+      [
+        "Cleaning gap filling dan filtering",
+        "Interpolation/filtering memperbaiki usability tetapi menambah synthetic content. Gap length dan dynamics menentukan validity.",
+        "Preserve masks indicating observed/estimated samples; fill short gaps with stated method.",
+        "Long missing intervals fabricated as measured motion.",
+        "Hold out observed samples, predict gaps, measure errors by gap length."
+      ],
+      [
+        "Validation dan uncertainty",
+        "Capture quality mempunyai spatial, temporal dan identity components. Average residual tidak cukup untuk fast motion/occlusion intervals.",
+        "Report errors by joint, time, condition; preserve original raw and derived versions.",
+        "Low reprojection error equated correct 3D scale; timestamps discarded.",
+        "Ground-truth subset where available, temporal checks, calibration replay."
+      ]
+    ],
+    "worked": "Contoh marker hilang 80ms ketika tangan tertutup. Simpan sample invalid beserta timestamps; jangan menaruh [0,0,0]. Interpolasi boleh menghasilkan estimated trajectory, tetapi bedakan mask estimated. Uji metode dengan menyembunyikan interval lain yang masih memiliki observations. Jika model mengekstrapolasi selama 2 detik, itu berbeda tingkat kepastian dan tidak boleh diwarisi sebagai capture terverifikasi.",
+    "workflow": "Capture raw; calibrate; align clocks/frames; reconstruct; preserve missingness; clean derived stream; validate by condition; export provenance and uncertainty.",
+    "mastery": "Dapat membedakan observations, estimates dan synthetic fills; menguji calibration dan clock alignment.",
+    "advanced": "Multiview geometry; SLAM; inertial motion capture; event cameras; markerless reconstruction; differentiable tracking; uncertainty-aware capture; performance capture."
+  },
+  {
+    "id": "D17",
+    "slug": "17-rigging-articulation-and-deformation-systems",
+    "title": "Rigging Articulation and Deformation Systems",
+    "group": "C — Representation and Animation",
+    "purpose": "Membangun kontrol dan representasi deformasi yang menghubungkan motion parameters dengan bentuk yang dirender.",
+    "boundary": "Rig bukan hanya skeleton. Controls, deformation, constraints, bind state dan evaluation order harus dibedakan; kinematics D07 memberi solver mathematical layer.",
+    "prereqs": [
+      "D02",
+      "D07",
+      "D19"
+    ],
+    "sources": [
+      "S34",
+      "S35",
+      "S36"
+    ],
+    "topics": [
+      [
+        "Skeleton dan bind spaces",
+        "Joint hierarchy, rest/bind pose dan inverse bind matrices menentukan deformation. Imported conventions perlu disamakan sebelum animation diterapkan.",
+        "Skin transform joint_world·inverse_bind dengan mesh/world convention yang dinyatakan.",
+        "Double transforms, root mismatch, bind pose not identity.",
+        "Mesh unchanged at bind pose and single-joint controlled rotations."
+      ],
+      [
+        "Control rigs dan drivers",
+        "Author-facing controls dapat berbeda dari deformation skeleton. Driver dependencies perlu order dan cycle detection.",
+        "Map control parameters to joint transforms with constraints/expressions.",
+        "Cyclic drivers, mixed local/world control semantics.",
+        "Neutral pose, control ranges, dependency invalidation and cycle fixture."
+      ],
+      [
+        "Skinning dan weights",
+        "Linear blend skinning menggabungkan bone transforms; dual quaternions memiliki behavior berbeda untuk rigid transforms. Weights and correspondence affect deformation.",
+        "p′=Σwᵢ Mᵢp, typically Σwᵢ=1 for standard LBS; prune/normalize as specified.",
+        "Collapsing twist, candy-wrapper artifacts, unweighted vertices.",
+        "Weight sums, joint extremes, twist cases and seam continuity."
+      ],
+      [
+        "Blend shapes dan correctives",
+        "Morph targets mengubah geometry relatif base. Corrective shapes memperbaiki poses tertentu; parameter combination dapat interact nonlinearly.",
+        "p′=p_base+ΣwᵢΔpᵢ; conditional correctives driven by pose descriptors.",
+        "Double-applied deltas; vertex ordering mismatch.",
+        "Base at all-zero weights, endpoint targets, combinations and topology checks."
+      ],
+      [
+        "Constraints dan procedural controls",
+        "Aim, parent, distance dan IK constraints mengevaluasi relationships yang mungkin conflicting. Priority/blend semantics perlu eksplisit.",
+        "Solve or evaluate constraints in defined order; expose residual when target infeasible.",
+        "Pop at constraint activation; overconstrained chain.",
+        "Toggle/weight sweep, impossible targets, continuity at switches."
+      ],
+      [
+        "Retargeting dan proportions",
+        "Mapping motion antar skeleton requires naming, rest orientation, scale dan contact treatment. Same joint rotation tidak selalu menghasilkan same reach.",
+        "Align rest frames; map chain goals; solve target skeleton IK and root adjustment.",
+        "Foot sliding, arm penetration, scale-normalized trajectory lost.",
+        "End-effector/task errors, contact preservation, body intersections."
+      ],
+      [
+        "Deformation beyond bones",
+        "Curves, lattices, cages, muscle-inspired systems dan cloth rigs memiliki representations sendiri. Modifier order changes result.",
+        "State rest geometry and deformation stack; invalidation follows topology/version changes.",
+        "Modifier stack noncommutative ignored; dynamic simulation applied twice.",
+        "Single-stage baselines and full-stack endpoint regression."
+      ]
+    ],
+    "worked": "Contoh elbow dengan dua skinning bones: test rest pose sebelum menjalankan animation. Jika bind pose telah mendistort mesh, masalahnya bukan easing. Twist forearm dapat collapse pada LBS; compare dual-quaternion atau corrective shape pada fixture yang sama. Jangan menganggap satu metode selalu terbaik: nonuniform scale handling dan engine support membatasi pilihan.",
+    "workflow": "Normalize assets/frame; verify bind state; build skeleton/control mapping; add deformation; test extreme poses; define retargeting; export bake when runtime lacks controls.",
+    "mastery": "Dapat mendiagnosis bind-transform errors, weight artifacts dan constraint pops; retarget dengan task/contact checks.",
+    "advanced": "Muscle systems; pose-space deformation; dual-quaternion skinning; facial action controls; spline IK; autorigging; cage deformation; differentiable rigs."
+  },
+  {
+    "id": "D18",
+    "slug": "18-character-motion-biomechanics-and-performance",
+    "title": "Character Motion Biomechanics and Performance",
+    "group": "C — Representation and Animation",
+    "purpose": "Mengorganisasikan gerak articulated agar contact, balance, expression dan performance sesuai tujuan visual atau fisik.",
+    "boundary": "Plausibility visual, anatomical constraints dan validated biomechanics adalah target berbeda. Pengetahuan ini tidak menggantikan diagnosis atau panduan latihan manusia.",
+    "prereqs": [
+      "D07",
+      "D08",
+      "D17",
+      "D19"
+    ],
+    "sources": [
+      "S37",
+      "S38",
+      "S31"
+    ],
+    "topics": [
+      [
+        "Locomotion dan gait",
+        "Walk/run melibatkan phases, support, root progression dan limb coordination. Speed change tidak cukup hanya mempercepat clip jika stride/contact tidak cocok.",
+        "Represent gait phase, stance/swing and root velocity; adapt stride or matching clips.",
+        "Foot skating, incorrect phase transitions.",
+        "Foot world velocity during stance and traveled distance per cycle."
+      ],
+      [
+        "Balance dan support",
+        "Support region dan center of mass membantu reasoning, tetapi dynamic balance memerlukan momentum/dynamics. Static support condition tidak cukup untuk running.",
+        "For simple quasistatic cases project COM relative support; use dynamics for moving cases.",
+        "Static metric claimed universal balance proof.",
+        "Static cases, disturbance recovery, dynamic cases evaluated separately."
+      ],
+      [
+        "Contacts dan environment",
+        "Hands/feet berinteraksi surfaces with time-dependent constraints. Contact switching affects continuity and forces.",
+        "Maintain contact metadata; solve limb/root adjustments with feasible constraints.",
+        "Limb stretch, feet penetrating slopes, support switches pop.",
+        "Contact residual, joint limits, collision and transition continuity."
+      ],
+      [
+        "Reaching manipulation dan gaze",
+        "Task-space goals must coexist with body limits and expressive intent. Gaze involves eyes, head and torso coordination.",
+        "Allocate task priorities; solve IK with joint limits and optional secondary objectives.",
+        "All motion concentrated neck; hand target unreachable.",
+        "Reachability, eye/head bounds, smooth target changes."
+      ],
+      [
+        "Facial expression dan lip sync",
+        "Speech visemes, facial actions dan emotion controls operate on overlapping channels. Timing/anticipation and coarticulation matter.",
+        "Map phoneme/time cues to blend shape envelopes, preserve explicit uncertainty in alignment.",
+        "One phoneme one instant pose; duplicate mouth controllers.",
+        "Alignment checks, intelligibility/human review, weight conflicts."
+      ],
+      [
+        "Secondary motion dan style",
+        "Follow-through, accessories dan soft tissue can come from procedural or physics layers. Style intentionally deviates physical model.",
+        "Separate primary action from delayed/overlapping secondary response; clamp only by stated bounds.",
+        "Secondary motion distracts message or clips body.",
+        "Parameter extremes, silhouettes, contact constraints and editorial review."
+      ],
+      [
+        "Performance dan evaluation",
+        "Expressiveness depends context, rhythm, pose clarity and audience. Numerical metric alone cannot measure convincing acting.",
+        "Define intended action/emotion and review representative sequences plus transitions.",
+        "Frame-only judgment; plausible motion claimed universal preference.",
+        "Human/context evaluation separate from joint/trajectory metrics."
+      ]
+    ],
+    "worked": "Contoh walk clip moves root 1.2m per cycle. Jika runtime menggeser character 2m sambil mempertahankan foot motion clip, foot skating muncul. Root-motion extraction, stride adaptation atau motion matching dapat dipilih. Hitung foot velocity saat stance pada world frame, lalu periksa slopes dan turning. Visual stylization boleh mengubah gait, tetapi deviation harus sengaja.",
+    "workflow": "Tentukan style/task; prepare rig/contact metadata; build primary action; add IK/environment adaptation; add secondary motion; measure contacts/limits; review timing/performance.",
+    "mastery": "Dapat memperbaiki root/stride mismatch, menguji contacts dan memisahkan physical metrics dari expressive judgment.",
+    "advanced": "Human motor control; musculoskeletal simulation; physically based characters; crowd animation; animal locomotion; expressive gestures; embodied agents; interaction synthesis."
+  },
+  {
+    "id": "D19",
+    "slug": "19-animation-representation-composition-and-evaluation",
+    "title": "Animation Representation Composition and Evaluation",
+    "group": "C — Representation and Animation",
+    "purpose": "Menyimpan, mengevaluasi, dan menggabungkan gerak menjadi pose/property state yang konsisten sepanjang timeline.",
+    "boundary": "Composition describes runtime semantics; tools D38 author data, reactive behavior D20 memilih transitions, rendering D24/D25 menampilkan hasil.",
+    "prereqs": [
+      "D02",
+      "D03",
+      "D06"
+    ],
+    "sources": [
+      "S05",
+      "S34",
+      "S36"
+    ],
+    "topics": [
+      [
+        "Curves tracks dan clips",
+        "Track mengubah satu attribute; clip mengelompokkan tracks beserta time domain. Missing channels perlu default/base policy.",
+        "Evaluate segment per time using declared interpolation and extrapolation.",
+        "Time units mismatch, missing keys become zero.",
+        "Endpoints, missing channels, duplicate timestamps, out-of-range time."
+      ],
+      [
+        "Sequencing dan orchestration",
+        "Sequence defines relative timing, overlaps dan completion behavior. Stagger can be based index, space or other explicit order.",
+        "Timeline node resolves local start/duration; total duration derived from child intervals.",
+        "Object order changes visual choreography; stale calculated durations.",
+        "Permutation fixture, overlaps, nested playback rates."
+      ],
+      [
+        "Layering dan masks",
+        "Layers own sets of channels/joints. Masking determines influence; property replacement order and additive composition berbeda.",
+        "Establish base pose, evaluate layers, apply masks/weights in explicit order.",
+        "Lower layer unexpectedly overrides hand control; multiple writers.",
+        "Isolated layers then pairwise/full-stack combinations."
+      ],
+      [
+        "Blend trees dan state transitions",
+        "Blend inputs may be speed/direction; transition chooses how to mix clips over time. Matching phase avoids abrupt gait changes.",
+        "Blend-space weights based documented parameters; preserve phase/contact where needed.",
+        "Weight sums wrong; rapid state toggles create discontinuity.",
+        "Corner points, interior, parameter jumps and repeated transitions."
+      ],
+      [
+        "Additive animation",
+        "Additive delta is relative reference pose/space. Rotation delta composition is not ordinary component addition.",
+        "ΔT=T_pose T_ref⁻¹ under chosen convention; apply weighted delta with appropriate rotation math.",
+        "Wrong reference frame, duplicate root displacement.",
+        "Identity delta, full delta, zero weight, reference change."
+      ],
+      [
+        "Evaluation caching dan compression",
+        "Compression reduces size at cost of error. Track-specific error metric must match position/rotation/perception relevance.",
+        "Key reduction and quantization with bounds; cache evaluated data using full dependencies.",
+        "Compressed angles wrap incorrectly; stale cached pose.",
+        "Maximum error across intervals, contact-critical frames, cache invalidation."
+      ],
+      [
+        "Ownership events dan lifecycle",
+        "Animation events and callbacks have time-crossing semantics. Seek, reverse and cancellation require defined event policy and cleanup.",
+        "One owner per property or explicit composition; generation token rejects stale completions.",
+        "Event fired twice after seek; unmounted target callback.",
+        "Forward/reverse/seek/cancel histories, resource cleanup and final state."
+      ]
+    ],
+    "worked": "Contoh walking lower-body clip plus upper-body pointing. Mask pointing to torso/arm, maintain locomotion root from base. Additive breathing layer uses known reference pose; full-body replacement would erase walk. At transition to idle, decide whether pointer action persists or fades. Record policy and test repeated navigation/state changes rather than only smooth forward playback.",
+    "workflow": "Define channel schema/base pose; normalize time; implement pure evaluator; add composition; define event policy; compress with error bounds; test layered and interrupted playback.",
+    "mastery": "Dapat membangun clip evaluator, masks, additive layers dan phase-aware transitions; membuktikan lifecycle cleanup.",
+    "advanced": "Nonlinear animation; pose graphs; blend-space interpolation; motion compression; animation streaming; motion matching integration; multirate animation evaluation."
+  },
+  {
+    "id": "D20",
+    "slug": "20-state-event-and-reactive-motion-architecture",
+    "title": "State Event and Reactive Motion Architecture",
+    "group": "D — Behavior and Interaction",
+    "purpose": "Membuat motion menjadi respons sistem yang predictable terhadap state, events, asynchronous work, dan interruptions.",
+    "boundary": "State architecture bukan motion model. Ia memilih goals dan lifecycle; evaluator D19 dan solver D10 menjalankan perubahan.",
+    "prereqs": [
+      "D05",
+      "D19"
+    ],
+    "sources": [
+      "S39",
+      "S40",
+      "S05"
+    ],
+    "topics": [
+      [
+        "Finite-state machines",
+        "Explicit states membatasi valid transitions. Animation phase dan business state dapat berbeda; completed animation tidak selalu berarti task success.",
+        "Transition table state×event→next state plus side effects; reject invalid events.",
+        "Implicit booleans allow impossible combinations.",
+        "Enumerate transitions, invalid events, terminal states and invariants."
+      ],
+      [
+        "Statecharts dan hierarchy",
+        "Hierarchy mengurangi duplicate transitions; parallel regions represent concurrent behavior. Entry/exit actions need deterministic semantics.",
+        "Parent/child active states with event priority and history policy.",
+        "Parent exit forgets child animation cleanup.",
+        "Nested transitions, simultaneous events and exit cleanup."
+      ],
+      [
+        "Signals dan reactive graphs",
+        "Derived motion values depend on sources; batching prevents intermediate inconsistent outputs. Cycles need rejection or explicit iterative semantics.",
+        "Dirty propagation, topological evaluation, one commit after transaction.",
+        "Glitches, repeated work, hidden cycle.",
+        "Diamond graph, batched changes, cycle fixture and consistent snapshots."
+      ],
+      [
+        "Interruption cancellation dan stale work",
+        "Cancel is lifecycle operation, not merely hide output. Pending async completions must not overwrite newer state.",
+        "Generation/version token; completion accepted only when owner/token current.",
+        "Old transition callback restores wrong visibility.",
+        "Rapid toggle, delayed completion and target removal tests."
+      ],
+      [
+        "Concurrency dan event ordering",
+        "Multiple input/network/animation events require priority and ordering policy. Wall-clock arrival order may differ logical sequence.",
+        "Queue events with source sequence/time; arbitrate ownership before output mutation.",
+        "Two loops update same transform; nondeterministic event race.",
+        "Permute independent events, reproduce conflict histories."
+      ],
+      [
+        "Observers dan resource lifecycle",
+        "Listeners, timers, observers and animation instances retain resources. Unmount/dispose must end ownership and subscriptions.",
+        "Create/dispose symmetry, cancellation on teardown, weak ownership where useful.",
+        "Memory leaks and duplicate handlers after remount.",
+        "Mount/unmount repeated, count resources, trigger events post-disposal."
+      ],
+      [
+        "Reactive goals versus presentation",
+        "Desired state differs from intermediate visual state. Store goals separately, derive motion, report interaction affordance promptly.",
+        "goal state→motion controller→presented state; preserve semantic accessibility while animating.",
+        "Slow visual exit delays actual disabled state; hidden target stays focusable.",
+        "Keyboard/focus tests and state checks during intermediate motion."
+      ]
+    ],
+    "worked": "Contoh drawer states closed/opening/open/closing. OPEN during closing retargets from current pose; a previous close-completion token must be ignored. Escape updates desired closed state immediately, and focus policy follows semantic state. Visual spring can continue while pointer interaction is disabled. Test event sequences such as OPEN,CLOSE,OPEN before any animation finishes.",
+    "workflow": "Define semantic states; map valid events; separate desired/presented state; define ownership; add cancellation tokens; instrument transitions; replay adversarial histories.",
+    "mastery": "Dapat merancang event histories tanpa impossible states dan membuktikan cleanup serta stale-callback rejection.",
+    "advanced": "Actor models; event sourcing; distributed statecharts; functional reactive programming; hybrid systems; transactional reactive evaluation."
+  },
+  {
+    "id": "D21",
+    "slug": "21-input-gesture-and-sensor-systems",
+    "title": "Input Gesture and Sensor Systems",
+    "group": "D — Behavior and Interaction",
+    "purpose": "Mengubah input perangkat menjadi events/gestures/state estimates dengan timestamps, coordinate frames dan cancellation yang jelas.",
+    "boundary": "Acquisition/recognition berbeda dari interaction mapping D22. Input source tidak selalu pointer, dan gestures tidak boleh menghilangkan keyboard semantics.",
+    "prereqs": [
+      "D02",
+      "D03",
+      "D04"
+    ],
+    "sources": [
+      "S41",
+      "S42",
+      "S43"
+    ],
+    "topics": [
+      [
+        "Pointer events dan capture",
+        "Mouse/touch/pen dapat dibungkus pointer model tetapi mempunyai capabilities berbeda. Capture menjaga routing saat pointer keluar target; cancellation tetap mungkin.",
+        "Track pointerId, initial position, capture lifecycle and pointercancel.",
+        "Drag stuck setelah OS cancels; pointer ownership overwritten.",
+        "Outside-target drag, cancellation, multi-pointer and capture-loss cases."
+      ],
+      [
+        "Coordinate mapping",
+        "Event client coordinates tidak selalu sama local geometry coordinates setelah transform, zoom atau scrolling.",
+        "Map client point through inverse relevant transform; distinguish CSS pixels and backing pixels.",
+        "High-DPI scale double applied; scroll offset stale.",
+        "Known points under scroll/zoom/transformed parent."
+      ],
+      [
+        "Gesture recognition",
+        "Swipe, pinch dan rotate memerlukan thresholds, simultaneity dan ambiguity handling. Early recognition trades responsiveness against false positives.",
+        "State machine possible→recognized/cancelled; derive scale/angle from consistent pointer pair.",
+        "Small jitter triggers swipe; recognizer steals native scroll.",
+        "Threshold boundaries, slow drag, fast swipe, pointer replacement."
+      ],
+      [
+        "Velocity estimation",
+        "Velocity dari last two samples peka noise dan coalesced events. Temporal window/filter harus mengakui delay dan irregular cadence.",
+        "Weighted fit or finite differences on actual timestamps; handle zero dt.",
+        "Release velocity based stale sample; enormous velocity after tiny dt.",
+        "Synthetic trajectories with irregular event times and noise."
+      ],
+      [
+        "Keyboard wheel dan discrete input",
+        "Wheel units/modes berbeda; keyboard repeats bukan physical motion samples. Commands perlu semantik dan focus ownership.",
+        "Normalize units cautiously; use intent commands then model motion.",
+        "Scroll hijack, repeated key starts competing animations.",
+        "Keyboard-only flow, different wheel modes, focus changes."
+      ],
+      [
+        "Inertial spatial dan fused sensors",
+        "Gyro, accelerometer dan orientation estimates memiliki units, frames, drift dan permissions. Gravity and linear acceleration need model separation.",
+        "Calibrate bias; timestamp data; fuse with explicit state/noise model if needed.",
+        "Gyro integrated without dt; gravity interpreted translation.",
+        "Stationary/known-rotation cases, missing samples, unit/frame conversions."
+      ],
+      [
+        "Capability permission dan degradation",
+        "Sensor availability, browser support dan permission affect path. Capability detection should be behavior-based, with alternative input.",
+        "Detect feature, request only needed access under platform rules, handle denied/unsupported.",
+        "Interface blocked without optional sensor; assumed microphone permission.",
+        "Denied permission, no device, disconnect, fallback behavior."
+      ]
+    ],
+    "worked": "Contoh drag: pointerdown records pointerId/start pose, sets capture; moves update target from local-space displacement; pointerup estimates velocity and releases; pointercancel stops gesture with explicit state cleanup. Native touch scrolling requires touch-action policy appropriate target, not blanket disable page scrolling. Multi-touch introduction must either hand off to pinch or preserve a single-pointer rule.",
+    "workflow": "Define intents; inspect source capabilities; normalize coordinates/time; implement recognizer lifecycle; map events to intent; handle cancellation/permission; test devices and keyboard.",
+    "mastery": "Dapat membangun cancellable drag recognizer, velocity estimation dan coordinate conversion dengan fixtures.",
+    "advanced": "Coalesced/predicted events; gesture arbitration; touch ergonomics; gaze input; voice commands; sensor fusion; body tracking; multimodal input."
+  },
+  {
+    "id": "D22",
+    "slug": "22-interaction-design-and-direct-manipulation",
+    "title": "Interaction Design and Direct Manipulation",
+    "group": "D — Behavior and Interaction",
+    "purpose": "Menentukan mapping yang terasa jelas dan konsisten antara tindakan pengguna, state, dan visual motion.",
+    "boundary": "Input engineering D21 menyediakan events; D22 menetapkan feedback, mapping, affordances dan task behavior. Kenyamanan/perception membutuhkan D32/D34.",
+    "prereqs": [
+      "D06",
+      "D20",
+      "D21"
+    ],
+    "sources": [
+      "S06",
+      "S44",
+      "S45"
+    ],
+    "topics": [
+      [
+        "Feedback dan affordances",
+        "Press/focus/selection motion menyampaikan status tindakan. Feedback harus cukup cepat dan distinguishable tanpa menghambat task.",
+        "Map idle/hover/pressed/focused/disabled states with semantic equivalents.",
+        "Click acknowledgement hanya lewat subtle motion; keyboard focus missing.",
+        "Task success, latency observations, keyboard and reduced-motion review."
+      ],
+      [
+        "Direct manipulation",
+        "Object follows intent with predictable coordinate mapping. Visual compliance, constraints dan ownership membuat drag feel berbeda.",
+        "target=initialPose+mappedDisplacement; constrain before/after spring according to desired semantics.",
+        "Lag feels disconnected; spring crosses hard boundary.",
+        "Input/output trajectory, constraint adherence and release transitions."
+      ],
+      [
+        "Inertia snapping dan settling",
+        "Release motion dapat mengikuti physical or authored model. Snap target selection is interaction policy, not merely damping.",
+        "Choose target based position/velocity/context; settle from current x,v.",
+        "High-velocity release snaps opposite intent; repeated snapping oscillates.",
+        "Boundary velocities, nearest target ties and interruption."
+      ],
+      [
+        "Scroll-driven dan view-driven behavior",
+        "Scroll progress can drive presentation continuously; trigger events drive timed animations. These are different semantics.",
+        "Compute progress from defined scroll range or use supported timeline; fallback retains content.",
+        "Triggered animation lags scroll expectation; division by zero short page.",
+        "Forward/back scroll, resize, inactive range and capability fallback."
+      ],
+      [
+        "Navigation dan shared elements",
+        "Motion links before/after views while semantic navigation occurs. Layout measurements, image loading and focus changes affect mapping.",
+        "Capture before/after bounds; transition ownership; complete state/focus regardless animation.",
+        "Duplicate element, stale geometry, navigation blocked on failed animation.",
+        "Back/forward, rapid navigation, dynamic content and reduced-motion."
+      ],
+      [
+        "Cursor following dan magnetic mapping",
+        "Cursor-following is spatial response; magnetic targets alter perceived mapping. Strength, bounds and input capability determine usability.",
+        "Displacement function with bounded influence radius, decay and keyboard-independent action.",
+        "Essential target evades pointer; touch device stuck in hover.",
+        "Boundary positions, precision tasks, touch/no-hover and focus."
+      ],
+      [
+        "UX measurement dan adaptation",
+        "Motion quality depends task/audience. Preferences and context may require different trajectories or no spatial animation.",
+        "Define hypothesis and success metrics; compare observed task outcomes.",
+        "Generic premium style claimed universally better.",
+        "Usability sessions, task errors/time, qualitative review and accessibility."
+      ]
+    ],
+    "worked": "Contoh carousel: dragging follows finger directly; release chooses nearest reachable card using position and velocity; settling uses continuous x,v. Arrow key sets same target without needing drag velocity. Reduced-motion switches to immediate/short nonspatial update while keeping selection and focus clear. Test resize mid-drag and interrupt while settling.",
+    "workflow": "Define task/intent; choose feedback mapping; establish constraints; implement direct/control paths; define release/navigation behavior; test full input set; observe users before claiming preference.",
+    "mastery": "Dapat menerangkan motion function per interaction dan menjaga usability di bawah interruption, resize dan reduced motion.",
+    "advanced": "FLIP layout transitions; transition choreography; input-to-photon latency; spatial navigation; touch mechanics; interaction accessibility; adaptive feedback."
+  },
+  {
+    "id": "D23",
+    "slug": "23-synchronization-and-distributed-motion-systems",
+    "title": "Synchronization and Distributed Motion Systems",
+    "group": "D — Behavior and Interaction",
+    "purpose": "Menyelaraskan motion antarstream, perangkat atau users sambil menangani offset, drift, latency, missingness dan authority.",
+    "boundary": "Synchronization tidak hanya start bersamaan. Clock mapping D03, networking semantics, and audio/media rates harus dibedakan dari perceived synchrony D32.",
+    "prereqs": [
+      "D03",
+      "D04",
+      "D20"
+    ],
+    "sources": [
+      "S46",
+      "S47",
+      "S48"
+    ],
+    "topics": [
+      [
+        "Clock offset dan drift",
+        "Shared timestamp units tidak menjamin shared origin/rate. Offset dan drift perlu estimator dan uncertainty.",
+        "t_remote≈a t_local+b; calibrate using timestamp exchanges with network-delay assumptions.",
+        "RTT/2 claimed exact one-way delay; re-sync causes jump.",
+        "Simulated asymmetric delay, drift and discontinuities."
+      ],
+      [
+        "Buffers dan jitter management",
+        "Buffer trades latency for stable presentation. Policy for late/missing data decides behavior.",
+        "Timestamp-ordered queue with target presentation delay, interpolation window and bounded capacity.",
+        "Queue grows forever; samples drawn by arrival order.",
+        "Bursty arrivals, missing packets, out-of-order data and bounded memory."
+      ],
+      [
+        "Prediction dan reconciliation",
+        "Client prediction reduces perceived input delay; authoritative correction may move state. Correction needs continuity and error bounds.",
+        "Replay pending inputs from authoritative snapshot; smooth presentation separately if appropriate.",
+        "Physics state smoothed inconsistent with server; double input application.",
+        "Delay/loss fixture, correction residual and replay determinism."
+      ],
+      [
+        "Deterministic lockstep dan rollback",
+        "Lockstep relies consistent simulation/input order. Rollback stores states and replays late inputs. Float and platform differences can break exact sync.",
+        "Hash snapshots; fixed seeds; deterministic event order; checkpoint ring buffer.",
+        "Seed shared but RNG call order differs; incompatible engine versions.",
+        "Cross-run state hashes, late-input replay and platform comparison."
+      ],
+      [
+        "Audio visual haptic synchronization",
+        "Different streams use own clocks and output latencies. Master clock and correction policy need explicit choice.",
+        "Schedule against chosen master; estimate drift; adjust rate/buffer where supported.",
+        "Render timestamp treated actual presentation time.",
+        "Known markers, instrumented timestamps and device-level observations."
+      ],
+      [
+        "Authority consistency dan conflicts",
+        "Multiple users editing parameters need ownership/version semantics. Last arrival is not necessarily latest intent.",
+        "Sequence numbers, versioned commands, explicit arbitration, snapshot plus deltas.",
+        "Stale packet overrides new goal; feedback loop among peers.",
+        "Reordering, reconnect, duplicate command and authority handoff."
+      ],
+      [
+        "Fault handling dan observability",
+        "Disconnect/reconnect and degraded clocks affect continuity. Log time mappings and state age without overclaiming measurement accuracy.",
+        "Bound extrapolation duration; fallback freeze/degrade; rebuild snapshots on reconnect.",
+        "Infinite extrapolation, teleport on recovered state.",
+        "Long disconnect, stale snapshot, clock reset and measurable recovery."
+      ]
+    ],
+    "worked": "Contoh remote object sends 20Hz snapshots while display runs 60Hz. Maintain timestamp buffer and render slightly behind remote latest time to interpolate two states. When future sample absent, bounded extrapolation may be allowed, then freeze/degrade. Choosing 100ms buffer improves availability at expense latency; value is a design example, not universal optimal threshold. Plot state age and correction magnitude during network impairment.",
+    "workflow": "Choose authority/master clock; define timestamp contract; estimate mapping; design buffer/prediction; bound stale behavior; instrument age/drift; test impairment and reconnect.",
+    "mastery": "Dapat membedakan transport latency, clock error, render delay dan perceptual synchrony; reproduce network fixtures.",
+    "advanced": "PTP/NTP clock discipline; distributed simulation; collaborative XR; networked physics; media synchronization; rollback netcode; causal consistency; consensus boundaries."
+  },
+  {
+    "id": "D24",
+    "slug": "24-2d-graphics-and-rendering",
+    "title": "2D Graphics and Rendering",
+    "group": "E — Graphics and Output",
+    "purpose": "Mengubah state motion menjadi gambar 2D melalui vector/raster paths, text, layers dan compositing.",
+    "boundary": "Rendering path bukan induk motion generation. DOM/SVG/Canvas dipilih berdasarkan content, accessibility, workload dan editing needs; GPU detail D26.",
+    "prereqs": [
+      "D02",
+      "D05",
+      "D19"
+    ],
+    "sources": [
+      "S49",
+      "S50",
+      "S51"
+    ],
+    "topics": [
+      [
+        "Raster vector dan scene organization",
+        "Vector describes geometry; raster stores sampled pixels. Either can be animated. Scene objects need z-order, transform, visibility and ownership.",
+        "Evaluate scene snapshot then render; define coordinate and pixel conventions.",
+        "Rendering mutates simulation; object order changes unexpectedly.",
+        "Known layered scene, deterministic snapshot and visibility tests."
+      ],
+      [
+        "DOM CSS dan layout",
+        "DOM supports semantic content; animated layout can trigger work beyond one element. Transform/opacity often reduce work but actual compositing must be profiled.",
+        "Prefer clear property ownership; separate geometry reads/writes; keep focus semantics.",
+        "Layout thrashing; will-change on everything; offscreen content focusable.",
+        "Performance trace, semantic keyboard flow and dynamic layout."
+      ],
+      [
+        "SVG paths dan vector motion",
+        "Paths, strokes, fills, transforms and clipping offer retained vector control. Path length units and morph correspondence require explicit handling.",
+        "Stroke reveal through length/dash properties; evaluate viewBox and local transforms.",
+        "Paths resampled mismatched; percentage origin misunderstood.",
+        "Endpoint reveal, viewBox scaling, path morph topology."
+      ],
+      [
+        "Canvas rendering",
+        "Immediate-mode renderer redraws content; state and hit-testing remain application responsibilities. CSS size differs backing buffer size.",
+        "Set backing dimensions by target pixel scale, transform coordinates consistently, clear/compose every frame.",
+        "Blurry output, double scaling, missing keyboard equivalents.",
+        "Known pixel geometry across DPRs, resize and hit-test mapping."
+      ],
+      [
+        "Typography dan shaping",
+        "Text motion must preserve shaping, language direction, line breaking and readability. Grapheme clusters differ from Unicode code points.",
+        "Shape/layout before glyph motion or use browser text semantics; animate groups with language-aware boundaries.",
+        "Splitting combining marks/Arabic shaping; line shift during font loading.",
+        "Multiple scripts, fallback fonts, copy/accessibility text and loading states."
+      ],
+      [
+        "Masks clipping filters dan layers",
+        "Effects add intermediate surfaces and bounds. Blur shadow and masks can expand rendering footprint and change compositing.",
+        "Track effect bounds and alpha convention; cache only stable layers.",
+        "Clipped blur, excessive large offscreen buffers.",
+        "Boundary pixels, transparent edges, animated effect extents."
+      ],
+      [
+        "Sprites raster assets dan batching",
+        "Sprites require atlas metadata, sampling rules, frame duration and asset lifecycle. Image sequence timing is not necessarily one frame per display tick.",
+        "Index by animation local time; include padding for filtered atlas sampling.",
+        "Atlas bleeding, skipped durations, decode stalls.",
+        "Frame timing, texture boundaries, loading failure and memory budget."
+      ]
+    ],
+    "worked": "Contoh high-DPI Canvas: CSS viewport 400×300, device scale 2 yields backing 800×600. Apply context scaling once and keep logical geometry/hit testing in CSS pixels. Reset transform appropriately after resize because canvas state resets. Labels essential to task still require semantic DOM representation. Increasing pixel scale improves detail but quadruples pixel workload at scale 2.",
+    "workflow": "Choose rendering path; define scene/value ownership; normalize sizing; render static fixtures; connect evaluator; add effects/text/assets; profile and check semantic alternatives.",
+    "mastery": "Dapat memilih DOM/SVG/Canvas dengan alasan, mengelola high-DPI dan typography, serta menguji animated bounds.",
+    "advanced": "Font shaping; vector tessellation; rasterization; signed distance field text; 2D scene graphs; dirty rectangles; sprite packing; retained/immediate hybrid renderers."
+  },
+  {
+    "id": "D25",
+    "slug": "25-3d-graphics-and-scene-rendering",
+    "title": "3D Graphics and Scene Rendering",
+    "group": "E — Graphics and Output",
+    "purpose": "Membentuk gambar dari scene spatial dengan cameras, visibility, materials, lights dan rendering algorithms.",
+    "boundary": "3D rendering tidak otomatis physical simulation. Animation D19 menghasilkan poses; renderer mengevaluasi image formation dengan approximations yang dipilih.",
+    "prereqs": [
+      "D02",
+      "D24"
+    ],
+    "sources": [
+      "S02",
+      "S52",
+      "S53"
+    ],
+    "topics": [
+      [
+        "Scene graphs dan transforms",
+        "Hierarchical transforms and visibility organize objects. Camera and light objects also have frame conventions. Shared resources differ from shared transform parents.",
+        "Update world transforms in dependency order; distinguish object instance and mesh asset.",
+        "Stale parent transform; cloned object shares mutable material unintentionally.",
+        "Parent-child fixtures and independent instances."
+      ],
+      [
+        "Cameras projection dan depth",
+        "Perspective maps depth nonlinearly; near/far planes affect clipping and precision. FOV/aspect changes geometry perception.",
+        "Define camera frame, projection convention, near/far and depth range.",
+        "Z-fighting, clipping, aspect stale after resize.",
+        "Known geometry projection, resize, near-plane crossing."
+      ],
+      [
+        "Meshes normals dan materials",
+        "Geometry, normals, UVs and material model jointly determine appearance. Tangent spaces and nonuniform transforms need correct handling.",
+        "Validate attribute counts; normalize transformed normals; define PBR assumptions explicitly.",
+        "Flipped winding, tangent mismatch, textures in wrong color space.",
+        "Normal visualization and controlled lighting/material tests."
+      ],
+      [
+        "Lighting shadows dan transport",
+        "Direct lighting, shadows and indirect transport use different algorithms/approximations. Light units and exposure define consistent brightness.",
+        "State light type/intensity, shadow map settings, environment and tone mapping.",
+        "Shadow acne, detached shadows, brightness changes after pipeline mix.",
+        "Fixed scene with intensity/exposure sweeps and shadow geometry."
+      ],
+      [
+        "Rasterization ray tracing dan path tracing",
+        "Rasterization projects primitives; ray methods sample scene intersections/transport. Quality/cost depend samples, paths, denoising and material complexity.",
+        "Choose algorithm by target; inspect variance and bias separately.",
+        "Denoised still looks good but flickers over animation.",
+        "Samples-per-pixel convergence plus temporal sequence review."
+      ],
+      [
+        "Volumes particles dan LOD",
+        "Volumes integrate density over paths; particles approximate effects; LOD changes geometry/shading complexity. Transitions can affect motion continuity.",
+        "Define transparency sorting/blending and LOD selection/hysteresis.",
+        "Popping, transparent ordering artifacts, particle overdraw.",
+        "Camera sweeps, LOD transitions, dense effects and depth boundaries."
+      ],
+      [
+        "Resources and scene lifecycle",
+        "Meshes, materials, textures and render targets own memory. Scene removal must dispose resources according to engine sharing rules.",
+        "Track allocation/ownership; reuse resources; recover device/context loss where supported.",
+        "GPU memory leaks; disposing shared texture still in use.",
+        "Repeated scene swaps, target resize, loading errors and loss recovery."
+      ]
+    ],
+    "worked": "Contoh orbiting camera keeps target fixed while perspective/aspect updated on resize. Compare object-space motion and camera motion independently: identical image displacement does not imply identical world movement. Test near-plane crossing and transparent surfaces while orbiting. For physical plausibility keep lighting/exposure fixed during motion unless the intended camera system changes them.",
+    "workflow": "Define scene/frame conventions; verify camera/static appearance; connect animation; choose lighting/render algorithm; manage resources; profile image/runtime quality across sequence.",
+    "mastery": "Dapat menguji projection/normals/resources, memilih rendering method dan membedakan temporal flicker dari pose error.",
+    "advanced": "Global illumination; spectral rendering; participating media; bidirectional transport; real-time ray tracing; virtual geometry; impostors; physically based camera models."
+  },
+  {
+    "id": "D26",
+    "slug": "26-gpu-programming-and-parallel-graphics-computation",
+    "title": "GPU Programming and Parallel Graphics Computation",
+    "group": "E — Graphics and Output",
+    "purpose": "Mengeksekusi rendering/simulation pada GPU dengan contracts untuk memory, pipelines, parallelism dan precision.",
+    "boundary": "Shader language adalah implementation layer. GPU speed tidak menggantikan model correctness; actual support/limits harus diuji pada target.",
+    "prereqs": [
+      "D05",
+      "D24",
+      "D25"
+    ],
+    "sources": [
+      "S54",
+      "S55",
+      "S56"
+    ],
+    "topics": [
+      [
+        "Pipeline stages",
+        "Vertex, fragment dan compute stages mempunyai inputs/outputs dan execution semantics berbeda. Work submission asynchronous terhadap CPU.",
+        "Declare resource bindings, layouts and render/compute passes; respect stage capabilities.",
+        "CPU timestamp treated GPU completion; shader interface mismatch.",
+        "Minimal known pipeline, validation messages and measured completion where available."
+      ],
+      [
+        "Buffers textures dan layouts",
+        "Alignment, stride, type formats and usage flags determine data interpretation. CPU struct layout must match GPU ABI.",
+        "Use explicit byte offsets/strides and format conversions; bounds based resource dimensions.",
+        "Silent corrupt uniforms; index out-of-range.",
+        "Known patterns through buffers/textures, boundary indices and layout assertions."
+      ],
+      [
+        "Parallel work dan races",
+        "Work items execute concurrently; ordering absent unless guaranteed synchronization. Atomics provide specific operations, not general sequence determinism.",
+        "Separate phases/passes; use barriers only at supported scope; avoid read/write conflict.",
+        "Barrier assumed cross-workgroup; floating reduction nondeterministic.",
+        "Small oracle compare, repeated runs and adversarial scheduling inputs."
+      ],
+      [
+        "Shader math dan precision",
+        "Float precision, derivatives and interpolation affect rendered motion. Branch divergence and numeric singularities need handling.",
+        "Guard divisions/normalization; choose precision by scale; handle discontinuous derivatives.",
+        "NaN propagates texture coordinates; artifacts at large world positions.",
+        "Extreme coordinates, near-zero input, shader debug visualizations."
+      ],
+      [
+        "Compute-driven motion",
+        "GPU can update particles/fields then feed render pipeline. Dataflow and previous/current state ownership determine correctness.",
+        "Ping-pong buffers/textures; dispatch counts rounded with bounds guard.",
+        "Last group writes beyond particle count; update in place conflicts neighbors.",
+        "Counts not multiple group size, deterministic fixtures and CPU reference."
+      ],
+      [
+        "Optimization and measurement",
+        "Batching/instancing reduce submissions; memory bandwidth, occupancy and overdraw can dominate. GPU timings are device-dependent.",
+        "Measure representative passes; reduce transfers; profile bottleneck before changing algorithms.",
+        "Optimizing arithmetic while transfer bound; synchronous readback stalls.",
+        "Target-device traces, batch size sweeps, dense/sparse scenes."
+      ],
+      [
+        "Portability validation dan recovery",
+        "API versions/extensions/limits differ; context/device loss needs fallback. Shader translation does not guarantee behavior equivalent.",
+        "Feature detection, validation layer where supported, graceful fallback, resource rebuild.",
+        "Unsupported format assumed universal; lost device loop retries indefinitely.",
+        "Capability-limited path, resource rebuild, unsupported features."
+      ]
+    ],
+    "worked": "Contoh GPU particles: compute pass reads positions/velocities A and writes B; render reads B; next simulation swaps roles. Every invocation checks index<N. Neighbor interactions must read consistent A, not partly updated B. Benchmark simulation, rendering and uploads separately. A tiny system can be slower GPU-bound due overhead, so keep CPU reference for correctness and small workloads.",
+    "workflow": "Establish capabilities/layouts; implement minimal pipeline; verify oracle; define pass synchronization; add realistic workload; profile; support cleanup/loss/fallback.",
+    "mastery": "Dapat membaca GPU data layout, mencegah race/out-of-bounds, dan memisahkan CPU submission dari GPU completion.",
+    "advanced": "WGSL/GLSL/HLSL; CUDA-like compute; subgroup operations; indirect draws; bindless resources; GPU BVHs; tiled rendering; GPU fluid simulation."
+  },
+  {
+    "id": "D27",
+    "slug": "27-temporal-rendering-and-image-formation",
+    "title": "Temporal Rendering and Image Formation",
+    "group": "E — Graphics and Output",
+    "purpose": "Menyampling perubahan scene selama exposure dan antarframes untuk menghasilkan image sequence yang sesuai motion serta display target.",
+    "boundary": "Ini image formation, bukan trajectory smoothing. Menambahkan motion blur tidak memperbaiki physics salah; TAA tidak membuktikan temporal continuity.",
+    "prereqs": [
+      "D03",
+      "D04",
+      "D25"
+    ],
+    "sources": [
+      "S08",
+      "S57",
+      "S58"
+    ],
+    "topics": [
+      [
+        "Exposure dan shutter interval",
+        "Frame image dapat mengintegrasi scene selama interval exposure. Sample timestamp dan exposure window adalah konsep berbeda.",
+        "Define shutter open/close relative frame; integrate radiance over time with chosen weighting.",
+        "One pose blurred screen-space claimed physically exact.",
+        "Known moving edge and expected exposure displacement."
+      ],
+      [
+        "Motion blur dan temporal samples",
+        "Motion blur dapat berasal multiple time samples atau approximation velocity buffers. Deformation, camera motion dan occlusion complicate reconstruction.",
+        "Evaluate transforms/geometry at subframe samples; or specify motion-vector approximation limits.",
+        "Camera motion omitted; velocity vectors wrong units.",
+        "Translation/rotation/deformation fixtures and occlusion crossings."
+      ],
+      [
+        "Temporal aliasing",
+        "Frame sampling dapat membuat wheels apparently reverse or thin features flicker. Exposure blur and sampling change observations, not underlying motion.",
+        "Compare frequency relative frame cadence; increase samples or bandwidth limit when appropriate.",
+        "Higher image resolution assumed cures temporal aliasing.",
+        "Periodic known motions at multiple rates and exposure settings."
+      ],
+      [
+        "Temporal accumulation dan antialiasing",
+        "TAA combines history with current sample. Reprojection, disocclusion detection and weighting determine ghosting/stability.",
+        "Maintain motion vectors/history; reject invalid history after scene/camera changes.",
+        "Trails, history leaking across object IDs, reset omitted.",
+        "Camera cuts, moving edges, transparent objects and abrupt lighting."
+      ],
+      [
+        "Reprojection dan frame interpolation",
+        "Reprojection predicts viewpoint changes; frame interpolation synthesizes samples. Neither is equivalent actual evaluated scene at target time in all cases.",
+        "Use depth/motion and validity masks; expose unsupported disocclusions.",
+        "Hallucinated surfaces treated actual geometry; latency not counted.",
+        "Newly revealed regions, occlusions, thin structures and timestamp correctness."
+      ],
+      [
+        "Rolling shutter dan acquisition",
+        "Image rows may correspond different times. Captured reference distortions can originate acquisition, not object deformation.",
+        "Row-dependent time model matched camera assumptions.",
+        "Inferring rigid shape from one distorted fast-motion frame.",
+        "Controlled scan/rotation fixture and global-shutter comparison."
+      ],
+      [
+        "Quality cost dan reproducibility",
+        "Sample count, random pattern, denoising and exposure affect time-dependent quality. Seeds and renders need recorded settings.",
+        "Compare variance/bias and temporal consistency at known quality targets.",
+        "Nice single frame used to approve sequence; denoiser flicker unnoticed.",
+        "Sequence playback, representative cuts, convergence and decoded PTS."
+      ]
+    ],
+    "worked": "Contoh object speed 240px/s pada 60fps moves 4px antarframes. Exposure 1/120s gives ideal translation smear 2px; exposure 1/60s gives 4px. Ini conditional ideal calculation, bukan universal camera measurement. Rendering one pose then applying arbitrary blur radius may not match shape/occlusion evolution. Document approximation and compare subframe integration fixture.",
+    "workflow": "Define cadence/exposure; choose temporal rendering method; implement known moving geometry; verify vectors/samples; review disocclusion and cuts; measure runtime/quality; validate encoded sequence.",
+    "mastery": "Dapat menghitung exposure displacement, menjelaskan ghosting dan temporal aliasing, serta membedakan interpolation synthetic dari scene evaluation.",
+    "advanced": "Spatiotemporal reconstruction; motion-compensated filtering; temporal superresolution; adaptive time sampling; rolling-shutter inversion; motion-vector generation; temporal denoising."
+  },
+  {
+    "id": "D28",
+    "slug": "28-compositing-image-processing-and-visual-effects",
+    "title": "Compositing Image Processing and Visual Effects",
+    "group": "E — Graphics and Output",
+    "purpose": "Menggabungkan serta memproses image layers dengan contracts untuk color, alpha, coordinates dan temporal behavior.",
+    "boundary": "Compositing tidak boleh menyembunyikan wrong data assumptions. Color management D40 menentukan delivery; temporal processing D27 menentukan history effects.",
+    "prereqs": [
+      "D04",
+      "D24",
+      "D25"
+    ],
+    "sources": [
+      "S59",
+      "S60",
+      "S61"
+    ],
+    "topics": [
+      [
+        "Alpha dan layer composition",
+        "Straight dan premultiplied alpha menyimpan colors berbeda. Composite order noncommutative; transparent RGB can affect filtering.",
+        "Premultiplied over: C=Ca+Cb(1−αa), α=αa+αb(1−αa); colors already multiplied.",
+        "Dark/light halos from mixing conventions.",
+        "Transparent-edge fixtures and analytically known layer results."
+      ],
+      [
+        "Color spaces dan transfer functions",
+        "Encoded RGB tidak umumnya proportional light. Operations linear-light versus display-encoded memberi results berbeda. Color primaries juga harus diketahui.",
+        "Decode transfer, convert primaries if required, process, encode output; metadata retained.",
+        "sRGB arithmetic labeled physically correct; double gamma conversion.",
+        "Gray ramps, reference patches and controlled blending comparisons."
+      ],
+      [
+        "Masks clipping dan matte quality",
+        "Matte represents coverage/selection; antialias and feather affect edge. Moving matte needs alignment over time.",
+        "Keep matte coordinate/time grid aligned with image; define invert/threshold/feather.",
+        "Edges swim, matte offset, clipping blur beyond bounds.",
+        "Edge movement, thin features, subpixel motion and layer alignment."
+      ],
+      [
+        "Keying rotoscoping dan tracking",
+        "Keying estimates foreground separation; rotoscoping authoring and tracking can assist but errors accumulate.",
+        "Separate track/matte provenance; inspect occlusion and spill suppression.",
+        "Tracking confidence assumed correct matte; temporal jitter.",
+        "Difficult edges, motion blur, occlusions and representative playback."
+      ],
+      [
+        "Filtering warping dan displacement",
+        "Spatial filters and geometric warps change frequency/bounds. Resampling method and edge behavior affect quality.",
+        "Define kernel, sampling coordinates, wrap/clamp and inverse mapping.",
+        "Forward warp holes, repeated resampling blur, aliasing.",
+        "Checkerboards, moving grids and boundary behavior."
+      ],
+      [
+        "Postprocessing glow blur grading",
+        "Effects have radiometric and editorial semantics. Glow/blur consumes bandwidth and can alter contrast/readability.",
+        "Process bright contribution with chosen space/threshold; preserve unclipped intermediate range where needed.",
+        "Clipped highlights, excessive luminance flicker, oversized buffers.",
+        "Dynamic brightness cases, bounds, text legibility and cost."
+      ],
+      [
+        "Temporal compositing dan pipeline order",
+        "Temporal filters, exposure, grading and composite order can affect flicker and alpha correctness. Ordering should be documented and versioned.",
+        "Compare stage outputs; keep timestamps and alpha/color contracts each interface.",
+        "Different preview/export pipeline; footage misaligned by one frame.",
+        "Stage-by-stage regression, known markers and final decode."
+      ]
+    ],
+    "worked": "Contoh red foreground with alpha 0.5 over blue background. In premultiplied representation foreground color is (0.5,0,0), not (1,0,0). Applying premultiplied formula to straight RGB produces too-bright edge. Choose working color space before interpreting numerical result. A static correct edge is insufficient: scale/rotate the layer to exercise filtering during motion.",
+    "workflow": "Inventory image/color/alpha contracts; normalize; compose static oracle; add warps/effects; inspect intermediate stages; playback moving edges; compare preview/export pipeline.",
+    "mastery": "Dapat mendiagnosis alpha halos, color-space errors, bounds clipping dan temporal matte instability.",
+    "advanced": "Deep compositing; optical-flow retiming; HDR compositing; chromatic effects; procedural VFX; volumetric compositing; color transforms; film pipelines."
+  },
+  {
+    "id": "D29",
+    "slug": "29-audio-haptics-and-multisensory-output",
+    "title": "Audio Haptics and Multisensory Output",
+    "group": "E — Graphics and Output",
+    "purpose": "Menghubungkan sound, visual motion dan tactile output melalui measured signals, time contracts dan designed response.",
+    "boundary": "Audio-reactive features tidak otomatis memahami musik; haptic waveform tidak sama across actuators; perceptual effects D32 memerlukan context/human evidence.",
+    "prereqs": [
+      "D03",
+      "D04",
+      "D23"
+    ],
+    "sources": [
+      "S46",
+      "S62",
+      "S63"
+    ],
+    "topics": [
+      [
+        "Audio synthesis dan processing",
+        "Oscillators, envelopes, filters dan mixing membuat audio output. Sample rate and amplitude representation menentukan evaluation.",
+        "Generate/control audio using audio clock; envelope attacks/releases avoid clicks.",
+        "Visual rAF drives sample-level synthesis; clipping.",
+        "Known-frequency waveform, level bounds and discontinuity checks."
+      ],
+      [
+        "Waveform spectrum dan features",
+        "RMS, amplitude peak, spectrum and spectral flux represent different properties. True peak/LUFS need specific algorithms, not RMS relabeling.",
+        "Define window/hop/channel aggregation and calibration.",
+        "Mono cancellation, DC counted energy, mislabeled level metrics.",
+        "Known tones, silence, impulses, stereo phase cases."
+      ],
+      [
+        "Onsets rhythm dan mapping",
+        "Onsets, beats and tempo are distinct estimates. Mapping visual scale to loudness needs smoothing and bounded response.",
+        "Feature→normalized control→motion evaluator; threshold with hysteresis/refractory as appropriate.",
+        "Every peak triggers beat; excessive visual flicker.",
+        "Silence/noise/tempo changes, false triggers and review."
+      ],
+      [
+        "Spatial audio",
+        "Position/orientation and acoustics shape perceived audio location. Listener frame must align visual scene.",
+        "Update sources/listener at controlled rate; choose attenuation/spatialization model.",
+        "Left/right inversion, source position in wrong unit.",
+        "Known source trajectories and listener rotations."
+      ],
+      [
+        "Haptic waveforms dan actuator limits",
+        "Device actuator supports certain frequencies/intensities/time granularity. Software event cannot guarantee identical tactile sensation.",
+        "Map intent to supported envelope/pattern with capability fallback.",
+        "Unsupported haptics essential for task; intensity too rapidly repeated.",
+        "Capability detection, timing logs and device/user observations."
+      ],
+      [
+        "Scheduling synchronization dan latency",
+        "Audio scheduler and presentation clock may differ. Processing timestamp does not measure acoustic or tactile output time.",
+        "Schedule against audio clock, log mapping, estimate output delays where measurable.",
+        "Audio event callback assumed exact speaker onset.",
+        "Known synchronized markers, instrumented device observations."
+      ],
+      [
+        "Multisensory semantics dan adaptation",
+        "Output channels should reinforce task meaning. Redundant alternatives support silent devices and users who cannot use a channel.",
+        "State information in accessible visual/text plus optional sound/haptic cues.",
+        "Notification meaningful only through sound; sensory overload.",
+        "Silent/no-haptic paths, preference controls and context evaluation."
+      ]
+    ],
+    "worked": "Contoh audio-reactive particle radius from window RMS. Remove/inspect DC as appropriate; normalize with declared range and smooth time-aware envelope. radius=base+gain·feature is a mapping choice, not physical relationship. Keep radius bounds so silence remains readable and peaks do not obscure labels. If beat synchronization is needed, RMS alone is insufficient.",
+    "workflow": "Define channel purpose; inspect capability; specify signal metrics; align clocks; build bounded mappings; avoid clicks/overload; test silent/fallback modes and actual device output.",
+    "mastery": "Dapat menghasilkan valid audio features, menjelaskan latency boundaries dan membuat mappings yang tetap berguna tanpa sound/haptics.",
+    "advanced": "DSP synthesis; spatial acoustics; auditory displays; music information retrieval; tactile rendering; force feedback; vibrotactile design; multimodal timing research."
+  },
+  {
+    "id": "D30",
+    "slug": "30-spatial-computing-and-immersive-motion",
+    "title": "Spatial Computing and Immersive Motion",
+    "group": "E — Graphics and Output",
+    "purpose": "Menyatukan tracking, spatial anchors, rendering dan input dalam AR/VR/MR experiences dengan coordinate/time contracts yang konsisten.",
+    "boundary": "XR menambah spatial/display semantics; ia tidak menghapus domains dasar. Comfort perlu target-device dan human evaluation, bukan hanya high fps.",
+    "prereqs": [
+      "D02",
+      "D03",
+      "D21",
+      "D25",
+      "D27"
+    ],
+    "sources": [
+      "S64",
+      "S65",
+      "S66"
+    ],
+    "topics": [
+      [
+        "Reference spaces dan anchors",
+        "Spatial reference dapat local/floor/world-aligned sesuai platform. Anchors may drift/relocalize; tracked space bukan fixed immutable geometry.",
+        "Tag every pose/reference space and timestamp; handle reference reset.",
+        "World content jumps after tracking recovery.",
+        "Reference-space changes, origin resets, anchor loss."
+      ],
+      [
+        "Head hand body gaze tracking",
+        "Tracking provides estimates and confidence/validity. Different modalities require permissions and fallback.",
+        "Use pose at requested/predicted frame time with validity checks.",
+        "Stale hand pose remains interactive; invalid data silently zero.",
+        "Occlusion, tracking loss, capability and reconnect."
+      ],
+      [
+        "Stereo dan immersive rendering",
+        "Per-eye transforms/projection produce spatial perception. Improper scale/interpupillary assumptions distort experience.",
+        "Use platform-provided eye views/projections; correct units and depth.",
+        "Mono image duplicated, world scale mismatch.",
+        "Known-scale scene, per-eye geometry and resizing/runtime checks."
+      ],
+      [
+        "Prediction reprojection dan latency",
+        "Head prediction/reprojection reduce perceived lag but introduce approximation. Full motion-to-photon includes tracking, rendering and display.",
+        "Match predicted presentation pose; keep timestamps and validity.",
+        "CPU frame duration claimed total latency.",
+        "Measured device path where possible, fast head motion, disocclusion."
+      ],
+      [
+        "Locomotion dan interaction spaces",
+        "Teleport, continuous locomotion, grabbing and physical movement have different constraints. User boundary and reach matter.",
+        "Align input intent, spatial affordance and movement mode; preserve orientation context.",
+        "Virtual movement conflicts real movement or reachable space.",
+        "Boundary/reach scenarios, mode switches, reduced-motion options."
+      ],
+      [
+        "Presence embodiment dan comfort",
+        "Presence and comfort are human outcomes. Visual self-motion, acceleration, field of view, conflict and user differences affect response.",
+        "Declare hypotheses/preferences; provide adjustable controls; review representative motion.",
+        "Comfort certification from technical profiler alone.",
+        "Human evaluation plus technical checks, kept separate."
+      ],
+      [
+        "Session lifecycle dan degradation",
+        "XR sessions can pause/end, lose tracking or change available inputs. Normal app content should recover coherently.",
+        "Explicit enter/pause/resume/end state; dispose/rebuild resources and restore focus.",
+        "Orphan loops after session end; content inaccessible outside XR.",
+        "Repeated sessions, loss recovery and non-XR fallback."
+      ]
+    ],
+    "worked": "Contoh AR object anchored table. Store anchor-relative transform rather than camera-relative offset. On tracking invalid, disable precise placement and preserve last meaningful state with clear status. Reacquisition can alter anchor estimate; apply documented presentation policy while preserving spatial truth. A smoothly hidden jump can still misplace content; measure alignment separately.",
+    "workflow": "Inspect target runtime; define spaces/units; implement static anchored scene; add tracked input; profile stereo/latency; handle loss/session lifecycle; conduct comfort/task review.",
+    "mastery": "Dapat mengaudit reference spaces, valid poses, lifecycle dan latency evidence boundaries.",
+    "advanced": "OpenXR/WebXR; SLAM anchors; spatial mapping; hand physics; passthrough composition; foveated rendering; shared XR; embodiment research."
+  },
+  {
+    "id": "D31",
+    "slug": "31-robotics-mechatronics-and-physical-actuation",
+    "title": "Robotics Mechatronics and Physical Actuation",
+    "group": "E — Graphics and Output",
+    "purpose": "Menghubungkan motion models, planning dan control dengan actuators, sensors serta physical operating limits.",
+    "boundary": "Pembahasan repo adalah knowledge dan simulasi. Physical deployment membutuhkan equipment-specific calibration, constraints dan verification; UI animation parameters bukan actuator settings.",
+    "prereqs": [
+      "D07",
+      "D08",
+      "D12",
+      "D13",
+      "D23"
+    ],
+    "sources": [
+      "S03",
+      "S67",
+      "S68"
+    ],
+    "topics": [
+      [
+        "Actuators dan transmissions",
+        "Motors, servos, linear actuators dan pneumatic mechanisms mempunyai torque/speed/thermal limits berbeda. Gearing changes inertia/friction/backlash.",
+        "Model input→actuator response→mechanical output with units and limits.",
+        "Ideal torque model ignores saturation/deadband.",
+        "Datasheet/model comparison and bounded simulation fixtures."
+      ],
+      [
+        "Encoders sensors dan calibration",
+        "Position/velocity/force observations mempunyai quantization, bias dan mounting conventions. Homing sets reference, not universal absolute truth.",
+        "Establish zero/reference, scale/sign, timestamp and valid range.",
+        "Encoder counts interpreted radians without conversion.",
+        "Known positions/directions, stationary noise and disconnect behavior."
+      ],
+      [
+        "Embedded real-time execution",
+        "Control cycles need bounded execution and jitter. General-purpose UI scheduling cannot ensure hard deadlines.",
+        "Separate sensing/control/actuation phases; measure worst-case timing and overruns.",
+        "Average timing presented deadline guarantee.",
+        "Timing traces, load spikes and deadline handling."
+      ],
+      [
+        "Manipulators mobile robots dan drones",
+        "Kinematics/dynamics differ by platform; nonholonomic mobility, flight dynamics and manipulation need appropriate models.",
+        "Use platform state/action constraints; connect planner/controller with consistent frames.",
+        "Holonomic plan given nonholonomic plant.",
+        "Reachability/dynamics feasibility and task-specific simulated cases."
+      ],
+      [
+        "Communication buses dan interfaces",
+        "Commands/data over serial/CAN/network need sequence, rate, integrity and stale-command policy.",
+        "Timestamp commands, enforce bounded validity, acknowledge according protocol.",
+        "Old packets continue actuation after disconnect.",
+        "Reordering, duplicates, delays and connection loss simulation."
+      ],
+      [
+        "Limits fault handling dan safety functions",
+        "Physical bounds, watchdogs and protective functions must not depend solely on presentation animation. Failure response is system-specific engineering.",
+        "Independent limits, state validity checks, stop/fallback contract appropriate equipment.",
+        "Simulation PASS claimed hardware safety; software indicator mistaken enforcement.",
+        "Fault injection, command saturation, sensor failure and independently verified mechanisms."
+      ],
+      [
+        "Kinetic installations dan animatronics",
+        "Artistic movement still has mechanism, audience distance, synchronization and maintenance constraints.",
+        "Separate choreography from low-level limits; schedule feasible trajectories.",
+        "Beautiful path requires impossible actuator acceleration.",
+        "Trajectory feasibility, endurance model, synchronized simulation and inspection plan."
+      ]
+    ],
+    "worked": "Contoh simulated pan-tilt mechanism accepts angles in radians and max velocity. Choreography supplies desired poses; trajectory generator applies limits; controller tracks; simulated actuator saturates. Commands carry sequence/time validity. Test dropped sensor input and delayed command using simulation. Do not infer actual mechanism torque, thermal behavior or stop performance from this example.",
+    "workflow": "Define physical platform/model; establish units/calibration; implement simulation; constrain trajectory; validate controller/interfaces; document hardware-specific checks separately before deployment.",
+    "mastery": "Dapat menerjemahkan motion intent ke feasible trajectory dan menjelaskan limits serta fault contracts tanpa menyamakan simulasi dengan hardware proof.",
+    "advanced": "Robot middleware; real-time OS; motor control; force control; compliant actuation; drone flight control; industrial motion; animatronics; kinetic architecture."
+  },
+  {
+    "id": "D32",
+    "slug": "32-motion-perception-and-human-factors",
+    "title": "Motion Perception and Human Factors",
+    "group": "F — Human Experience",
+    "purpose": "Menjelaskan hubungan antara stimulus bergerak, perception, attention, task dan individual/context differences.",
+    "boundary": "Perceptual outcome tidak dapat disimpulkan hanya dari equations atau screenshot. Pisahkan stimulus properties, scientific findings scoped, heuristic design dan actual human observations.",
+    "prereqs": [
+      "D03",
+      "D04",
+      "D27"
+    ],
+    "sources": [
+      "S69",
+      "S70",
+      "S71"
+    ],
+    "topics": [
+      [
+        "Apparent motion dan sampling perception",
+        "Discrete images dapat menghasilkan perceived continuous motion atau ambiguity. Frame rate, stimulus structure dan exposure sama-sama relevan.",
+        "Define spatial displacement, cadence, contrast and exposure of stimulus before interpretation.",
+        "Universal smoothness threshold based fps alone.",
+        "Controlled stimuli/settings and participant observations; technical cadence separately."
+      ],
+      [
+        "Speed acceleration dan weight impressions",
+        "Perceived speed/weight dipengaruhi trajectory, timing, shape dan context. Physical mass cannot generally recovered dari visual acceleration tanpa force information.",
+        "Track stimulus trajectory and explicitly label inferred impression as subjective/conditional.",
+        "Slow object called objectively heavy; numeric velocity equated perceived speed.",
+        "Controlled parameter comparisons and actual judgments with stated participants."
+      ],
+      [
+        "Biological motion dan expression",
+        "Coordinated joint patterns can convey action/identity/style. Recognition depends stimulus and observer familiarity.",
+        "Compare intact/scrambled point-light patterns when researching biological-motion effects.",
+        "Any joint movement claimed human-like; acting judged from one frame.",
+        "Full sequences, recognizability tasks and demographic/context limits."
+      ],
+      [
+        "Attention salience dan tracking",
+        "Movement can capture attention but competing cues/goals affect outcome. Design plan is not measured gaze.",
+        "Define target regions/time windows; choose behavioral or eye-tracking measurements appropriate task.",
+        "Motion always assumed dominant; invented saliency percentages.",
+        "Task success, gaze if measured, competing cue scenarios."
+      ],
+      [
+        "Temporal rhythm continuity dan causality",
+        "Relative timing and sequencing influence grouping and apparent causal relationships. A universal delay threshold is inappropriate across tasks.",
+        "Specify onset/offset relation, object geometry and stimulus parameters.",
+        "Fixed milliseconds rule without context; coincidence considered causal proof.",
+        "Controlled timing sweep and stated perception task."
+      ],
+      [
+        "Cognitive load dan predictability",
+        "Motion can explain transition or distract from reading/decision. Novelty, density and repeated movement affect demand.",
+        "Form hypothesis tied task; compare comprehension/errors with alternatives.",
+        "More movement claimed more engagement without evidence.",
+        "Task measures, qualitative observations and repeated-use sessions."
+      ],
+      [
+        "Crossmodal perception dan variation",
+        "Sound/visual/haptic timing can alter interpretation; sensitivity differs by individuals/devices/context.",
+        "Measure channel timing and subjective judgments separately, with actual setup.",
+        "Synchrony tolerance assumed universal; device timestamp equated perceived onset.",
+        "Participant/device-specific tests and uncertainty reporting."
+      ]
+    ],
+    "worked": "Contoh dua cards: satu bergerak cepat lalu berhenti tajam, satu bergerak dengan long deceleration. Reviewer mungkin menilai card kedua lebih berat, tetapi trajectory sendiri tidak mengidentifikasi physical mass. Jika ingin evidence, gunakan controlled comparison dan tanyakan specified perceptual task. Catat desain sebagai heuristic sampai hasil pengguna tersedia.",
+    "workflow": "Define stimulus/task; identify applicable research; preserve population/system limits; separate measurement and inference; evaluate alternatives; record observations and uncertainty.",
+    "mastery": "Dapat membedakan mathematical motion, physical explanation dan perceived impression; merancang evaluasi tanpa invented human outcomes.",
+    "advanced": "Psychophysics; ecological perception; eye movements; predictive processing; visual attention; biological motion; temporal cognition; crossmodal integration."
+  },
+  {
+    "id": "D33",
+    "slug": "33-animation-principles-choreography-and-narrative",
+    "title": "Animation Principles Choreography and Narrative",
+    "group": "F — Human Experience",
+    "purpose": "Menyusun motion yang menyampaikan maksud, hierarchy, rhythm dan emotion melalui hubungan action, camera, typography dan editing.",
+    "boundary": "Prinsip animasi adalah desain dan craft; efektivitas spesifik membutuhkan audience/context evaluation. Jangan menjadikan setiap prinsip sebagai efek wajib.",
+    "prereqs": [
+      "D06",
+      "D19",
+      "D32"
+    ],
+    "sources": [
+      "S72",
+      "S73",
+      "S74"
+    ],
+    "topics": [
+      [
+        "Timing spacing dan rhythm",
+        "Timing menentukan kapan events terjadi; spacing menentukan displacement antarposes. Rhythm dapat dibangun melalui repeats, contrasts dan pauses.",
+        "Mark beats and holds; evaluate trajectory spacing against intended emphasis.",
+        "Constant busy movement; changing duration without adjusting readability.",
+        "Playback with task/message review and readable hold durations."
+      ],
+      [
+        "Anticipation follow-through overlapping action",
+        "Preparatory cues and delayed secondary movement can clarify action. Their size/duration depends scale and intent.",
+        "Separate primary action, preparation, settle and secondary response.",
+        "Decorative anticipation delays direct UI feedback.",
+        "Compare action clarity and response timing across contexts."
+      ],
+      [
+        "Arcs squash stretch dan exaggeration",
+        "Stylization communicates qualities while preserving identity/constraints when required. Volume or shape invariants are design choices.",
+        "Define allowed deformation and path shape; choose exaggeration bounded by message.",
+        "Text distortion unreadable; critical task geometry misleading.",
+        "Endpoint identity, legibility, constraints and audience review."
+      ],
+      [
+        "Staging hierarchy dan attention handoff",
+        "Motion should make intended focal point available without unnecessary competition. Spatial grouping and timing coordinate information flow.",
+        "Assign one primary emphasis per beat unless deliberate complexity; label this authored heuristic.",
+        "Many simultaneous highlights; attention claim without measurement.",
+        "Message comprehension and visual review of full sequence."
+      ],
+      [
+        "Transitions continuity dan editing",
+        "Cuts, wipes, morphs and shared elements create relationships between scenes. Continuity can be spatial, temporal, semantic or stylistic.",
+        "Select transition according relationship; preserve orientation and content context.",
+        "Transition obscures task, contradictory direction or jump.",
+        "Before/after understanding, fast navigation and contextual review."
+      ],
+      [
+        "Camera motion dan visual narrative",
+        "Camera angle/path/scale communicates viewpoint. Object and camera motion interactions affect composition and comfort.",
+        "Plan shot framing, target, path, focus and transitions; inspect projected composition.",
+        "Unnecessary orbit, subject cropped during move.",
+        "Full shot path, safe areas, subject visibility and viewing context."
+      ],
+      [
+        "Style systems dan iteration",
+        "Reusable motion tokens create coherence but need context-specific overrides. Style should be concrete parameters and rules, not adjectives alone.",
+        "Define timing ranges, easing families, response rules, hierarchy and exceptions.",
+        "Every element uses same easing regardless function.",
+        "Compare families of states/shots and note purposeful deviations."
+      ]
+    ],
+    "worked": "Contoh motion explainer: establish headline, move supporting diagram, hold for reading, highlight relationship, then transition. Timeline allocates motion and stillness according information load. Do not animate all words continuously merely because tool can. A useful specification names focal point, message, entry/hold/exit, path, timing and review criteria.",
+    "workflow": "Extract message/action; write beats; choose motion function; build timing/spacing plan; prototype full sequence; review clarity/comfort; refine tokens and exceptions.",
+    "mastery": "Dapat memberi reason untuk tiap gerak, membuat choreography plan dan menilai full sequence sesuai tujuan.",
+    "advanced": "Character acting; cinematography; montage; typography choreography; visual rhetoric; dance-inspired composition; procedural choreography; interactive narrative."
+  },
+  {
+    "id": "D34",
+    "slug": "34-accessibility-comfort-and-adaptive-motion",
+    "title": "Accessibility Comfort and Adaptive Motion",
+    "group": "F — Human Experience",
+    "purpose": "Menjaga informasi dan task tetap dapat digunakan ketika motion dikurangi, dihentikan atau diganti, serta ketika device/context berbeda.",
+    "boundary": "Accessibility bukan satu checkbox reduced motion. WCAG checks, user comfort, assistive technology dan contextual usability merupakan evidences berbeda.",
+    "prereqs": [
+      "D20",
+      "D21",
+      "D22",
+      "D32"
+    ],
+    "sources": [
+      "S75",
+      "S76",
+      "S77"
+    ],
+    "topics": [
+      [
+        "Reduced-motion preferences",
+        "System preference provides user intent but no-preference tidak membuktikan comfort. Adapt specific motion functions rather than remove semantic information.",
+        "Detect preference when platform supports; provide user setting where useful; respond changes.",
+        "CSS changed but JS still moves; essential info disappears.",
+        "Initial preference, live changes, all implementation paths."
+      ],
+      [
+        "Pause stop hide dan user control",
+        "Continuing movement can interfere reading/tasks. Applicable requirements depend content and trigger; user controls must work during animation.",
+        "Define controllable moving content, stop behavior, persistence and focus.",
+        "Pause button itself animates inaccessible; restart overwrites preference.",
+        "Keyboard operation and stop state across navigation/remount."
+      ],
+      [
+        "Flashing flicker dan motion sensitivity",
+        "Flashing and large visual self-motion have different concerns. Pixel-level metrics do not fully predict individual comfort.",
+        "Evaluate actual sequence with appropriate standard criteria; avoid inferred medical guarantees.",
+        "Reduced translation considered removes all flicker; still-frame audit.",
+        "Full sequence checks and actual preference/comfort feedback."
+      ],
+      [
+        "Keyboard focus dan assistive technology",
+        "Semantic visibility, focusability and announcement must match interaction state through motion. Visual offscreen isn't automatically inaccessible.",
+        "Manage focus, inert/hidden state as appropriate, avoid duplicates in transitions.",
+        "Hidden exit element remains focusable; changing DOM loses focus.",
+        "Keyboard traversal, screen-reader behavior and interrupted transitions."
+      ],
+      [
+        "Information alternatives",
+        "Motion can encode direction/progress/state. Provide meaningful text/static cues when movement unavailable or imperceptible.",
+        "Map each communicated fact to accessible alternative; maintain task completion.",
+        "Animation-only instructions or invisible status changes.",
+        "No-animation/no-sound paths with task-level verification."
+      ],
+      [
+        "Responsive capability adaptation",
+        "Viewport, input, performance and sensor support affect suitable motion. Adapt cost and layout while preserving user control.",
+        "Feature/capability detection, bounded quality tiers, baseline content.",
+        "Lower-end device removes essential state; media query overgeneralized device identity.",
+        "Small viewport, touch/no-hover, low capability and disconnect."
+      ],
+      [
+        "Evaluation and evidence boundaries",
+        "Automated audit and synthetic fixtures can verify limited technical properties, not full accessibility or comfort for everyone.",
+        "Record criterion, test setup, outcome and open human review.",
+        "Technical PASS promoted universal accessibility certification.",
+        "Manual interaction plus automated checks and representative users."
+      ]
+    ],
+    "worked": "Contoh navigation shared-element move becomes short opacity change or immediate state update under reduced-motion preference. Focus still moves to appropriate heading; loading state remains textually available. Preference change mid-animation cancels/retargets cleanly. Verify CSS, JS, Canvas and shader paths separately, because one media query cannot control all renderers.",
+    "workflow": "Inventory motion functions/information; choose reduced alternatives; implement controls and semantic lifecycle; evaluate applicable criteria; test input/preferences; record human review limits.",
+    "mastery": "Dapat membangun reduced-motion path tanpa kehilangan informasi dan menguji focus/controls selama interruptions.",
+    "advanced": "Assistive technology testing; inclusive interaction; motion sensitivity research; caption/sound alternatives; user personalization; adaptive rendering; accessibility standards interpretation."
+  },
+  {
+    "id": "D35",
+    "slug": "35-runtime-scheduling-and-performance-engineering",
+    "title": "Runtime Scheduling and Performance Engineering",
+    "group": "G — Engineering and Production",
+    "purpose": "Menjalankan motion dengan response dan resource use sesuai target tanpa mengubah model atau task semantics diam-diam.",
+    "boundary": "Performance target harus menyebut device/workload/refresh rate. Average FPS tidak membuktikan deadline, input latency, atau smoothness semua frames.",
+    "prereqs": [
+      "D03",
+      "D05",
+      "D26"
+    ],
+    "sources": [
+      "S07",
+      "S78",
+      "S79"
+    ],
+    "topics": [
+      [
+        "Animation loop dan scheduling",
+        "Rendering clock and simulation clock berbeda. Browser callback timing bukan guaranteed fixed frequency. Work lifecycle menentukan apakah loop perlu aktif.",
+        "Use elapsed timestamps, fixed-step where needed, pause/offscreen policy.",
+        "New loop every interaction; hidden-tab stall integrated unbounded.",
+        "Single loop ownership, pause/resume, irregular frame times."
+      ],
+      [
+        "Frame budgets dan distributions",
+        "Budget 1000/refreshHz ms adalah interval theoretical, bukan seluruh CPU time available. Tail frame times sering menjelaskan jank lebih baik mean FPS.",
+        "Report median/p95/p99/max frame intervals with measurement setup.",
+        "Averaging hides isolated long stalls; CPU/GPU overlapped times summed incorrectly.",
+        "Representative interactions, load spikes, refresh variability."
+      ],
+      [
+        "Layout paint composite",
+        "DOM changes can trigger style/layout/paint/composite work. Effect cost depends geometry and engine, not property name alone.",
+        "Batch reads then writes; profile actual rendering pipeline.",
+        "Repeated layout reads after writes; huge blur layers.",
+        "Trace layout/paint events and compare controlled change."
+      ],
+      [
+        "CPU GPU memory dan transfer",
+        "Bottleneck dapat computation, bandwidth, submission, readback atau synchronization. Resource lifetime affects peaks/leaks.",
+        "Time stages with appropriate CPU/GPU instrumentation and memory accounting.",
+        "Async submission time claimed GPU execution.",
+        "Large/small workload sweeps and repeated resource churn."
+      ],
+      [
+        "Allocation garbage collection dan reuse",
+        "Frequent allocations can introduce pauses; pooling can retain excessive memory. Reuse chosen from measured behavior.",
+        "Preallocate bounded buffers; release ownership; avoid mutation conflicts.",
+        "Unbounded pools; reuse corrupts active data.",
+        "Allocation trace, peak memory, long session stability."
+      ],
+      [
+        "Workers batching caching dan quality tiers",
+        "Parallelism and batching add overhead and data-transfer constraints. Adaptive quality should preserve essential task information.",
+        "Move separable computation; batch updates; expose tier policy with hysteresis.",
+        "Quality oscillates each frame; worker output stale.",
+        "Low capability, transfer cost, tier transitions and stale data."
+      ],
+      [
+        "Profiling experiments dan regression",
+        "Optimize measured bottleneck, keeping correctness baseline. Benchmarks must record versions and environment.",
+        "Profile→hypothesis→controlled change→same workload compare.",
+        "Claimed faster from single run; changed scene invalidates comparison.",
+        "Repeat enough for variability, report distributions and correctness regression."
+      ]
+    ],
+    "worked": "Contoh 120Hz target has nominal 8.33ms presentation interval. A 7ms average CPU task does not guarantee fit: other work, GPU, input processing dan occasional 20ms allocations can miss frames. Measure representative distributions and identify which stage dominates. Reducing particles is a valid quality adaptation only if it preserves intended information and keeps transitions stable.",
+    "workflow": "Define targets/environment; establish correctness baseline; instrument stages; profile representative workloads; optimize bottleneck; test memory/lifecycle; document quality policy.",
+    "mastery": "Dapat melaporkan measured frame distributions, mendiagnosis layout/GPU/GC, dan menjaga behavior setelah optimization.",
+    "advanced": "Real-time scheduling; browser pipelines; heterogeneous compute; performance modeling; energy/thermal constraints; memory allocators; scalable simulation; latency measurement."
+  },
+  {
+    "id": "D36",
+    "slug": "36-motion-software-architecture-and-systems-engineering",
+    "title": "Motion Software Architecture and Systems Engineering",
+    "group": "G — Engineering and Production",
+    "purpose": "Mengorganisasikan motion code dengan contracts, ownership, reproducibility dan integration boundaries yang dapat dipelihara.",
+    "boundary": "Architecture mengikuti kebutuhan nyata; tidak semua prototype membutuhkan ECS/plugin framework. Engineering depth diukur dari correctness dan maintainability, bukan jumlah abstractions.",
+    "prereqs": [
+      "D05",
+      "D19",
+      "D20"
+    ],
+    "sources": [
+      "S80",
+      "S81",
+      "S82"
+    ],
+    "topics": [
+      [
+        "Model behavior rendering separation",
+        "Motion models, interaction goals dan presentation depend berbeda. Separation memungkinkan headless testing and alternate renderers.",
+        "Input→intent/state→model evaluator→scene snapshot→renderer.",
+        "Renderer changes physics state; UI lifecycle owns global solver.",
+        "Headless model fixtures and alternate rendering adapters."
+      ],
+      [
+        "Ownership lifecycle dan resources",
+        "Transform, loop, listeners, buffers dan assets mempunyai owner dan lifetime. Shared ownership requires explicit reference/disposal rules.",
+        "Create/use/dispose contracts; property arbitration; immutable snapshots where practical.",
+        "Multiple writers, memory leak, disposed shared texture.",
+        "Repeated mounts/scenes, dispose idempotence and no post-dispose effects."
+      ],
+      [
+        "Entity component dan scene architecture",
+        "ECS suits many similar entities; scene graph suits hierarchy. Hybrid is possible with clear sync boundaries.",
+        "Choose data layout/query patterns; keep transform hierarchy consistent.",
+        "Premature ECS hides simple behavior; duplicate state systems diverge.",
+        "Scale workload and scene/physics consistency tests."
+      ],
+      [
+        "APIs plugins dan contracts",
+        "Extensions need typed/schema interfaces, units and versioning. Capability discovery determines what adapter really supports.",
+        "Validate inputs, name versions, document effects and errors.",
+        "Accept malformed data; plugin claims all formats.",
+        "Contract fixtures, incompatible versions and unsupported operation."
+      ],
+      [
+        "Deterministic evaluation replay dan snapshots",
+        "Reproducibility requires inputs, seed, clock semantics, versions and model parameters. Stateful simulations need checkpoints.",
+        "Record event log/snapshots; compare outputs under defined equivalence.",
+        "Seed-only reproducibility claim; hidden system clock dependencies.",
+        "Replay histories, checkpoint recovery, platform tolerance checks."
+      ],
+      [
+        "Error recovery dan degradation",
+        "Failures must preserve coherent task state. Visual failure should not silently change source truth.",
+        "Define recoverable errors, bounded retries, fallback renderer/motion, observability.",
+        "Infinite retries or quietly missing important content.",
+        "Resource load failure, device loss, invalid model state."
+      ],
+      [
+        "Integration documentation dan maintenance",
+        "Motion integrates routing, layout, assets, sensors and deployment. Changes need versioned contracts and migration guidance.",
+        "Record dependencies and rationale; update schema/examples together.",
+        "Library upgrade changes timing unnoticed.",
+        "Integration matrix and migration/regression fixtures."
+      ]
+    ],
+    "worked": "Contoh pure spring module advances {x,v} using dt/target/parameters; controller chooses target; renderer draws current x. Headless tests can compare analytic oracle without browser. UI teardown cancels loop/listeners but does not mutate historical simulation fixtures. A shared clock service prevents each component inventing incompatible time origins.",
+    "workflow": "Identify modules/state owners; define contracts; implement minimal path; add adapters; test headless/integration; document lifecycle; version changes and migrations.",
+    "mastery": "Dapat menjaga single ownership, headless correctness, replay dan bounded recovery; memilih architecture sesuai workload.",
+    "advanced": "Data-oriented design; component systems; actor architecture; service boundaries; plugin ABI; observability; deterministic engines; fault-tolerant render systems."
+  },
+  {
+    "id": "D37",
+    "slug": "37-assets-data-models-and-interoperability",
+    "title": "Assets Data Models and Interoperability",
+    "group": "G — Engineering and Production",
+    "purpose": "Membawa motion data antartools/platform tanpa kehilangan units, hierarchy, timing, interpretation atau provenance.",
+    "boundary": "Format support bukan jaminan fidelity. Importer/exporter perlu subset contracts dan round-trip checks; licenses/provenance tidak boleh ditebak.",
+    "prereqs": [
+      "D02",
+      "D03",
+      "D17",
+      "D19"
+    ],
+    "sources": [
+      "S36",
+      "S83",
+      "S84"
+    ],
+    "topics": [
+      [
+        "Asset identity dan provenance",
+        "Filename bukan immutable identity. Content hash, source, version dan license/usage record mendukung traceability.",
+        "Manifest records ID/path/hash/type/origin/version and actual license metadata.",
+        "Renamed asset mistaken new source; rights assumed from downloadable file.",
+        "Hash/file existence and provenance fields with unknowns explicit."
+      ],
+      [
+        "Coordinate units dan schemas",
+        "Asset format may define axes/units/rotation order berbeda. Conversion also impacts animation curves, normals and root motion.",
+        "Single normalized internal schema with reversible conversion metadata.",
+        "Only static mesh converted while clips remain old frame.",
+        "Known static and animated reference geometry round-trip."
+      ],
+      [
+        "Geometry rigs clips dan media",
+        "Geometry, skeleton, animation and audio have linked dependencies. Missing material/font/rig can change interpretation.",
+        "Validate referenced assets and compatibility before runtime.",
+        "Clip applied wrong skeleton; font replacement changes choreography.",
+        "Dependency closure, joint map and asset-loaded preview."
+      ],
+      [
+        "Formats import export dan feature subsets",
+        "Interchange formats support subsets different from authoring tools. Constraints/drivers may need bake; metadata may be dropped.",
+        "Document supported fields and unsupported features; bake at defined cadence.",
+        "Native rig controls assumed exported; successful file parse claimed full fidelity.",
+        "Known-feature fixture, bake comparison, unsupported-feature report."
+      ],
+      [
+        "Compression quantization dan streaming",
+        "Compression trade-off depends position/rotation/contact errors. Streaming introduces availability and scheduling constraints.",
+        "Choose per-channel quantization; progressive loading with explicit readiness state.",
+        "Root error accumulates, contact slip, stalls at chunk boundary.",
+        "Max interval errors, chunk transitions, loss/reconnect."
+      ],
+      [
+        "Versioning compatibility migration",
+        "Schema changes can reinterpret old data. Explicit versions and converters preserve history.",
+        "Read version, validate, migrate deterministically, record original.",
+        "Silent reinterpretation, missing default changes trajectory.",
+        "Old/new fixtures and round-trip migration expectations."
+      ],
+      [
+        "Lifecycle integrity dan inventory",
+        "Inventory validates actual bytes and metadata, not aesthetic suitability. Caches derived from source should be rebuildable.",
+        "Hash raw assets; validate formats; track derived outputs separately.",
+        "Metadata-only check claimed rendered content correct.",
+        "Corrupt/missing files, dependency mismatch, decode/render subset checks."
+      ]
+    ],
+    "worked": "Contoh import animation in centimeters with y-up into meters z-up. Apply scale/frame conversion consistently to mesh, skeleton translations, root trajectory and normals; rotations require basis conversion. Export, reimport and compare end-effector trajectories, not only static dimensions. If exporter omits constraints, bake evaluated transforms with documented sampling error.",
+    "workflow": "Inventory source/provenance; inspect formats; normalize schemas/units; validate dependencies; import/render fixtures; export round-trip; record compression/migration limits.",
+    "mastery": "Dapat membuktikan animated round-trip fidelity dan mendeteksi asset/reference mismatch tanpa mengklaim unsupported format features.",
+    "advanced": "glTF/USD/FBX workflows; animation codecs; skeletal interchange; media metadata; font assets; content-addressed storage; schema evolution; streaming assets."
+  },
+  {
+    "id": "D38",
+    "slug": "38-authoring-tools-and-production-pipelines",
+    "title": "Authoring Tools and Production Pipelines",
+    "group": "G — Engineering and Production",
+    "purpose": "Membuat proses authoring, preview, baking, simulation dan rendering dapat diulang serta ditinjau dengan cepat.",
+    "boundary": "Authoring interfaces mengubah data; runtime evaluator menentukan semantics. Pipeline otomatis perlu inspectable outputs dan failure propagation.",
+    "prereqs": [
+      "D19",
+      "D36",
+      "D37"
+    ],
+    "sources": [
+      "S34",
+      "S61",
+      "S85"
+    ],
+    "topics": [
+      [
+        "Timeline curve dan node editors",
+        "Editors expose parameters and relationships. UI representation must match actual evaluation/interpolation.",
+        "Separate authoring data, UI state and evaluated state; preserve units/time.",
+        "Curve preview differs render; editor edits hidden duplicate state.",
+        "Edit/evaluate round-trip, undo/redo, segment boundaries."
+      ],
+      [
+        "Scripting automation dan batch authoring",
+        "Scripts can generate scenes/clips/assets repeatably. Inputs/config versions must recorded.",
+        "Parameterized idempotent generation with explicit output ownership.",
+        "Overwriting source assets, nondeterministic batch order.",
+        "Same-input reproducibility and dry/small fixtures."
+      ],
+      [
+        "Presets parameters dan reusable systems",
+        "Presets encode chosen defaults and valid ranges. Meaningful controls avoid exposing internals users cannot interpret.",
+        "Parameter schema, units, bounds, compatibility and exceptions.",
+        "Magic names conceal physics; invalid combinations crash.",
+        "Extremes, cross-parameter constraints and predictable edits."
+      ],
+      [
+        "Simulation cache dan baking",
+        "Bake turns stateful/complex evaluation into samples. Quality depends cadence/interpolation and which properties captured.",
+        "Record model/version/seed/time grid; preserve source setup separately.",
+        "Cache stale after parameter edit; no subframes for blur.",
+        "Hash invalidation, trajectory error versus live evaluation."
+      ],
+      [
+        "Preview iteration dan review",
+        "Cheap previews improve iteration but must disclose quality differences. Review notes need time/shot references.",
+        "Same semantics with lower-quality render where feasible; scoped review checklist.",
+        "Preview PASS taken final export PASS despite different pipeline.",
+        "Representative frames plus playback, final-specific checks."
+      ],
+      [
+        "Build render queues dan farms",
+        "Distributed production needs task IDs, retries and deterministic input bundles. Job completed is different from output verified.",
+        "Content-addressed inputs; bounded retries; verify outputs before publish.",
+        "Partial frames accepted; worker version mismatch.",
+        "Missing/corrupt outputs, retry idempotence and version audit."
+      ],
+      [
+        "Collaboration handoff dan provenance",
+        "Changes, approvals and creative rationale need durable records. Handoff includes state, artifacts, unresolved gaps and reproduction.",
+        "Version assets/config; retain review decisions with scope and dates.",
+        "Inherited status promoted current verification.",
+        "Reproduce from handoff, detect changed inputs, preserve open issues."
+      ]
+    ],
+    "worked": "Contoh procedural intro generator accepts text/theme/duration/fps. Generated timeline and renders have input hash and version. Preview uses lower resolution but identical timestamps. Final render verifies dimensions/count/PTS and separately reviews layout; preview approval alone is insufficient when font fallback or crop can differ at final settings.",
+    "workflow": "Define input/output contracts; build parameterized authoring; generate preview; record review; bake/cache with fingerprints; render; validate; handoff reproducible bundle.",
+    "mastery": "Dapat membuat repeatable authoring pipeline, cache invalidation dan reviewable outputs without conflating job success with quality.",
+    "advanced": "Editor ergonomics; node graph tooling; render farms; pipeline orchestration; asset builds; collaborative editing; content versioning; reproducible media production."
+  },
+  {
+    "id": "D39",
+    "slug": "39-motion-testing-measurement-and-quality-engineering",
+    "title": "Motion Testing Measurement and Quality Engineering",
+    "group": "H — Verification and Delivery",
+    "purpose": "Menentukan apa yang benar-benar dibuktikan oleh numerical, structural, visual, temporal, performance dan human checks.",
+    "boundary": "Tidak ada satu test yang membuktikan semua motion quality. Verifier dipilih per property dan hasilnya menyatakan scope/environment.",
+    "prereqs": [
+      "D03",
+      "D10",
+      "D34",
+      "D35"
+    ],
+    "sources": [
+      "S86",
+      "S87",
+      "S88"
+    ],
+    "topics": [
+      [
+        "Unit property dan model tests",
+        "Pure math/models dapat diuji dengan analytic oracle dan invariants. Tests harus mendeteksi meaningful error, bukan menyalin implementation.",
+        "Endpoint/invariant/property checks plus independent formula or solver.",
+        "Same bug in test and code; broad tolerances hide failures.",
+        "Mutation sanity checks and adversarial boundaries."
+      ],
+      [
+        "Numerical validation dan convergence",
+        "Error trajectory, residual dan conservation trends quantify solver properties. Physical validation membutuhkan external observations/model assumptions.",
+        "Compare refinement and independent reference; distinguish sources of error.",
+        "One timestep agreement claimed universal accuracy.",
+        "Whole trajectory, stiffness, discontinuity and conditioning cases."
+      ],
+      [
+        "Temporal visual dan interaction regression",
+        "Motion changes between frames, not just frames. Timing, path, lifecycle and input response need sequence tests.",
+        "Sample known times plus replay interactions; compare timestamps and semantic states.",
+        "Golden screenshot misses jump at unsampled time.",
+        "Continuous/denser checks around events and playback review."
+      ],
+      [
+        "Determinism compatibility dan replay",
+        "Repeated evaluation requires specified environment/versions/equivalence. Bit equality dan perceptual equivalence different guarantees.",
+        "Save seed/events/config; compare outputs with scoped tolerance/hash.",
+        "Platform differences ignored; uncontrolled clocks.",
+        "Repeated histories and actual target-platform matrix."
+      ],
+      [
+        "Performance memory dan stress",
+        "Quality under load includes latency, tail frames, memory and recovery. Stress fixture must have expected bounds, not just run long.",
+        "Record workload/environment/distributions/peak memory and lifecycle counts.",
+        "Only mean FPS; test machine mistaken all devices.",
+        "Dense scenes, mount loops, stalls, resource failure."
+      ],
+      [
+        "Accessibility usability dan perception",
+        "Automated checks cover subsets; human task/perception outcomes require participants and protocol.",
+        "Separate technical criterion results, manual review and human studies.",
+        "AI review called user testing; reduced motion called full conformance.",
+        "Keyboard/preferences, assistive tools, representative participants."
+      ],
+      [
+        "Instrumentation reporting dan uncertainty",
+        "Test reports capture inputs, methods, timestamps, result and limitations. Unknown remains unknown.",
+        "PASS tied property/environment; FAIL reproducer; NOT_RUN reason; measured versus inferred fields.",
+        "Entire repo marked verified from link checks.",
+        "Report completeness, provenance, and ability to reproduce failure."
+      ]
+    ],
+    "worked": "Contoh spring regression uses analytic critical-damping solution and tests timestep refinement. Browser drag test checks event cancellation/final state; screenshot test checks crop; profiler checks frame timing. These are four different results. Bundle them without claiming analytic spring test proves UX comfort or screenshot proves interruption correctness.",
+    "workflow": "List required properties; choose independent verifiers; build fixtures; execute scoped tests; inspect visual/temporal outcomes; fix defects; write evidence and open gaps.",
+    "mastery": "Dapat merancang tests yang membedakan numerical correctness, rendered content, runtime behavior dan human outcomes.",
+    "advanced": "Metamorphic testing; property-based generators; perceptual metrics; hardware-in-loop; system identification validation; benchmark design; uncertainty quantification; reproducibility audits."
+  },
+  {
+    "id": "D40",
+    "slug": "40-media-delivery-encoding-and-deployment",
+    "title": "Media Delivery Encoding and Deployment",
+    "group": "H — Verification and Delivery",
+    "purpose": "Menyampaikan motion sebagai media atau application yang benar cadence, format, metadata, behavior dan runtime target-nya.",
+    "boundary": "Encoding success belum membuktikan decoded sequence benar. Deployment tidak sama publishing authorization; repository ini menyediakan knowledge dan examples, bukan layanan live.",
+    "prereqs": [
+      "D03",
+      "D28",
+      "D29",
+      "D37",
+      "D39"
+    ],
+    "sources": [
+      "S61",
+      "S89",
+      "S90"
+    ],
+    "topics": [
+      [
+        "Frame sequences dan timestamp contracts",
+        "Input sequence filenames/indices, timestamps dan frame rate determine output timing. Audio sample count uses its own clock.",
+        "Define rational cadence, first PTS, frame count, nominal duration and gaps.",
+        "Missing frame silently held; 29.97 rounded incorrectly.",
+        "Expected frame list and decoded timestamp/count checks."
+      ],
+      [
+        "Codecs containers dan pixel formats",
+        "Codec encodes streams; container packages them. Chroma subsampling, bit depth, alpha and compatibility affect visuals.",
+        "Choose codec/pixel format according target; test actual playback support.",
+        "Alpha lost, odd dimensions unsupported, banding.",
+        "Decode output, inspect metadata and known color/alpha fixtures."
+      ],
+      [
+        "Audio video muxing dan sync",
+        "Stream timebases, encoder delay and trim offsets affect synchronization. Equal durations alone do not prove aligned events.",
+        "Preserve timestamps; define trim/pad policy; validate markers and drift.",
+        "Audio offset at start; resample rate metadata mismatch.",
+        "Beginning/middle/end markers and decoded stream lengths."
+      ],
+      [
+        "Resolution aspect color HDR metadata",
+        "Display aspect, sample aspect, primaries, transfer and range must match pipeline. Metadata tags do not turn SDR pixels into HDR.",
+        "Set source conversion and destination metadata consistently.",
+        "Stretched video, washed blacks, wrong transfer.",
+        "Native resolution/frame inspection and managed target playback."
+      ],
+      [
+        "Compression quality size dan streaming",
+        "Bitrate/quality trade-off depends motion/detail. Streaming segments add buffering and boundary constraints.",
+        "Evaluate target codec/settings across representative sequence and delivery bandwidth.",
+        "Static frame chosen bitrate; adaptive switch changes color/cadence.",
+        "Fast motion/detail, segment transitions, bandwidth impairment."
+      ],
+      [
+        "Application packaging deployment dan capabilities",
+        "Motion app must initialize assets, detect features, recover failure and support semantic baseline. Bundles/dependencies affect start latency.",
+        "Build reproducibly; version assets; inspect target capability fallback.",
+        "Works dev only; unavailable WebGPU hides all content.",
+        "Production bundle, offline/missing asset paths, target browser/device."
+      ],
+      [
+        "Final verification handoff dan maintenance",
+        "Release output must be compared expected contract and actual decoded/playback behavior. Retain inputs/scripts/versions for reproduction.",
+        "Decode full stream where relevant; verify PTS/count/dimensions; review sequence and log limitations.",
+        "File exists marked delivered; render job success replaces review.",
+        "Automated properties plus actual playback/manual review, distinguished."
+      ]
+    ],
+    "worked": "Contoh 120-frame sequence at 60fps has nominal coverage 2s. Encode into chosen container, then decode and count frames; inspect PTS rather than trusting filename/encoder log. If audio first cue at 0.5s, verify decoded marker alignment at start and end. Keep original frames/config if compressed export shows artifacts; output quality can be revised without rebuilding model.",
+    "workflow": "Define delivery contract; choose codec/package; generate outputs; decode/validate properties; playback target; inspect sync/color; preserve reproduction/version; release with scoped evidence.",
+    "mastery": "Dapat menghasilkan media dengan explicit timestamps, menjaga color/alpha/sync dan memverifikasi output melalui decode.",
+    "advanced": "Adaptive streaming; media containers; video codecs; audio coding; HDR delivery; alpha codecs; app bundles; deployment compatibility; archival masters."
+  }
+]
