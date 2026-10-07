@@ -1,0 +1,812 @@
+[
+  {
+    "id": "S01",
+    "title": "MIT OpenCourseWare Mathematics",
+    "url": "https://ocw.mit.edu/search/?d=Mathematics",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S02",
+    "title": "Physically Based Rendering fourth edition",
+    "url": "https://www.pbr-book.org/4ed/contents",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "SCOPED_INSPECTION",
+    "inspection_scope": "table of contents; current learning map, not all chapters",
+    "checked_date": "2026-10-08"
+  },
+  {
+    "id": "S03",
+    "title": "Modern Robotics book and course",
+    "url": "https://modernrobotics.northwestern.edu/chapters/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S04",
+    "title": "CGAL official manual",
+    "url": "https://doc.cgal.org/latest/Manual/packages.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S05",
+    "title": "W3C Web Animations timing and animation model",
+    "url": "https://www.w3.org/TR/web-animations-1/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "SCOPED_INSPECTION",
+    "inspection_scope": "timing/animation model headings; Working Draft status",
+    "checked_date": "2026-10-08"
+  },
+  {
+    "id": "S06",
+    "title": "W3C Scroll-driven Animations draft",
+    "url": "https://www.w3.org/TR/scroll-animations-1/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "SCOPED_INSPECTION",
+    "inspection_scope": "scroll timeline concept and draft status",
+    "checked_date": "2026-10-08"
+  },
+  {
+    "id": "S07",
+    "title": "Glenn Fiedler Fix Your Timestep",
+    "url": "https://gafferongames.com/post/fix_your_timestep/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "SCOPED_INSPECTION",
+    "inspection_scope": "fixed-step discussion, bounded scope",
+    "checked_date": "2026-10-08"
+  },
+  {
+    "id": "S08",
+    "title": "PBRT Sampling Theory",
+    "url": "https://www.pbr-book.org/4ed/Sampling_and_Reconstruction/Sampling_Theory",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "SCOPED_INSPECTION",
+    "inspection_scope": "sampling theory introduction; aliasing example",
+    "checked_date": "2026-10-08"
+  },
+  {
+    "id": "S09",
+    "title": "SciPy signal processing official reference",
+    "url": "https://docs.scipy.org/doc/scipy/reference/signal.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S10",
+    "title": "Python floating-point tutorial",
+    "url": "https://docs.python.org/3/tutorial/floatingpoint.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S11",
+    "title": "NVIDIA CUDA programming guide",
+    "url": "https://docs.nvidia.com/cuda/cuda-c-programming-guide/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S12",
+    "title": "W3C CSS Easing Functions",
+    "url": "https://www.w3.org/TR/css-easing-1/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S13",
+    "title": "Blender interpolation and curves manual",
+    "url": "https://docs.blender.org/manual/en/latest/editors/graph_editor/index.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S14",
+    "title": "Modern Robotics trajectory generation",
+    "url": "https://modernrobotics.northwestern.edu/chapters/chapter9/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S15",
+    "title": "MuJoCo computation documentation",
+    "url": "https://mujoco.readthedocs.io/en/stable/computation/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S16",
+    "title": "NVIDIA PhysX documentation",
+    "url": "https://nvidia-omniverse.github.io/PhysX/physx/5.4.1/docs/Index.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S17",
+    "title": "Position Based Dynamics project and publications",
+    "url": "https://www.interactive-graphics.de/index.php/research/89-position-based-dynamics.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S18",
+    "title": "SciPy solve_ivp reference",
+    "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S19",
+    "title": "SUNDIALS numerical solver documentation",
+    "url": "https://sundials.readthedocs.io/en/latest/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S20",
+    "title": "Stanford Convex Optimization author resources",
+    "url": "https://web.stanford.edu/~boyd/cvxbook/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S21",
+    "title": "SciPy optimize official reference",
+    "url": "https://docs.scipy.org/doc/scipy/reference/optimize.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S22",
+    "title": "Modern Robotics control",
+    "url": "https://modernrobotics.northwestern.edu/chapters/chapter11/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "SCOPED_INSPECTION",
+    "inspection_scope": "control chapter index",
+    "checked_date": "2026-10-08"
+  },
+  {
+    "id": "S23",
+    "title": "Feedback Systems authors textbook",
+    "url": "https://fbsbook.org/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S24",
+    "title": "Modern Robotics motion planning",
+    "url": "https://modernrobotics.northwestern.edu/chapters/chapter10/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "SCOPED_INSPECTION",
+    "inspection_scope": "planning chapter index",
+    "checked_date": "2026-10-08"
+  },
+  {
+    "id": "S25",
+    "title": "Craig Reynolds flocking research",
+    "url": "https://www.red3d.com/cwr/boids/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S26",
+    "title": "The Book of Shaders authors",
+    "url": "https://thebookofshaders.com/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S27",
+    "title": "The Algorithmic Beauty of Plants author publication",
+    "url": "https://algorithmicbotany.org/papers/#abop",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S28",
+    "title": "Human Motion Diffusion Model original paper",
+    "url": "https://arxiv.org/abs/2209.14916",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "SCOPED_INSPECTION",
+    "inspection_scope": "paper abstract; no reproduction of experiments",
+    "checked_date": "2026-10-08"
+  },
+  {
+    "id": "S29",
+    "title": "CMU Graphics computer animation courses",
+    "url": "https://graphics.cs.cmu.edu/courses/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "SCOPED_INSPECTION",
+    "inspection_scope": "course listing from prior retrieval",
+    "checked_date": "2026-10-08"
+  },
+  {
+    "id": "S30",
+    "title": "DeepMimic original project",
+    "url": "https://xbpeng.github.io/projects/DeepMimic/index.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S31",
+    "title": "CMU Motion Capture Database",
+    "url": "https://mocap.cs.cmu.edu/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S32",
+    "title": "OpenCV calibration official tutorial",
+    "url": "https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S33",
+    "title": "OpenCV optical flow official reference",
+    "url": "https://docs.opencv.org/4.x/dc/d6b/group__video__track.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S34",
+    "title": "Blender Animation and Rigging manual",
+    "url": "https://docs.blender.org/manual/en/latest/animation/index.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "RETRIEVAL_FAILED",
+    "inspection_scope": "retrieval error for latest and versioned manual URL",
+    "checked_date": "2026-10-08"
+  },
+  {
+    "id": "S35",
+    "title": "Blender Armature modifier manual",
+    "url": "https://docs.blender.org/manual/en/latest/modeling/modifiers/deform/armature.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S36",
+    "title": "Khronos glTF specification",
+    "url": "https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S37",
+    "title": "CMU Physically Based Character Animation course",
+    "url": "https://graphics.cs.cmu.edu/nsp/course/15-869/index.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "SCOPED_INSPECTION",
+    "inspection_scope": "course scope from prior retrieval",
+    "checked_date": "2026-10-08"
+  },
+  {
+    "id": "S38",
+    "title": "OpenSim official documentation",
+    "url": "https://opensimconfluence.atlassian.net/wiki/spaces/OpenSim/overview",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S39",
+    "title": "W3C State Chart XML specification",
+    "url": "https://www.w3.org/TR/scxml/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S40",
+    "title": "XState official documentation",
+    "url": "https://stately.ai/docs",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S41",
+    "title": "W3C Pointer Events",
+    "url": "https://www.w3.org/TR/pointerevents3/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "SCOPED_INSPECTION",
+    "inspection_scope": "pointercancel section",
+    "checked_date": "2026-10-08"
+  },
+  {
+    "id": "S42",
+    "title": "W3C UI Events",
+    "url": "https://www.w3.org/TR/uievents/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S43",
+    "title": "W3C Generic Sensor",
+    "url": "https://www.w3.org/TR/generic-sensor/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S44",
+    "title": "Apple Human Interface Guidelines motion",
+    "url": "https://developer.apple.com/design/human-interface-guidelines/motion",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S45",
+    "title": "Material Design motion guidelines",
+    "url": "https://m3.material.io/styles/motion/overview",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S46",
+    "title": "W3C Web Audio",
+    "url": "https://www.w3.org/TR/webaudio/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "SCOPED_INSPECTION",
+    "inspection_scope": "AnalyserNode section listing",
+    "checked_date": "2026-10-08"
+  },
+  {
+    "id": "S47",
+    "title": "IETF Network Time Protocol RFC 5905",
+    "url": "https://www.rfc-editor.org/rfc/rfc5905",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S48",
+    "title": "Valve networking primary developer documentation",
+    "url": "https://developer.valvesoftware.com/wiki/Source_Multiplayer_Networking",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S49",
+    "title": "WHATWG Canvas specification",
+    "url": "https://html.spec.whatwg.org/multipage/canvas.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S50",
+    "title": "W3C SVG specification",
+    "url": "https://www.w3.org/TR/SVG2/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S51",
+    "title": "W3C CSS Transforms",
+    "url": "https://www.w3.org/TR/css-transforms-1/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S52",
+    "title": "Three.js official manual",
+    "url": "https://threejs.org/manual/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S53",
+    "title": "Blender rendering manual",
+    "url": "https://docs.blender.org/manual/en/latest/render/index.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S54",
+    "title": "WebGPU editor draft",
+    "url": "https://gpuweb.github.io/gpuweb/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "RETRIEVAL_FAILED",
+    "inspection_scope": "retrieval error for editor draft and TR URL",
+    "checked_date": "2026-10-08"
+  },
+  {
+    "id": "S55",
+    "title": "WebGPU Shading Language",
+    "url": "https://www.w3.org/TR/WGSL/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S56",
+    "title": "Khronos WebGL specification",
+    "url": "https://registry.khronos.org/webgl/specs/latest/2.0/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S57",
+    "title": "PBRT Camera Interface temporal sampling",
+    "url": "https://www.pbr-book.org/4ed/Cameras_and_Film/Camera_Interface",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "SCOPED_INSPECTION",
+    "inspection_scope": "camera temporal sampling passage from prior retrieval",
+    "checked_date": "2026-10-08"
+  },
+  {
+    "id": "S58",
+    "title": "Blender motion blur manual",
+    "url": "https://docs.blender.org/manual/en/latest/render/cycles/render_settings/motion_blur.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S59",
+    "title": "W3C Compositing and Blending",
+    "url": "https://www.w3.org/TR/compositing-1/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S60",
+    "title": "W3C CSS Color",
+    "url": "https://www.w3.org/TR/css-color-4/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S61",
+    "title": "FFmpeg official documentation",
+    "url": "https://ffmpeg.org/ffmpeg.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "SCOPED_INSPECTION",
+    "inspection_scope": "ffmpeg CLI documentation index",
+    "checked_date": "2026-10-08"
+  },
+  {
+    "id": "S62",
+    "title": "W3C Vibration API",
+    "url": "https://www.w3.org/TR/vibration/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S63",
+    "title": "MIT Media Lab tangible and haptic research",
+    "url": "https://www.media.mit.edu/groups/tangible-media/overview/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S64",
+    "title": "W3C WebXR Device API",
+    "url": "https://www.w3.org/TR/webxr/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S65",
+    "title": "Khronos OpenXR official registry",
+    "url": "https://registry.khronos.org/OpenXR/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S66",
+    "title": "OpenXR specification",
+    "url": "https://registry.khronos.org/OpenXR/specs/1.1/html/xrspec.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S67",
+    "title": "ROS 2 official documentation",
+    "url": "https://docs.ros.org/en/rolling/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S68",
+    "title": "FreeRTOS official documentation",
+    "url": "https://www.freertos.org/Documentation/00-Overview",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S69",
+    "title": "CMU Graphics perception and animation research",
+    "url": "https://graphics.cs.cmu.edu/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S70",
+    "title": "Journal of Vision original research portal",
+    "url": "https://jov.arvojournals.org/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S71",
+    "title": "CMU Augmenting Hand Animation original project",
+    "url": "https://graphics.cs.cmu.edu/projects/augmenting2d3d/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "SCOPED_INSPECTION",
+    "inspection_scope": "project abstract from prior retrieval",
+    "checked_date": "2026-10-08"
+  },
+  {
+    "id": "S72",
+    "title": "Pixar in a Box author course",
+    "url": "https://www.khanacademy.org/computing/pixar",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S73",
+    "title": "Disney Animation research publications",
+    "url": "https://www.disneyanimation.com/publications/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S74",
+    "title": "Blender cinematography and animation tools",
+    "url": "https://docs.blender.org/manual/en/latest/animation/index.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S75",
+    "title": "W3C WCAG 2.2",
+    "url": "https://www.w3.org/TR/WCAG22/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "SCOPED_INSPECTION",
+    "inspection_scope": "SC 2.3.3 text and AAA level",
+    "checked_date": "2026-10-08"
+  },
+  {
+    "id": "S76",
+    "title": "W3C Understanding Animation from Interactions",
+    "url": "https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S77",
+    "title": "W3C Media Queries reduced motion",
+    "url": "https://www.w3.org/TR/mediaqueries-5/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S78",
+    "title": "Chrome DevTools performance official documentation",
+    "url": "https://developer.chrome.com/docs/devtools/performance",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S79",
+    "title": "WHATWG animation frames",
+    "url": "https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#animation-frames",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S80",
+    "title": "Unity entity component system documentation",
+    "url": "https://docs.unity3d.com/Packages/com.unity.entities@1.0/manual/index.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S81",
+    "title": "Godot engine official documentation",
+    "url": "https://docs.godotengine.org/en/stable/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S82",
+    "title": "Unreal Engine official documentation",
+    "url": "https://dev.epicgames.com/documentation/en-us/unreal-engine",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S83",
+    "title": "OpenUSD official documentation",
+    "url": "https://openusd.org/release/index.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S84",
+    "title": "Khronos glTF sample assets",
+    "url": "https://github.com/KhronosGroup/glTF-Sample-Assets",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S85",
+    "title": "Blender Python API official documentation",
+    "url": "https://docs.blender.org/api/current/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S86",
+    "title": "Python unittest official documentation",
+    "url": "https://docs.python.org/3/library/unittest.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S87",
+    "title": "Playwright testing official documentation",
+    "url": "https://playwright.dev/docs/intro",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S88",
+    "title": "Web Platform Tests project",
+    "url": "https://web-platform-tests.org/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S89",
+    "title": "FFmpeg formats official documentation",
+    "url": "https://ffmpeg.org/ffmpeg-formats.html",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  },
+  {
+    "id": "S90",
+    "title": "W3C Media Source Extensions",
+    "url": "https://www.w3.org/TR/media-source-2/",
+    "kind": "primary_reference_or_original_author",
+    "review_status": "BIBLIOGRAPHIC_CANDIDATE",
+    "inspection_scope": "Not read in this build; verify relevant passage/version before relying on it.",
+    "checked_date": null
+  }
+]

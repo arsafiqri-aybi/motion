@@ -1,0 +1,217 @@
+{
+  "timestamp_utc": "2026-10-07T19:13:58.300302+00:00",
+  "python": "3.12.14",
+  "source_sha256": "a51db8587a11abba1c03156dfe8f770950c848b4eebbd8b0c35c47782a192db5",
+  "labs": [
+    {
+      "name": "01-lerp",
+      "domains": "D01 D06",
+      "actual": 3.5,
+      "expected": 3.5,
+      "absolute_error": 0.0,
+      "allowed_error": 1e-12,
+      "status": "PASS",
+      "scope": "Scalar known value"
+    },
+    {
+      "name": "02-easing-inversion",
+      "domains": "D06",
+      "actual": 0.5,
+      "expected": 0.5,
+      "absolute_error": 0.0,
+      "allowed_error": 1e-12,
+      "status": "PASS",
+      "scope": "Independent parametric s=.5 fixture"
+    },
+    {
+      "name": "03-arclength",
+      "domains": "D02",
+      "actual": 1.9999880157633114,
+      "expected": 2.0,
+      "absolute_error": 1.1984236688578065e-05,
+      "allowed_error": 2e-05,
+      "status": "PASS",
+      "scope": "Polyline approximation to exact symmetric cubic length"
+    },
+    {
+      "name": "04-rotation",
+      "domains": "D02 D06",
+      "actual": [
+        0.7071067811865476,
+        0.0,
+        0.0,
+        0.7071067811865476
+      ],
+      "expected": [
+        0.7071067811865476,
+        0,
+        0,
+        0.7071067811865476
+      ],
+      "absolute_error": 0.0,
+      "allowed_error": 1e-12,
+      "status": "PASS",
+      "scope": "90 degree halfway orientation"
+    },
+    {
+      "name": "05-critical-oracle",
+      "domains": "D08",
+      "actual": 0.0404276819945128,
+      "expected": 0.0404276819945128,
+      "absolute_error": 0.0,
+      "allowed_error": 1e-12,
+      "status": "PASS",
+      "scope": "Fixed target, mass=1,k=100,c=20"
+    },
+    {
+      "name": "06-spring-convergence",
+      "domains": "D09 D10",
+      "actual": [
+        0.001935760414062078,
+        0.000975422257939125,
+        0.0004895318420458233
+      ],
+      "expected": "decreasing error on refinement",
+      "absolute_error": 0,
+      "allowed_error": 0,
+      "status": "PASS",
+      "scope": "Only this linear critical spring and selected timesteps"
+    },
+    {
+      "name": "07-rk4-decay",
+      "domains": "D10",
+      "actual": 0.36787946114753967,
+      "expected": 0.36787944117144233,
+      "absolute_error": 1.9976097331841913e-08,
+      "allowed_error": 3e-08,
+      "status": "PASS",
+      "scope": "Smooth ODE xprime=-x"
+    },
+    {
+      "name": "08-fk-ik",
+      "domains": "D07 D17",
+      "actual": [
+        1.0,
+        1.0
+      ],
+      "expected": [
+        1,
+        1
+      ],
+      "absolute_error": 0.0,
+      "allowed_error": 1e-12,
+      "status": "PASS",
+      "scope": "Planar two-link; no joint limits/collision"
+    },
+    {
+      "name": "09-filter-rate",
+      "domains": "D03 D04",
+      "actual": [
+        0.9179150013761012,
+        0.9179150013761013,
+        0.9179150013761013
+      ],
+      "expected": 0.9179150013761012,
+      "absolute_error": 1.1102230246251565e-16,
+      "allowed_error": 1e-12,
+      "status": "PASS",
+      "scope": "Held unit step over one second"
+    },
+    {
+      "name": "10-neighbor-grid",
+      "domains": "D05 D14",
+      "actual": 82,
+      "expected": 82,
+      "absolute_error": 0,
+      "allowed_error": 0,
+      "status": "PASS",
+      "scope": "Exact pair set versus independent brute force"
+    },
+    {
+      "name": "11-planning",
+      "domains": "D13",
+      "actual": 12,
+      "expected": 12,
+      "absolute_error": 0,
+      "allowed_error": 0,
+      "status": "PASS",
+      "scope": "Four-neighbor unit grid with known required detour"
+    },
+    {
+      "name": "12-alpha",
+      "domains": "D24 D28",
+      "actual": [
+        0.5,
+        0.0,
+        0.5,
+        1.0
+      ],
+      "expected": [
+        0.5,
+        0,
+        0.5,
+        1
+      ],
+      "absolute_error": 0.0,
+      "allowed_error": 1e-12,
+      "status": "PASS",
+      "scope": "Premultiplied example; working color space caller-owned"
+    },
+    {
+      "name": "13-interruption",
+      "domains": "D20 D22",
+      "actual": {
+        "stale_accepted": false,
+        "state": "closed"
+      },
+      "expected": "reject stale, closed",
+      "absolute_error": 0,
+      "allowed_error": 0,
+      "status": "PASS",
+      "scope": "Logical ownership only, no browser execution"
+    },
+    {
+      "name": "14-rational-cadence",
+      "domains": "D03 D40",
+      "actual": "1001/30000",
+      "expected": "1001/30000",
+      "absolute_error": 0,
+      "allowed_error": 0,
+      "status": "PASS",
+      "scope": "No encoder/display measurement"
+    },
+    {
+      "name": "15-seed-replay",
+      "domains": "D14 D36",
+      "actual": [
+        0.2718754143840908,
+        0.48802820785090784,
+        0.08187934237116656
+      ],
+      "expected": [
+        0.2718754143840908,
+        0.48802820785090784,
+        0.08187934237116656
+      ],
+      "absolute_error": 0.0,
+      "allowed_error": 0,
+      "status": "PASS",
+      "scope": "Same Python generator/version and call order"
+    },
+    {
+      "name": "16-aliasing",
+      "domains": "D04 D27",
+      "actual": 5.1450021099466954e-14,
+      "expected": 0.0,
+      "absolute_error": 5.1450021099466954e-14,
+      "allowed_error": 2e-13,
+      "status": "PASS",
+      "scope": "Ideal sample equivalence; no human perception claim"
+    }
+  ],
+  "summary": {
+    "total": 16,
+    "passed": 16
+  },
+  "limitation": "Headless Python fixtures only. No GPU, browser, media decode, sensor, hardware or human study verification."
+}

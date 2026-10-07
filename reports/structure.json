@@ -1,0 +1,11 @@
+{
+  "domains": 40,
+  "topics": 280,
+  "source_entries": 90,
+  "graph_nodes": 40,
+  "graph_edges": 141,
+  "local_links_checked": 698,
+  "errors": [],
+  "status": "PASS",
+  "scope": "Structure/schema/local links only; no scientific completeness or external URL verification."
+}
